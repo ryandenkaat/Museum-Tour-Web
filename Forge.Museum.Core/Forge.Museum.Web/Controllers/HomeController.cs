@@ -20,6 +20,13 @@ namespace Forge.Museum.Web.Controllers
             return View();
         }
 
+        public ActionResult Artefacts()
+        {
+            ViewBag.Message = "Artefacts.";
+
+            return View();
+        }
+
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

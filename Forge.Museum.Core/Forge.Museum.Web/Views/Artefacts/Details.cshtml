@@ -1,0 +1,66 @@
+﻿@model Forge.Museum.Web.Models.Artefact
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Artefact</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtefactDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtefactDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtefactAdditionalComments)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtefactAdditionalComments)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AcquisitionDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AcquisitionDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtefactMeasurement_Length)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtefactMeasurement_Length)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtefactMeasurement_Width)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtefactMeasurement_Width)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtefactMeasurement_Height)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtefactMeasurement_Height)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ArtefactID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

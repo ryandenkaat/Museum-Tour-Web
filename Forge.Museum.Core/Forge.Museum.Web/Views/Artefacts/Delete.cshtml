@@ -1,0 +1,72 @@
+﻿@model Forge.Museum.Web.Models.Artefact
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Artefact</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtefactDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtefactDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtefactAdditionalComments)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtefactAdditionalComments)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AcquisitionDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AcquisitionDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtefactMeasurement_Length)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtefactMeasurement_Length)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtefactMeasurement_Width)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtefactMeasurement_Width)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtefactMeasurement_Height)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtefactMeasurement_Height)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
