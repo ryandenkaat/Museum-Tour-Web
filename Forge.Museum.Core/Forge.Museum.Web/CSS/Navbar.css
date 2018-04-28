@@ -1,0 +1,26 @@
+﻿/* Navbar background colour */
+.navbar-inverse {
+    background-color: #a52a2a;
+    border-color: #a52a2a;
+}
+
+/* Navbar Heading Color */
+.navbar-inverse .navbar-brand {
+    color: #000000;
+}
+
+/* Navbar Heading Rollover Color */
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
+     color: #ef7f2c; 
+}
+
+/* Navbar Page Link Text Color*/
+.navbar-inverse .navbar-nav > li > a {
+    color: #000000;
+}
+
+/* Navbar Page Link Text Rollover Color*/
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+    color: #ef7f2c;
+}
+

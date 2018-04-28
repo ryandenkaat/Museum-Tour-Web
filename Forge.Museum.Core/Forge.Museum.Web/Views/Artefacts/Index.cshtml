@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Forge.Museum.Web.Models.Artefact>
+
+@{
+    ViewBag.Title = "Artefacts";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ArtefactID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ArtefactDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AcquisitionDate)
+        </th>
+        <th>
+            Length (cm)
+        </th>
+        <th>
+            Width (cm)
+        </th>
+        <th>
+           Height (cm)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ArtefactID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ArtefactDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AcquisitionDate.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ArtefactMeasurement_Length)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ArtefactMeasurement_Width)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ArtefactMeasurement_Height)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ArtefactID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ArtefactID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ArtefactID })
+        </td>
+    </tr>
+}
+
+</table>
