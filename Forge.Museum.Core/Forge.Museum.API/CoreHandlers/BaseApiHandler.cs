@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Forge.Museum.API.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,11 +10,16 @@ namespace Forge.Museum.API.CoreHandlers
 {
     public class BaseApiHandler
     {
-        //TODO add DB connection
+        protected ApplicationDbContext Db;
 
         protected BaseApiHandler()
         {
+            Db = new ApplicationDbContext();
+        }
 
+        protected BaseApiHandler(ApplicationDbContext context)
+        {
+            Db = context;
         }
 
         protected void NotFoundException()
