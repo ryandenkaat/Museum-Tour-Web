@@ -7,17 +7,61 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Forge.Museum.Web.Models;
+using PagedList;
 
 namespace Forge.Museum.Web.Controllers
 {
     public class ArtefactsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        
         // GET: Artefacts
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View(db.Artefacts.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var artefacts = from a in db.Artefacts
+                           select a;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                artefacts = artefacts.Where(s => s.ArtefactDescription.Contains(searchString)
+                                       || s.ArtefactAdditionalComments.Contains(searchString));
+            }
+
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    artefacts = artefacts.OrderByDescending(a => a.ArtefactDescription);
+                    break;
+                case "Date":
+                    artefacts = artefacts.OrderBy(a => a.AcquisitionDate);
+                    break;
+                case "date_desc":
+                    artefacts = artefacts.OrderByDescending(a => a.AcquisitionDate);
+                    break;
+                default:
+                    artefacts = artefacts.OrderBy(s => s.ArtefactDescription);
+                    break;
+            }
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(artefacts.ToPagedList(pageNumber, pageSize));
+            return View(artefacts.ToList());
         }
 
         // GET: Artefacts/Details/5

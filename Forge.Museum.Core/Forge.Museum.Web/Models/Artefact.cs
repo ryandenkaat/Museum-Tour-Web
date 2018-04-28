@@ -16,6 +16,7 @@ namespace Forge.Museum.Web.Models
 
         public string ArtefactAdditionalComments { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime AcquisitionDate { get; set; }
 
         public double ArtefactMeasurement_Length { get; set; }

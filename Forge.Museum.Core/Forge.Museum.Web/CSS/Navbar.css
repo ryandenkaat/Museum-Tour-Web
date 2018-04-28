@@ -17,10 +17,12 @@
 /* Navbar Page Link Text Color*/
 .navbar-inverse .navbar-nav > li > a {
     color: #000000;
+    font-weight: bold;
 }
 
 /* Navbar Page Link Text Rollover Color*/
 .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
     color: #ef7f2c;
+    font-weight: bolder;
 }
 

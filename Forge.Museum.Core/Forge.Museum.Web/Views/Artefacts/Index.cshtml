@@ -1,63 +1,92 @@
-﻿@model IEnumerable<Forge.Museum.Web.Models.Artefact>
+﻿
+@model PagedList.IPagedList<Forge.Museum.Web.Models.Artefact>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewBag.Title = "Artefacts";
+    ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Artefacts</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Add Artefact", "Create")
 </p>
+
+
+@using (Html.BeginForm("Index", "Artefact", FormMethod.Get))
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ArtefactID)
+            @Html.ActionLink("ID#", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ArtefactDescription)
+            @Html.ActionLink("Description", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+
+        <th>
+            @Html.ActionLink("Acquisiton Date", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AcquisitionDate)
+            Length
         </th>
         <th>
-            Length (cm)
+            Width
         </th>
         <th>
-            Width (cm)
-        </th>
-        <th>
-           Height (cm)
+            Height
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ArtefactID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ArtefactDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AcquisitionDate.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ArtefactMeasurement_Length)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ArtefactMeasurement_Width)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ArtefactMeasurement_Height)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ArtefactID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ArtefactID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ArtefactID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArtefactID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArtefactDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AcquisitionDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArtefactMeasurement_Length)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArtefactMeasurement_Width)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArtefactMeasurement_Height)
+            </td>
+            <td>
+                <!-- Edit Button */ !-->
+                <a href="@Url.Action("Edit", "Artefacts",  new { id = item.ArtefactID })" class="btn btn-link">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                </a>|
+                <!-- Details Button */ !-->
+                <a href="@Url.Action("Details", "Artefacts",  new { id = item.ArtefactID })" class="btn btn-link">
+                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                </a>|
+                <!-- Delete Button */ !-->
+                <a href="@Url.Action("Delete", "Artefacts",  new { id = item.ArtefactID })" class="btn btn-link">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </a>
+            </td>
+        </tr>
+    }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
