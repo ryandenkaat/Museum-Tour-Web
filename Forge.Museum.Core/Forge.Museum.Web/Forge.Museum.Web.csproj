@@ -309,6 +309,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Forge.Museum.BLL\Forge.Museum.BLL.csproj">
+      <Project>{6EE677CD-564C-48F0-939C-9F85BC3B59FB}</Project>
+      <Name>Forge.Museum.BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Forge.Museum.Interfaces\Forge.Museum.Interfaces.csproj">
       <Project>{DEF86FB9-05EF-41DD-851E-5A8DB6F34A84}</Project>
       <Name>Forge.Museum.Interfaces</Name>
