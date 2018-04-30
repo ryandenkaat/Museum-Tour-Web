@@ -32,21 +32,43 @@ namespace Forge.Museum.Web.Controllers
             return View(vm);
         }
 
-        public async Task<ActionResult> ApiExample()
+        public async Task<ActionResult> GetApiExample()
         {
             try
             {
                 var request = new HTTPrequest();
 
                 List<ArtefactDto> vm = await request.Get<List<ArtefactDto>>("api/artefact?pageNumber=0&numPerPage=500&isDeleted=false");
+
+                return View(vm);
             }
             catch(Exception ex)
             {
                 throw;
             }
+        }
 
+        public async Task<ActionResult> PostApiExample(string name, string description)
+        {
+            try
+            {
+                var request = new HTTPrequest();
 
-            return View(vm);
+                ArtefactDto dto = new ArtefactDto()
+                {
+                    Name = name,
+                    Description = description,
+                    //More properties here .....
+                };
+
+                dto = await request.Post<ArtefactDto>("api/artefact", dto);
+
+                return View(dto);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
