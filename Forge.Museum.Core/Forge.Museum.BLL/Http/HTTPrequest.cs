@@ -71,8 +71,24 @@ namespace Forge.Museum.BLL.Http
             }
         }
 
-        public async Task<T> Put<T>()
+        public async Task<T> Put<T>(string endPoint, object body)
         {
+            try
+            {
+                HttpClient client = GetClient();
+
+                string json = JsonConvert.SerializeObject(body);
+
+                HttpResponseMessage response = await client.PutAsync(endPoint, new StringContent(json, Encoding.Default, "text/json"));
+
+                return await ParseResponse<T>(response);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
 
         }
 
