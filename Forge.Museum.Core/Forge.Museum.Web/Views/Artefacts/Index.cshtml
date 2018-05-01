@@ -1,6 +1,8 @@
 ﻿
-@model PagedList.IPagedList<Forge.Museum.Web.Models.Artefact>
+@model List<ArtefactDto>
 @using PagedList.Mvc;
+@using Forge.Museum.BLL.Http;
+@using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
@@ -21,7 +23,6 @@
         <input type="submit" value="Search" />
     </p>
 }
-
 <table class="table">
     <tr>
         <th>
@@ -45,39 +46,41 @@
         </th>
         <th></th>
     </tr>
-
+    
     @foreach (var item in Model)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ArtefactID)
+
+                @Html.DisplayFor(modelItem => item.Id)
+                @Html.DisplayFor(ArtefactDto => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ArtefactDescription)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AcquisitionDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ArtefactMeasurement_Length)
+                @Html.DisplayFor(modelItem => item.Measurement_Length)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ArtefactMeasurement_Width)
+                @Html.DisplayFor(modelItem => item.Measurement_Width)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ArtefactMeasurement_Height)
+                @Html.DisplayFor(modelItem => item.Measurement_Height)
             </td>
             <td>
                 <!-- Edit Button */ !-->
-                <a href="@Url.Action("Edit", "Artefacts",  new { id = item.ArtefactID })" class="btn btn-link">
+                <a href="@Url.Action("Edit", "Artefacts",  new { id = item.Id })" class="btn btn-link">
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                 </a>|
                 <!-- Details Button */ !-->
-                <a href="@Url.Action("Details", "Artefacts",  new { id = item.ArtefactID })" class="btn btn-link">
+                <a href="@Url.Action("Details", "Artefacts",  new { id = item.Id })" class="btn btn-link">
                     <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                 </a>|
                 <!-- Delete Button */ !-->
-                <a href="@Url.Action("Delete", "Artefacts",  new { id = item.ArtefactID })" class="btn btn-link">
+                <a href="@Url.Action("Delete", "Artefacts",  new { id = item.Id })" class="btn btn-link">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </a>
             </td>
@@ -86,7 +89,3 @@
 
 </table>
 <br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

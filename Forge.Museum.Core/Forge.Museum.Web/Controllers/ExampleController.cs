@@ -37,15 +37,14 @@ namespace Forge.Museum.Web.Controllers
             try
             {
                 var request = new HTTPrequest();
-
                 List<ArtefactDto> vm = await request.Get<List<ArtefactDto>>("api/artefact?pageNumber=0&numPerPage=500&isDeleted=false");
-
                 return View(vm);
             }
             catch(Exception ex)
             {
                 throw;
             }
+            
         }
 
         public async Task<ActionResult> PostApiExample(string name, string description)
