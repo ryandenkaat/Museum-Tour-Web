@@ -24,7 +24,7 @@ namespace Forge.Museum.Web.Controllers
         {
             var request = new HTTPrequest();
             //request.Get<PagedList<ArtefactDto>>("api/artefact?pageNumber=1&numPerPage=500&isDeleted=false");
-            List<ArtefactDto> viewModel = await request.Get<List<ArtefactDto>>("api/artefact?pageNumber=1&numPerPage=500&isDeleted=false");
+            List<ArtefactDto> viewModel = await request.Get<List<ArtefactDto>>("api/artefact?pageNumber=0&numPerPage=500&isDeleted=false");
             
             //return View(viewModel.ToPagedList<ArtefactDto>(pageNumber, pageSize));
             return View(viewModel);
@@ -56,33 +56,27 @@ namespace Forge.Museum.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(string name, string description, string additionalComments, DateTime acquistionDate, int length, int width, int height)
+        //public async Task<ActionResult> Create(string name, string description, string additionalComments, DateTime acquistionDate, int length, int width, int height)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Description,AdditionalComments,AcquisitionDate,Measurement_Length,Measurement_Width,Measurement_Height")] ArtefactDto artefact)
         {
             var request = new HTTPrequest();
-            ArtefactDto dto = new ArtefactDto()
-            {
-                Name = name,
-                Description = description,
-                AdditionalComments = additionalComments,
-                AcquisitionDate = acquistionDate,
-                Measurement_Length = length,
-                Measurement_Height = height,
-                Measurement_Width = width,
-            };
 
-            dto = await request.Post<ArtefactDto>("api/artefact", dto);
+            artefact = await request.Post<ArtefactDto>("api/artefact", artefact);
 
-            return View(dto);
+            return RedirectToAction("Index");
         }
 
         // GET: Artefacts/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
+            var request = new HTTPrequest();
+            
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Artefact artefact = db.Artefacts.Find(id);
+            ArtefactDto artefact = await request.Get<ArtefactDto>("api/artefact/" + id);
             if (artefact == null)
             {
                 return HttpNotFound();
@@ -95,7 +89,7 @@ namespace Forge.Museum.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ArtefactID,ArtefactDescription,ArtefactAdditionalComments,AcquisitionDate,ArtefactMeasurement_Length,ArtefactMeasurement_Width,ArtefactMeasurement_Height")] Artefact artefact)
+        public ActionResult Edit([Bind(Include = "Id,ArtefactDescription,ArtefactAdditionalComments,AcquisitionDate,ArtefactMeasurement_Length,ArtefactMeasurement_Width,ArtefactMeasurement_Height")] Artefact artefact)
         {
             if (ModelState.IsValid)
             {
@@ -107,13 +101,15 @@ namespace Forge.Museum.Web.Controllers
         }
 
         // GET: Artefacts/Delete/5
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Artefact artefact = db.Artefacts.Find(id);
+            var request = new HTTPrequest();
+
+            ArtefactDto artefact = await request.Get<ArtefactDto>("api/artefact/" + id);
             if (artefact == null)
             {
                 return HttpNotFound();
@@ -129,8 +125,8 @@ namespace Forge.Museum.Web.Controllers
             try
             {
                 var request = new HTTPrequest();
-                //ArtefactDto dto = await request.Get<ArtefactDto>("api/artefact/" + id);
-                await request.Delete("api/artefact/" + id);
+               // ArtefactDto dto = await request.Delete("api/artefact/" + id);
+                bool success = await request.Delete("api/artefact/" + id);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
