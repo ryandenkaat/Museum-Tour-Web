@@ -31,13 +31,16 @@ namespace Forge.Museum.Web.Controllers
         }
 
         // GET: Artefacts/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Artefact artefact = db.Artefacts.Find(id);
+
+            var request = new HTTPrequest();
+
+            ArtefactDto artefact = await request.Get<ArtefactDto>("api/artefact/"+id);
             if (artefact == null)
             {
                 return HttpNotFound();
@@ -89,12 +92,13 @@ namespace Forge.Museum.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ArtefactDescription,ArtefactAdditionalComments,AcquisitionDate,ArtefactMeasurement_Length,ArtefactMeasurement_Width,ArtefactMeasurement_Height")] Artefact artefact)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Description,AdditionalComments,AcquisitionDate,Measurement_Length,Measurement_Width,Measurement_Height")] ArtefactDto artefact)
         {
+            var request = new HTTPrequest();
+
             if (ModelState.IsValid)
             {
-                db.Entry(artefact).State = EntityState.Modified;
-                db.SaveChanges();
+                await request.Put<ArtefactDto>("api/artefact", artefact);
                 return RedirectToAction("Index");
             }
             return View(artefact);
@@ -119,21 +123,22 @@ namespace Forge.Museum.Web.Controllers
 
         // POST: Artefacts/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken] 
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             try
             {
                 var request = new HTTPrequest();
-               // ArtefactDto dto = await request.Delete("api/artefact/" + id);
-                bool success = await request.Delete("api/artefact/" + id);
+                await request.Delete("api/artefact/" + id);
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+
                 throw;
             }
 
+        
         }
 
         protected override void Dispose(bool disposing)
