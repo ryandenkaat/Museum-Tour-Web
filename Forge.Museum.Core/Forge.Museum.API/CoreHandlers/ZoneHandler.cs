@@ -74,6 +74,8 @@ namespace Forge.Museum.API.CoreHandlers
             zone.IsDeleted = true;
             zone.ModifiedDate = DateTime.UtcNow;
 
+            Db.SaveChanges();
+
             return true;
         }
         #endregion

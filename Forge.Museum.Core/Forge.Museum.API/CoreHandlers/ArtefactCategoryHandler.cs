@@ -80,6 +80,8 @@ namespace Forge.Museum.API.CoreHandlers
             category.IsDeleted = true;
             category.ModifiedDate = DateTime.UtcNow;
 
+            Db.SaveChanges();
+
             return true;
         }
         #endregion

@@ -131,6 +131,8 @@ namespace Forge.Museum.API.CoreHandlers
             artefact.IsDeleted = true;
             artefact.ModifiedDate = DateTime.UtcNow;
 
+            Db.SaveChanges();
+
             return true;
         }
         #endregion
