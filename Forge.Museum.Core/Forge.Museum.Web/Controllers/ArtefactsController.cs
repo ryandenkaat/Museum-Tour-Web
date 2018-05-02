@@ -5,8 +5,11 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Forge.Museum.BLL.Http;
+using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
 using Forge.Museum.Web.Models;
 using PagedList;
 
@@ -17,52 +20,14 @@ namespace Forge.Museum.Web.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         
         // GET: Artefacts
-        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-
-            if (searchString != null)
-            {
-                page = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-
-            ViewBag.CurrentFilter = searchString;
-
-            var artefacts = from a in db.Artefacts
-                           select a;
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                artefacts = artefacts.Where(s => s.ArtefactDescription.Contains(searchString)
-                                       || s.ArtefactAdditionalComments.Contains(searchString));
-            }
-
-
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    artefacts = artefacts.OrderByDescending(a => a.ArtefactDescription);
-                    break;
-                case "Date":
-                    artefacts = artefacts.OrderBy(a => a.AcquisitionDate);
-                    break;
-                case "date_desc":
-                    artefacts = artefacts.OrderByDescending(a => a.AcquisitionDate);
-                    break;
-                default:
-                    artefacts = artefacts.OrderBy(s => s.ArtefactDescription);
-                    break;
-            }
-            int pageSize = 3;
-            int pageNumber = (page ?? 1);
-            return View(artefacts.ToPagedList(pageNumber, pageSize));
-            return View(artefacts.ToList());
+            var request = new HTTPrequest();
+            //request.Get<PagedList<ArtefactDto>>("api/artefact?pageNumber=1&numPerPage=500&isDeleted=false");
+            List<ArtefactDto> viewModel = await request.Get<List<ArtefactDto>>("api/artefact?pageNumber=0&numPerPage=500&isDeleted=false");
+            
+            //return View(viewModel.ToPagedList<ArtefactDto>(pageNumber, pageSize));
+            return View(viewModel);
         }
 
         // GET: Artefacts/Details/5
@@ -91,26 +56,27 @@ namespace Forge.Museum.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ArtefactID,ArtefactDescription,ArtefactAdditionalComments,AcquisitionDate,ArtefactMeasurement_Length,ArtefactMeasurement_Width,ArtefactMeasurement_Height")] Artefact artefact)
+        //public async Task<ActionResult> Create(string name, string description, string additionalComments, DateTime acquistionDate, int length, int width, int height)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Description,AdditionalComments,AcquisitionDate,Measurement_Length,Measurement_Width,Measurement_Height")] ArtefactDto artefact)
         {
-            if (ModelState.IsValid)
-            {
-                db.Artefacts.Add(artefact);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            var request = new HTTPrequest();
 
-            return View(artefact);
+            artefact = await request.Post<ArtefactDto>("api/artefact", artefact);
+
+            return RedirectToAction("Index");
         }
 
         // GET: Artefacts/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
+            var request = new HTTPrequest();
+            
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Artefact artefact = db.Artefacts.Find(id);
+            ArtefactDto artefact = await request.Get<ArtefactDto>("api/artefact/" + id);
             if (artefact == null)
             {
                 return HttpNotFound();
@@ -123,7 +89,7 @@ namespace Forge.Museum.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ArtefactID,ArtefactDescription,ArtefactAdditionalComments,AcquisitionDate,ArtefactMeasurement_Length,ArtefactMeasurement_Width,ArtefactMeasurement_Height")] Artefact artefact)
+        public ActionResult Edit([Bind(Include = "Id,ArtefactDescription,ArtefactAdditionalComments,AcquisitionDate,ArtefactMeasurement_Length,ArtefactMeasurement_Width,ArtefactMeasurement_Height")] Artefact artefact)
         {
             if (ModelState.IsValid)
             {
@@ -135,13 +101,15 @@ namespace Forge.Museum.Web.Controllers
         }
 
         // GET: Artefacts/Delete/5
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Artefact artefact = db.Artefacts.Find(id);
+            var request = new HTTPrequest();
+
+            ArtefactDto artefact = await request.Get<ArtefactDto>("api/artefact/" + id);
             if (artefact == null)
             {
                 return HttpNotFound();
@@ -152,12 +120,20 @@ namespace Forge.Museum.Web.Controllers
         // POST: Artefacts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Artefact artefact = db.Artefacts.Find(id);
-            db.Artefacts.Remove(artefact);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                var request = new HTTPrequest();
+               // ArtefactDto dto = await request.Delete("api/artefact/" + id);
+                bool success = await request.Delete("api/artefact/" + id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
         }
 
         protected override void Dispose(bool disposing)

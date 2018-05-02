@@ -1,4 +1,4 @@
-﻿@model Forge.Museum.Web.Models.Artefact
+﻿@model Forge.Museum.Interfaces.DataTransferObjects.Artefact.ArtefactDto
 
 @{
     ViewBag.Title = "Delete";
@@ -12,19 +12,28 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.ArtefactDescription)
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ArtefactDescription)
+            @Html.DisplayFor(model => model.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ArtefactAdditionalComments)
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ArtefactAdditionalComments)
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdditionalComments)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdditionalComments)
         </dd>
 
         <dt>
@@ -36,27 +45,27 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ArtefactMeasurement_Length)
+            @Html.DisplayNameFor(model => model.Measurement_Length)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ArtefactMeasurement_Length)
+            @Html.DisplayFor(model => model.Measurement_Length)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ArtefactMeasurement_Width)
+            @Html.DisplayNameFor(model => model.Measurement_Height)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ArtefactMeasurement_Width)
+            @Html.DisplayFor(model => model.Measurement_Height)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ArtefactMeasurement_Height)
+            @Html.DisplayNameFor(model => model.Measurement_Width)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ArtefactMeasurement_Height)
+            @Html.DisplayFor(model => model.Measurement_Width)
         </dd>
 
     </dl>
