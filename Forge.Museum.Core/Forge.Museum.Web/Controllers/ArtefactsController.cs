@@ -63,10 +63,13 @@ namespace Forge.Museum.Web.Controllers
         public async Task<ActionResult> Create([Bind(Include = "Id,Name,Description,AdditionalComments,AcquisitionDate,Measurement_Length,Measurement_Width,Measurement_Height")] ArtefactDto artefact)
         {
             var request = new HTTPrequest();
+            if (ModelState.IsValid)
+            {
+                artefact = await request.Post<ArtefactDto>("api/artefact", artefact);
+                return RedirectToAction("Index");
+            }
+            return View(artefact);
 
-            artefact = await request.Post<ArtefactDto>("api/artefact", artefact);
-
-            return RedirectToAction("Index");
         }
 
         // GET: Artefacts/Edit/5
