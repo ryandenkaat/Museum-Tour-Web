@@ -228,6 +228,7 @@
     <Compile Include="Models\AspNetUserLogin.cs" />
     <Compile Include="Models\Base.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Tour.cs" />
     <Compile Include="Models\Zone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

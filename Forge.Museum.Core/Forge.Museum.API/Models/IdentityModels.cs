@@ -26,12 +26,16 @@ namespace Forge.Museum.API.Models
         public virtual DbSet<ArtefactInfo> ArtefactInfos { get; set; }
         public virtual DbSet<ArtefactCategory> ArtefactCategories { get; set; }
         public virtual DbSet<Zone> Zones { get; set; }
+        public virtual DbSet<Tour> Tours { get; set; }
         #endregion
 
         #region Methods
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Tour>()
+                .HasMany(m => m.Artefacts).WithMany(m => m.Tours);
         }
 
         public override int SaveChanges()

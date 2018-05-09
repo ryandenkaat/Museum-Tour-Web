@@ -6,6 +6,7 @@ using AutoMapper;
 using Forge.Museum.API.Models;
 using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
 using Forge.Museum.Interfaces.DataTransferObjects;
+using Forge.Museum.Interfaces.DataTransferObjects.Tour;
 
 namespace Forge.Museum.API
 {
@@ -25,6 +26,7 @@ namespace Forge.Museum.API
                 config.CreateMap<Zone, ZoneDto>();
                 config.CreateMap<Zone, ZoneSimpleDto>();
                 config.CreateMap<Base, BaseDto>();
+                config.CreateMap<Tour, TourDto>();
             });
 
             Mapper.AssertConfigurationIsValid();

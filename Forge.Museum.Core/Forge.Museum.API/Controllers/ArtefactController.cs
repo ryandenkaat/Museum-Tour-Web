@@ -53,7 +53,6 @@ namespace Forge.Museum.API.Controllers
             }
             catch(Exception ex)
             {
-
                 throw;
             }
         }

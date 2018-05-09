@@ -54,6 +54,8 @@
     <Compile Include="DataTransferObjects\BaseDto.cs" />
     <Compile Include="DataTransferObjects\Common\ApiFilter.cs" />
     <Compile Include="DataTransferObjects\ExampleDto.cs" />
+    <Compile Include="DataTransferObjects\Tour\TourDto.cs" />
+    <Compile Include="Enumerators\AgeGroup.cs" />
     <Compile Include="Enumerators\ArtefactInfoType.cs" />
     <Compile Include="Enumerators\ArtefactStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
