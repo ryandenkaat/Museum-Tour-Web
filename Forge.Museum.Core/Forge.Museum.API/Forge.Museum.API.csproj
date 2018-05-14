@@ -204,12 +204,14 @@
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\ExampleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TourController.cs" />
     <Compile Include="Controllers\ZoneController.cs" />
     <Compile Include="CoreHandlers\ArtefactCategoryHandler.cs" />
     <Compile Include="CoreHandlers\ArtefactHandler.cs" />
     <Compile Include="CoreHandlers\ArtefactInfoHandler.cs" />
     <Compile Include="CoreHandlers\BaseApiHandler.cs" />
     <Compile Include="CoreHandlers\ExampleHandler.cs" />
+    <Compile Include="CoreHandlers\TourHandler.cs" />
     <Compile Include="CoreHandlers\ZoneHandler.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
