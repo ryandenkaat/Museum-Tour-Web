@@ -7,9 +7,18 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Artefact</h4>
+    <h4>Artefact #@Model.Id - @Model.Name</h4>
     <hr />
     <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Image)
+        </dt>
+
+        <dd>
+            <img src="data:image;base64,@System.Convert.ToBase64String(Model.Image)" width="80" height="80" />
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Id)
         </dt>
@@ -73,6 +82,17 @@
         <dd>
             @Html.DisplayFor(model => model.Measurement_Height)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Measurement_Height)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Measurement_Height)
+        </dd>
+
+
+
 
     </dl>
 </div>

@@ -205,6 +205,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ArtefactCategoriesController.cs" />
     <Compile Include="Controllers\ArtefactsController.cs" />
     <Compile Include="Controllers\ExampleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -289,6 +290,11 @@
     <Content Include="Views\Artefacts\Details.cshtml" />
     <Content Include="Views\Artefacts\Edit.cshtml" />
     <Content Include="Views\Artefacts\Index.cshtml" />
+    <Content Include="Views\ArtefactCategories\Create.cshtml" />
+    <Content Include="Views\ArtefactCategories\Delete.cshtml" />
+    <Content Include="Views\ArtefactCategories\Details.cshtml" />
+    <Content Include="Views\ArtefactCategories\Edit.cshtml" />
+    <Content Include="Views\ArtefactCategories\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

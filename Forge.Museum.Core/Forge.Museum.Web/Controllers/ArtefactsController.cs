@@ -12,6 +12,8 @@ using Forge.Museum.BLL.Http;
 using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
 using Forge.Museum.Web.Models;
 using PagedList;
+using System.IO;
+using System.Web;
 
 namespace Forge.Museum.Web.Controllers
 {
@@ -60,15 +62,25 @@ namespace Forge.Museum.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public async Task<ActionResult> Create(string name, string description, string additionalComments, DateTime acquistionDate, int length, int width, int height)
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Description,AdditionalComments,AcquisitionDate,Measurement_Length,Measurement_Width,Measurement_Height")] ArtefactDto artefact)
+        public async Task<ActionResult> Create(ArtefactDto artefact, HttpPostedFileBase imageFile)
         {
-            var request = new HTTPrequest();
             if (ModelState.IsValid)
             {
-                artefact = await request.Post<ArtefactDto>("api/artefact", artefact);
-                return RedirectToAction("Index");
-            }
-            return View(artefact);
+                var request = new HTTPrequest();
+                HttpPostedFileBase imgFile = Request.Files["ImageFile"];
+                if (imgFile != null)
+                {
+                    artefact.Image = new byte[imgFile.ContentLength];
+
+                    imgFile.InputStream.Read(artefact.Image, 0, imgFile.ContentLength);
+                }
+
+         
+
+                    artefact = await request.Post<ArtefactDto>("api/artefact", artefact);
+                    return RedirectToAction("Index");
+                }
+                return View(artefact);
 
         }
 
