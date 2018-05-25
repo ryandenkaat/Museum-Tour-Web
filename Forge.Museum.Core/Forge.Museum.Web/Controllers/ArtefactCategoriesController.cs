@@ -17,17 +17,17 @@ namespace Forge.Museum.Web.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: ArtefactCategorySimpleDtoes
+        // GET: ArtefactCategoryDtoes
         public async Task<ActionResult> Index()
         {
             var request = new HTTPrequest();
 
-            List<ArtefactCategorySimpleDto> viewModel = await request.Get<List<ArtefactCategorySimpleDto>>("api/artefactCatergory");
+            List<ArtefactCategoryDto> viewModel = await request.Get<List<ArtefactCategoryDto>>("api/artefactCatergory?pageNumber=0&numPerPage=500&isDeleted=false");
 
             return View(viewModel);
         }
 
-        // GET: ArtefactCategorySimpleDtoes/Details/5
+        // GET: ArtefactCategoryDtoes/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,92 +35,106 @@ namespace Forge.Museum.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var request = new HTTPrequest();
-            ArtefactCategorySimpleDto artefactCategorySimpleDto = await request.Get<ArtefactCategorySimpleDto>("api/artefactCatergory/" + id);
-            if (artefactCategorySimpleDto == null)
+            ArtefactCategoryDto category = await request.Get<ArtefactCategoryDto>("api/artefactCatergory/" + id);
+            if (category == null)
             {
                 return HttpNotFound();
             }
-            return View(artefactCategorySimpleDto);
+            return View(category);
         }
 
-        // GET: ArtefactCategorySimpleDtoes/Create
+        // GET: ArtefactCategoryDtoes/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: ArtefactCategorySimpleDtoes/Create
+        // POST: ArtefactCategoryDtoes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] ArtefactCategorySimpleDto artefactCategorySimpleDto)
+        public async Task<ActionResult> Create(ArtefactCategoryDto category, HttpPostedFileBase imgFile)
         {
             if (ModelState.IsValid)
             {
-                db.ArtefactCategorySimpleDtoes.Add(artefactCategorySimpleDto);
-                db.SaveChanges();
+                var request = new HTTPrequest();
+                if (imgFile != null)
+                {
+                    category.Image = new byte[imgFile.ContentLength];
+                    imgFile.InputStream.Read(category.Image, 0, imgFile.ContentLength);
+                }
+                category = await request.Post<ArtefactCategoryDto>("api/artefactCatergory", category);
                 return RedirectToAction("Index");
             }
 
-            return View(artefactCategorySimpleDto);
+            return View(category);
         }
 
-        // GET: ArtefactCategorySimpleDtoes/Edit/5
-        public ActionResult Edit(int? id)
+        // GET: ArtefactCategoryDtoes/Edit/5
+        public async Task<ActionResult> Edit(int? id)
+        {
+            var request = new HTTPrequest();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ArtefactCategoryDto category = await request.Get<ArtefactCategoryDto>("api/artefactCatergory/" + id);
+            if (category == null)
+            {
+                return HttpNotFound();
+            }
+            return View(category);
+        }
+
+        // POST: ArtefactCategoryDtoes/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(ArtefactCategoryDto category)
+        {
+            var request = new HTTPrequest();
+            if (ModelState.IsValid)
+            {
+                await request.Put<ArtefactCategoryDto>("api/artefactCatergory", category);
+                return RedirectToAction("Index");
+            }
+            return View(category);
+        }
+
+        // GET: ArtefactCategoryDtoes/Delete/5
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArtefactCategorySimpleDto artefactCategorySimpleDto = db.ArtefactCategorySimpleDtoes.Find(id);
-            if (artefactCategorySimpleDto == null)
+            var request = new HTTPrequest();
+            ArtefactCategoryDto category = await request.Get<ArtefactCategoryDto>("api/artefactCatergory/" + id);
+            if (category == null)
             {
                 return HttpNotFound();
             }
-            return View(artefactCategorySimpleDto);
+            return View(category);
         }
 
-        // POST: ArtefactCategorySimpleDtoes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name")] ArtefactCategorySimpleDto artefactCategorySimpleDto)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(artefactCategorySimpleDto).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(artefactCategorySimpleDto);
-        }
-
-        // GET: ArtefactCategorySimpleDtoes/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ArtefactCategorySimpleDto artefactCategorySimpleDto = db.ArtefactCategorySimpleDtoes.Find(id);
-            if (artefactCategorySimpleDto == null)
-            {
-                return HttpNotFound();
-            }
-            return View(artefactCategorySimpleDto);
-        }
-
-        // POST: ArtefactCategorySimpleDtoes/Delete/5
+        // POST: ArtefactCategoryDtoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            ArtefactCategorySimpleDto artefactCategorySimpleDto = db.ArtefactCategorySimpleDtoes.Find(id);
-            db.ArtefactCategorySimpleDtoes.Remove(artefactCategorySimpleDto);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                var request = new HTTPrequest();
+                await request.Delete("api/artefactCatergory/" + id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
 
         protected override void Dispose(bool disposing)

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Forge.Museum.Interfaces.DataTransferObjects.Artefact.ArtefactCategorySimpleDto>
+﻿@model IEnumerable<Forge.Museum.Interfaces.DataTransferObjects.Artefact.ArtefactCategoryDto>
 
 @{
     ViewBag.Title = "Index";
@@ -12,6 +12,9 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th></th>
@@ -20,12 +23,24 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            <!-- Edit Button */ !-->
+            <a href="@Url.Action("Edit", "ArtefactCategories",  new { id = item.Id })" class="btn btn-link">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            </a>|
+            <!-- Details Button */ !-->
+            <a href="@Url.Action("Details", "ArtefactCategories",  new { id = item.Id })" class="btn btn-link">
+                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            </a>|
+            <!-- Delete Button */ !-->
+            <a href="@Url.Action("Delete", "ArtefactCategories",  new { id = item.Id })" class="btn btn-link">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            </a>
         </td>
     </tr>
 }

@@ -39,9 +39,7 @@ namespace Forge.Museum.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
             var request = new HTTPrequest();
-
             ArtefactDto artefact = await request.Get<ArtefactDto>("api/artefact/"+id);
             if (artefact == null)
             {
@@ -71,12 +69,8 @@ namespace Forge.Museum.Web.Controllers
                 if (imgFile != null)
                 {
                     artefact.Image = new byte[imgFile.ContentLength];
-
                     imgFile.InputStream.Read(artefact.Image, 0, imgFile.ContentLength);
                 }
-
-         
-
                     artefact = await request.Post<ArtefactDto>("api/artefact", artefact);
                     return RedirectToAction("Index");
                 }
@@ -88,8 +82,6 @@ namespace Forge.Museum.Web.Controllers
         public async Task<ActionResult> Edit(int? id)
         {
             var request = new HTTPrequest();
-            
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -110,7 +102,6 @@ namespace Forge.Museum.Web.Controllers
         public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Description,AdditionalComments,AcquisitionDate,Measurement_Length,Measurement_Width,Measurement_Height")] ArtefactDto artefact)
         {
             var request = new HTTPrequest();
-
             if (ModelState.IsValid)
             {
                 await request.Put<ArtefactDto>("api/artefact", artefact);
@@ -152,8 +143,6 @@ namespace Forge.Museum.Web.Controllers
 
                 throw;
             }
-
-        
         }
 
         protected override void Dispose(bool disposing)
