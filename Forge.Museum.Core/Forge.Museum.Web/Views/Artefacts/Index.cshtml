@@ -29,11 +29,13 @@
             @Html.ActionLink("ID#", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.ActionLink("Description", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+            @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
-
         <th>
             @Html.ActionLink("Acquisiton Date", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Category", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
             Length
@@ -49,41 +51,56 @@
     
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AcquisitionDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Measurement_Length)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Measurement_Width)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Measurement_Height)
-            </td>
-            <td>
-                <!-- Edit Button */ !-->
-                <a href="@Url.Action("Edit", "Artefacts",  new { id = item.Id })" class="btn btn-link">
-                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                </a>|
-                <!-- Details Button */ !-->
-                <a href="@Url.Action("Details", "Artefacts",  new { id = item.Id })" class="btn btn-link">
-                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                </a>|
-                <!-- Delete Button */ !-->
-                <a href="@Url.Action("Delete", "Artefacts",  new { id = item.Id })" class="btn btn-link">
-                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                </a>
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AcquisitionDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ArtefactCategory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Measurement_Length)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Measurement_Width)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Measurement_Height)
+        </td>
+        <td>
+            <!-- Edit Button */ !-->
+            <a href="@Url.Action("Edit", "Artefacts",  new { id = item.Id })" class="btn btn-link">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            </a>|
+            <!-- Details Button */ !-->
+            <a href="@Url.Action("Details", "Artefacts",  new { id = item.Id })" class="btn btn-link">
+                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            </a>|
+            <!-- Delete Button */ !-->
+            <a href="@Url.Action("Delete", "Artefacts",  new { id = item.Id })" class="btn btn-link">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            </a>
+        </td>
+    </tr>
     }
 
 </table>
 <br />
+<div class="row">
+    <div class="col-md-4">
+        <h2>Artefact Categories</h2>
+        <p>View and manage categories in which common Artefacts can be grouped by.</p>
+        <p><a class="btn btn-default" href="~/ArtefactCategories">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Artefact Zones</h2>
+        <p>View and manage zones in which Artefacts can be found within the Museum.</p>
+        <p><a class="btn btn-default" href="~/">Learn more &raquo;</a></p>
+    </div>
+</div>

@@ -6,10 +6,10 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" })) 
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
 <div class="form-horizontal">
     <h4>Artefact</h4>
     <hr />
@@ -42,7 +42,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.AdditionalComments, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.AdditionalComments, "Additional Comments", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.AdditionalComments, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.AdditionalComments, "", new { @class = "text-danger" })
@@ -50,7 +50,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.AcquisitionDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.AcquisitionDate, "Acquisition Date", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.AcquisitionDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
             @Html.ValidationMessageFor(model => model.AcquisitionDate, "", new { @class = "text-danger" })
@@ -58,7 +58,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Measurement_Length, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Measurement_Length, "Length", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Measurement_Length, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Measurement_Length, "", new { @class = "text-danger" })
@@ -66,7 +66,7 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Measurement_Width, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Measurement_Width, "Width", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Measurement_Width, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Measurement_Width, "", new { @class = "text-danger" })
@@ -74,12 +74,13 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Measurement_Height, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Measurement_Height, "Height", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Measurement_Height, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Measurement_Height, "", new { @class = "text-danger" })
         </div>
     </div>
+
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Create" class="btn btn-default" />

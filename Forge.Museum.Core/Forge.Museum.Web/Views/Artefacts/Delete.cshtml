@@ -6,73 +6,37 @@
 
 <h2>Delete</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Are you sure you want to delete this Artefact?</h3>
 <div>
-    <h4>Artefact</h4>
+    <h4>Artefact #@Model.Id - @Model.Name</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+        <dt>@Html.LabelFor(model => model.Image, "Main Image:")</dt>
+        <dd><img src="data:image;base64,@System.Convert.ToBase64String(Model.Image)" width="80" height="80" /></dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+        <dt>@Html.LabelFor(model => model.Id, "Artefact ID#:")</dt>
+        <dd>@Html.DisplayFor(model => model.Id)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+        <dt>@Html.LabelFor(model => model.Name, "Artefact Name:")</dt>
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
 
+        <dt>@Html.LabelFor(model => model.Description, "Description:")</dt>
+        <dd>@Html.DisplayFor(model => model.Description)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.AdditionalComments)
-        </dt>
+        <dt>@Html.LabelFor(model => model.AcquisitionDate, "Acquisition Date:")</dt>
+        <dd>@Html.DisplayFor(model => model.AcquisitionDate)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.AdditionalComments)
-        </dd>
+        <dt>@Html.LabelFor(model => model.Measurement_Length, "Length:")</dt>
+        <dd>@Html.DisplayFor(model => model.Measurement_Length)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.AcquisitionDate)
-        </dt>
+        <dt>@Html.LabelFor(model => model.Measurement_Height, "Height:")</dt>
+        <dd>@Html.DisplayFor(model => model.Measurement_Height)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.AcquisitionDate)
-        </dd>
+        <dt>@Html.LabelFor(model => model.Measurement_Width, "Width:")</dt>
+        <dd>@Html.DisplayFor(model => model.Measurement_Width)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Measurement_Length)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Measurement_Length)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Measurement_Height)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Measurement_Height)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Measurement_Width)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Measurement_Width)
-        </dd>
-
+        <dt>@Html.LabelFor(model => model.AdditionalComments, "Additional Comments:")</dt>
+        <dd>@Html.DisplayFor(model => model.AdditionalComments)</dd>
     </dl>
 
 
@@ -80,10 +44,10 @@
     {
         @Html.AntiForgeryToken()
 
-    <div class="form-actions no-color">
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        @Html.ActionLink("Back to List", "Index")
-    </div>
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
 
     }
 </div>

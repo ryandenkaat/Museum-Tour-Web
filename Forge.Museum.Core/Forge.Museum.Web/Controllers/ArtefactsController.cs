@@ -99,12 +99,19 @@ namespace Forge.Museum.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Description,AdditionalComments,AcquisitionDate,Measurement_Length,Measurement_Width,Measurement_Height")] ArtefactDto artefact)
+        public async Task<ActionResult> Edit(ArtefactDto artefact)
         {
             var request = new HTTPrequest();
+            ArtefactDto artefact_editted = await request.Get<ArtefactDto>("api/artefact/" + artefact.Id);
             if (ModelState.IsValid)
             {
-                await request.Put<ArtefactDto>("api/artefact", artefact);
+                artefact_editted.Name = artefact.Name;
+                artefact_editted.Description = artefact.Description;
+                artefact_editted.Measurement_Length = artefact.Measurement_Length;
+                artefact_editted.Measurement_Height = artefact.Measurement_Height;
+                artefact_editted.Measurement_Width = artefact.Measurement_Width;
+                artefact_editted.AdditionalComments = artefact.AdditionalComments;
+                await request.Put<ArtefactDto>("api/artefact", artefact_editted);
                 return RedirectToAction("Index");
             }
             return View(artefact);
