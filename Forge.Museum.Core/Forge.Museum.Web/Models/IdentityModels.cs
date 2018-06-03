@@ -31,5 +31,7 @@ namespace Forge.Museum.Web.Models
         }
 
         public System.Data.Entity.DbSet<Forge.Museum.Web.Models.Artefact> Artefacts { get; set; }
+
+        public System.Data.Entity.DbSet<Forge.Museum.Interfaces.DataTransferObjects.Artefact.ArtefactCategorySimpleDto> ArtefactCategorySimpleDtoes { get; set; }
     }
 }

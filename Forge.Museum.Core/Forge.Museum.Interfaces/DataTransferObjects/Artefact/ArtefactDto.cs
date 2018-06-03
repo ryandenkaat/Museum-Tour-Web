@@ -22,6 +22,5 @@ namespace Forge.Museum.Interfaces.DataTransferObjects.Artefact
         public ZoneSimpleDto Zone { get; set; }
         public ArtefactCategorySimpleDto ArtefactCategory { get; set; }
         public List<ArtefactInfoSimpleDto> ArtefactInfos { get; set; }
-
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -11,28 +10,24 @@ using System.Web.Mvc;
 using Forge.Museum.BLL.Http;
 using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
 using Forge.Museum.Web.Models;
-using PagedList;
-using System.IO;
-using System.Web;
 
 namespace Forge.Museum.Web.Controllers
 {
-    public class ArtefactsController : Controller
+    public class ArtefactCategoriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        
-        // GET: Artefacts
-        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
+
+        // GET: ArtefactCategoryDtoes
+        public async Task<ActionResult> Index()
         {
             var request = new HTTPrequest();
-            //request.Get<PagedList<ArtefactDto>>("api/artefact?pageNumber=1&numPerPage=500&isDeleted=false");
-            List<ArtefactDto> viewModel = await request.Get<List<ArtefactDto>>("api/artefact?pageNumber=0&numPerPage=500&isDeleted=false");
-            
-            //return View(viewModel.ToPagedList<ArtefactDto>(pageNumber, pageSize));
+
+            List<ArtefactCategoryDto> viewModel = await request.Get<List<ArtefactCategoryDto>>("api/artefactCatergory?pageNumber=0&numPerPage=500&isDeleted=false");
+
             return View(viewModel);
         }
 
-        // GET: Artefacts/Details/5
+        // GET: ArtefactCategoryDtoes/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -40,45 +35,43 @@ namespace Forge.Museum.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var request = new HTTPrequest();
-            ArtefactDto artefact = await request.Get<ArtefactDto>("api/artefact/"+id);
-            if (artefact == null)
+            ArtefactCategoryDto category = await request.Get<ArtefactCategoryDto>("api/artefactCatergory/" + id);
+            if (category == null)
             {
                 return HttpNotFound();
             }
-            return View(artefact);
+            return View(category);
         }
 
-        // GET: Artefacts/Create
+        // GET: ArtefactCategoryDtoes/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Artefacts/Create
+        // POST: ArtefactCategoryDtoes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Create(string name, string description, string additionalComments, DateTime acquistionDate, int length, int width, int height)
-        public async Task<ActionResult> Create(ArtefactDto artefact, HttpPostedFileBase imageFile)
+        public async Task<ActionResult> Create(ArtefactCategoryDto category, HttpPostedFileBase imgFile)
         {
             if (ModelState.IsValid)
             {
                 var request = new HTTPrequest();
-                HttpPostedFileBase imgFile = Request.Files["ImageFile"];
                 if (imgFile != null)
                 {
-                    artefact.Image = new byte[imgFile.ContentLength];
-                    imgFile.InputStream.Read(artefact.Image, 0, imgFile.ContentLength);
+                    category.Image = new byte[imgFile.ContentLength];
+                    imgFile.InputStream.Read(category.Image, 0, imgFile.ContentLength);
                 }
-                    artefact = await request.Post<ArtefactDto>("api/artefact", artefact);
-                    return RedirectToAction("Index");
-                }
-                return View(artefact);
+                category = await request.Post<ArtefactCategoryDto>("api/artefactCatergory", category);
+                return RedirectToAction("Index");
+            }
 
+            return View(category);
         }
 
-        // GET: Artefacts/Edit/5
+        // GET: ArtefactCategoryDtoes/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             var request = new HTTPrequest();
@@ -86,38 +79,31 @@ namespace Forge.Museum.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArtefactDto artefact = await request.Get<ArtefactDto>("api/artefact/" + id);
-            if (artefact == null)
+            ArtefactCategoryDto category = await request.Get<ArtefactCategoryDto>("api/artefactCatergory/" + id);
+            if (category == null)
             {
                 return HttpNotFound();
             }
-            return View(artefact);
+            return View(category);
         }
 
-        // POST: Artefacts/Edit/5
+        // POST: ArtefactCategoryDtoes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(ArtefactDto artefact)
+        public async Task<ActionResult> Edit(ArtefactCategoryDto category)
         {
             var request = new HTTPrequest();
-            ArtefactDto artefact_editted = await request.Get<ArtefactDto>("api/artefact/" + artefact.Id);
             if (ModelState.IsValid)
             {
-                artefact_editted.Name = artefact.Name;
-                artefact_editted.Description = artefact.Description;
-                artefact_editted.Measurement_Length = artefact.Measurement_Length;
-                artefact_editted.Measurement_Height = artefact.Measurement_Height;
-                artefact_editted.Measurement_Width = artefact.Measurement_Width;
-                artefact_editted.AdditionalComments = artefact.AdditionalComments;
-                await request.Put<ArtefactDto>("api/artefact", artefact_editted);
+                await request.Put<ArtefactCategoryDto>("api/artefactCatergory", category);
                 return RedirectToAction("Index");
             }
-            return View(artefact);
+            return View(category);
         }
 
-        // GET: Artefacts/Delete/5
+        // GET: ArtefactCategoryDtoes/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,31 +111,30 @@ namespace Forge.Museum.Web.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var request = new HTTPrequest();
-
-            ArtefactDto artefact = await request.Get<ArtefactDto>("api/artefact/" + id);
-            if (artefact == null)
+            ArtefactCategoryDto category = await request.Get<ArtefactCategoryDto>("api/artefactCatergory/" + id);
+            if (category == null)
             {
                 return HttpNotFound();
             }
-            return View(artefact);
+            return View(category);
         }
 
-        // POST: Artefacts/Delete/5
+        // POST: ArtefactCategoryDtoes/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken] 
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             try
             {
                 var request = new HTTPrequest();
-                await request.Delete("api/artefact/" + id);
+                await request.Delete("api/artefactCatergory/" + id);
                 return RedirectToAction("Index");
             }
             catch (Exception)
             {
-
                 throw;
             }
+
         }
 
         protected override void Dispose(bool disposing)
