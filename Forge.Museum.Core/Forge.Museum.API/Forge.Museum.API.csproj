@@ -220,6 +220,10 @@
     <Compile Include="Migrations\201804281239467_Initial.Designer.cs">
       <DependentUpon>201804281239467_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806040752182_UpdatedTours.cs" />
+    <Compile Include="Migrations\201806040752182_UpdatedTours.Designer.cs">
+      <DependentUpon>201806040752182_UpdatedTours.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Artefact.cs" />
     <Compile Include="Models\ArtefactCategory.cs" />
@@ -357,6 +361,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201804281239467_Initial.resx">
       <DependentUpon>201804281239467_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806040752182_UpdatedTours.resx">
+      <DependentUpon>201806040752182_UpdatedTours.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
