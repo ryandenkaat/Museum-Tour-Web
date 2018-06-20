@@ -15,6 +15,8 @@ namespace Forge.Museum.API.Models
 
         public byte[] File { get; set; }
 
+		public string FileExtension { get; set; }
+
         public int ArtefactInfoType { get; set; }
 
         public string Content { get; set; }

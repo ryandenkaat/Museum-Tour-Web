@@ -224,6 +224,10 @@
     <Compile Include="Migrations\201806040752182_UpdatedTours.Designer.cs">
       <DependentUpon>201806040752182_UpdatedTours.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806200433053_AddedFileExtensionsToArtefactInfo.cs" />
+    <Compile Include="Migrations\201806200433053_AddedFileExtensionsToArtefactInfo.Designer.cs">
+      <DependentUpon>201806200433053_AddedFileExtensionsToArtefactInfo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Artefact.cs" />
     <Compile Include="Models\ArtefactCategory.cs" />
@@ -364,6 +368,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806040752182_UpdatedTours.resx">
       <DependentUpon>201806040752182_UpdatedTours.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806200433053_AddedFileExtensionsToArtefactInfo.resx">
+      <DependentUpon>201806200433053_AddedFileExtensionsToArtefactInfo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
