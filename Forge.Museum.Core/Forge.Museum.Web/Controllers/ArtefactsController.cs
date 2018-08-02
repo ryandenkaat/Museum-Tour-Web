@@ -16,6 +16,7 @@ using System.IO;
 namespace Forge.Museum.Web.Controllers {
     public class ArtefactsController : Controller {
         private ApplicationDbContext db = new ApplicationDbContext();
+
         // GET: Artefacts
         public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page) {
             var request = new HTTPrequest();
@@ -37,7 +38,27 @@ namespace Forge.Museum.Web.Controllers {
         }
 
         // GET: Artefacts/Create
-        public ActionResult Create() {
+        public async Task<ActionResult> Create() {
+            var request = new HTTPrequest();
+            //TODO Add filter to this api call
+            List<ArtefactCategorySimpleDto> artefactCateories = await request.Get<List<ArtefactCategorySimpleDto>>("api/artefactCatergory?pageNumber=0&numPerPage=5-0&isDeleted=false");
+
+            List<SelectListItem> categoryDropdown = new List<SelectListItem>();
+
+            if (artefactCateories != null && artefactCateories.Any())
+            {
+                foreach(var category in artefactCateories)
+                {
+                    categoryDropdown.Add(new SelectListItem()
+                    {
+                        Text = category.Name,
+                        Value = category.Id.ToString()
+                    });
+                }
+            }
+
+            ViewBag.CategoryList = categoryDropdown;
+
             return View();
         }
 
@@ -54,10 +75,10 @@ namespace Forge.Museum.Web.Controllers {
                     artefact.Image = new byte[imgFile.ContentLength];
                     imgFile.InputStream.Read(artefact.Image, 0, imgFile.ContentLength);
                 }
-                    artefact = await request.Post<ArtefactDto>("api/artefact", artefact);
-                    return RedirectToAction("Index");
-                }
-                return View(artefact);
+                artefact = await request.Post<ArtefactDto>("api/artefact", artefact);
+                return RedirectToAction("Index");
+            }
+            return View(artefact);
         }
 
         // GET: Artefacts/Edit/5
@@ -129,5 +150,6 @@ namespace Forge.Museum.Web.Controllers {
             }
             base.Dispose(disposing);
         }
+
     }
 }

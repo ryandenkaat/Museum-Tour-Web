@@ -6,30 +6,22 @@ namespace Forge.Museum.Web.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Artefact
+    public partial class ArtefactCategory
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ArtefactCategory()
+        {
+            Artefacts = new HashSet<Artefact>();
+        }
+
         public int Id { get; set; }
 
         [Required]
-        [StringLength(256)]
         public string Name { get; set; }
 
         public string Description { get; set; }
 
         public byte[] Image { get; set; }
-
-        [StringLength(4000)]
-        public string AdditionalComments { get; set; }
-
-        public DateTime AcquisitionDate { get; set; }
-
-        public int Measurement_Length { get; set; }
-
-        public int Measurement_Width { get; set; }
-
-        public int Measurement_Height { get; set; }
-
-        public int ArtefactStatus { get; set; }
 
         public DateTime CreatedDate { get; set; }
 
@@ -37,10 +29,7 @@ namespace Forge.Museum.Web.Models
 
         public bool IsDeleted { get; set; }
 
-        public int? ArtefactCategory_Id { get; set; }
-
-        public int? Zone_Id { get; set; }
-
-        public virtual ArtefactCategory ArtefactCategory { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Artefact> Artefacts { get; set; }
     }
 }
