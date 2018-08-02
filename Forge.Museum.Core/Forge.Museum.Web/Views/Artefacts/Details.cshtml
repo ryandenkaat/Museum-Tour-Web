@@ -13,7 +13,7 @@
 
         <dt>@Html.LabelFor(model => model.Image, "Main Image:")</dt>
         <dd>
-        <img src="data:image;base64,@System.Convert.ToBase64String(Model.Image)" width="80" height="80" />
+            <img src="data:image;base64,@System.Convert.ToBase64String(Model.Image)" width="80" height="80" />
         </dd>
 
         <dt>@Html.LabelFor(model => model.Id, "Artefact ID#:")</dt>
@@ -40,7 +40,8 @@
         <dt>@Html.LabelFor(model => model.AdditionalComments, "Additional Comments:")</dt>
         <dd>@Html.DisplayFor(model => model.AdditionalComments)</dd>
 
-
+        <dt>@Html.LabelFor(model => model.ArtefactCategory, "Additional Comments:")</dt>
+        <dd>@Html.DisplayFor(model => model.ArtefactCategory)</dd>
 
     </dl>
 </div>

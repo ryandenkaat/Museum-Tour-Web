@@ -20,8 +20,33 @@ namespace Forge.Museum.Web.Controllers {
         // GET: Artefacts
         public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page) {
             var request = new HTTPrequest();
-            List<ArtefactDto> viewModel = await request.Get<List<ArtefactDto>>("api/artefact?pageNumber=0&numPerPage=500&isDeleted=false");
-            return View(viewModel);
+            ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewBag.NameSortParm = sortOrder == "Name" ? "name_desc" : "Name";
+            List<ArtefactDto> artefactsList = await request.Get<List<ArtefactDto>>("api/artefact?pageNumber=0&numPerPage=999999&isDeleted=false");
+            var artefacts = artefactsList.OrderByDescending(a => a.Id);
+
+
+            switch (sortOrder)
+            {
+                case "id_desc":
+                    artefacts = artefacts.OrderByDescending(a => a.Id);
+                    break;
+                case "Name":
+                    artefacts = artefacts.OrderBy(a => a.Name);
+                    break;
+                case "name_desc":
+                    artefacts = artefacts.OrderByDescending(a => a.Name);
+                    break;
+                default:
+                    artefacts = artefacts.OrderBy(a => a.Id);
+                    break;
+            }
+
+            //List artefactResults = await request.Get<List<>>("api/artefact?pageNumber=0&numPerPage=500&isDeleted=false");
+            //var list = artefactResults;
+
+            //  List<ArtefactDto> viewModel = await request.Get<List<ArtefactDto>>("api/artefact?pageNumber=0&numPerPage=500&isDeleted=false");
+            return View(artefacts.ToList());
         }
 
         // GET: Artefacts/Details/5
@@ -68,6 +93,16 @@ namespace Forge.Museum.Web.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ArtefactDto artefact, HttpPostedFileBase imageFile) {
+            ArtefactDto newArtefact = new ArtefactDto();
+            newArtefact.Id = artefact.Id;
+            newArtefact.Name = artefact.Name;
+            newArtefact.Description = artefact.Description;
+            newArtefact.ModifiedDate = artefact.ModifiedDate;
+            newArtefact.Measurement_Height = artefact.Measurement_Height;
+            newArtefact.Measurement_Length = artefact.Measurement_Length;
+            newArtefact.Measurement_Width = artefact.Measurement_Width;
+            newArtefact.ArtefactCategory = artefact.ArtefactCategory;
+
             if (ModelState.IsValid) {
                 var request = new HTTPrequest();
                 HttpPostedFileBase imgFile = Request.Files["ImageFile"];
