@@ -54,16 +54,19 @@ namespace Forge.Museum.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ArtefactCategoryDto category, HttpPostedFileBase imgFile)
+        public async Task<ActionResult> Create(ArtefactCategoryDto category, HttpPostedFileBase imageFile)
         {
             if (ModelState.IsValid)
             {
                 var request = new HTTPrequest();
+
+                HttpPostedFileBase imgFile = Request.Files["ImageFile"];
                 if (imgFile != null)
                 {
                     category.Image = new byte[imgFile.ContentLength];
                     imgFile.InputStream.Read(category.Image, 0, imgFile.ContentLength);
                 }
+
                 category = await request.Post<ArtefactCategoryDto>("api/artefactCatergory", category);
                 return RedirectToAction("Index");
             }

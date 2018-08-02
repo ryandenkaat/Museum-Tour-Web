@@ -146,6 +146,7 @@ namespace Forge.Museum.Web.Controllers {
                 artefact = await request.Post<ArtefactDto>("api/artefact", artefact);
                 return RedirectToAction("Index");
             }
+
             return View(artefact);
         }
 
