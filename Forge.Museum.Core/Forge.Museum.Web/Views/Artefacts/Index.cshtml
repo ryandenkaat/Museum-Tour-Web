@@ -7,6 +7,7 @@
 
 @{
     ViewBag.Title = "Index";
+    
 }
 
 <h2>Artefacts</h2>
@@ -16,10 +17,10 @@
 </p>
 
 
-@using (Html.BeginForm("Index", "Artefact", FormMethod.Get))
+@using (Html.BeginForm())
 {
     <p>
-        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        Find by name: @Html.TextBox("searchString")
         <input type="submit" value="Search" />
     </p>
 }
@@ -32,10 +33,10 @@
             @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm })
         </th>
         <th>
-            @Html.ActionLink("Acquisiton Date", "Index")
+            @Html.ActionLink("Acquisiton Date", "Index", new { sortOrder = ViewBag.DateSortParm })
         </th>
         <th>
-            @Html.ActionLink("Category", "Index")
+            @Html.ActionLink("Category", "Index", new { sortOrder = ViewBag.CategorySortParm })
         </th>
         <th>
             Length

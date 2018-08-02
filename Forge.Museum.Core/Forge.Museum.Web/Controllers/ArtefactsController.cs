@@ -22,8 +22,17 @@ namespace Forge.Museum.Web.Controllers {
             var request = new HTTPrequest();
             ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
             ViewBag.NameSortParm = sortOrder == "Name" ? "name_desc" : "Name";
-            List<ArtefactDto> artefactsList = await request.Get<List<ArtefactDto>>("api/artefact?pageNumber=0&numPerPage=999999&isDeleted=false");
-            var artefacts = artefactsList.OrderByDescending(a => a.Id);
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.CategorySortParm = sortOrder == "Category" ? "category_desc" : "Category";
+            List<ArtefactDto> artefactsMasterList = await request.Get<List<ArtefactDto>>("api/artefact?pageNumber=0&numPerPage=999999&isDeleted=false");
+            IEnumerable<ArtefactDto> artefactsFiltered = artefactsMasterList.ToList();
+        
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                artefactsFiltered = artefactsFiltered.Where(a => a.Name.Contains(searchString));
+            }
+
+            var artefacts = artefactsFiltered;
 
 
             switch (sortOrder)
@@ -36,6 +45,18 @@ namespace Forge.Museum.Web.Controllers {
                     break;
                 case "name_desc":
                     artefacts = artefacts.OrderByDescending(a => a.Name);
+                    break;
+                case "Date":
+                    artefacts = artefacts.OrderBy(a => a.AcquisitionDate);
+                    break;
+                case "date_desc":
+                    artefacts = artefacts.OrderByDescending(a => a.AcquisitionDate);
+                    break;
+                case "Category":
+                    artefacts = artefacts.OrderBy(a => a.ArtefactCategory.Name);
+                    break;
+                case "category_desc":
+                    artefacts = artefacts.OrderByDescending(a => a.ArtefactCategory.Name);
                     break;
                 default:
                     artefacts = artefacts.OrderBy(a => a.Id);
