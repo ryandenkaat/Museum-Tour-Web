@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
-using Forge.Museum.Interfaces.DataTransferObjects.Common;
 using Forge.Museum.API.Models;
 using AutoMapper;
 using Forge.Museum.API.Controllers;
@@ -42,8 +40,6 @@ namespace Forge.Museum.API.CoreHandlers
             {
                 artefact.ArtefactCategory = Db.ArtefactCategories.Find(dto.ArtefactCategory.Id);
             }
-
-            //TODO add processing for artefactinfos on create
 
             Db.Artefacts.Add(artefact);
 
@@ -89,8 +85,6 @@ namespace Forge.Museum.API.CoreHandlers
             {
                 artefact.ArtefactCategory = null;
             }
-
-            //TODO Add processing for artefactInfos on update
 
             Db.SaveChanges();
 

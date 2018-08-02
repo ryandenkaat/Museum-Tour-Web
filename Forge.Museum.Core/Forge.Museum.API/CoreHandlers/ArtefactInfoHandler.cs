@@ -18,6 +18,7 @@ namespace Forge.Museum.API.CoreHandlers
             {
                 Description = dto.Description,
                 File = dto.File,
+				FileExtension = dto.FileExtension,
                 ArtefactInfoType = (int)dto.ArtefactInfoType,
                 Content = dto.Content,
                 CreatedDate = DateTime.UtcNow,
@@ -41,6 +42,7 @@ namespace Forge.Museum.API.CoreHandlers
 
             artefactInfo.Description = dto.Description;
             artefactInfo.File = dto.File;
+			artefactInfo.FileExtension = dto.FileExtension;
             artefactInfo.ArtefactInfoType = (int)dto.ArtefactInfoType;
             artefactInfo.Content = dto.Content;
             artefactInfo.ModifiedDate = DateTime.UtcNow;

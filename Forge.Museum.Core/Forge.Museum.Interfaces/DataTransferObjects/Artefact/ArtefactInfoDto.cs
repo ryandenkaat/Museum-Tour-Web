@@ -12,6 +12,7 @@ namespace Forge.Museum.Interfaces.DataTransferObjects.Artefact
         public int Id { get; set; }
         public string Description { get; set; }
         public byte[] File { get; set; }
+		public string FileExtension { get; set; }
         public ArtefactInfoType ArtefactInfoType { get; set; }
         public string Content { get; set; }
         public ArtefactSimpleDto Artefact { get; set; }
