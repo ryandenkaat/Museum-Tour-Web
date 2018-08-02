@@ -20,6 +20,7 @@ namespace Forge.Museum.Web.Controllers {
         // GET: Artefacts
         public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page) {
             var request = new HTTPrequest();
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
             ViewBag.NameSortParm = sortOrder == "Name" ? "name_desc" : "Name";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
@@ -27,6 +28,17 @@ namespace Forge.Museum.Web.Controllers {
             List<ArtefactDto> artefactsMasterList = await request.Get<List<ArtefactDto>>("api/artefact?pageNumber=0&numPerPage=999999&isDeleted=false");
             IEnumerable<ArtefactDto> artefactsFiltered = artefactsMasterList.ToList();
         
+
+            if(searchString != null)
+            {
+                page = 1;
+            } else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 artefactsFiltered = artefactsFiltered.Where(a => a.Name.Contains(searchString));
@@ -63,10 +75,7 @@ namespace Forge.Museum.Web.Controllers {
                     break;
             }
 
-            //List artefactResults = await request.Get<List<>>("api/artefact?pageNumber=0&numPerPage=500&isDeleted=false");
-            //var list = artefactResults;
 
-            //  List<ArtefactDto> viewModel = await request.Get<List<ArtefactDto>>("api/artefact?pageNumber=0&numPerPage=500&isDeleted=false");
             return View(artefacts.ToList());
         }
 
