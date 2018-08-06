@@ -11,11 +11,6 @@
     <hr />
     <dl class="dl-horizontal">
 
-        <dt>@Html.LabelFor(model => model.Image, "Main Image:")</dt>
-        <dd>
-            <img src="data:image;base64,@System.Convert.ToBase64String(Model.Image)" width="80" height="80" />
-        </dd>
-
         <dt>@Html.LabelFor(model => model.Id, "Artefact ID#:")</dt>
         <dd>@Html.DisplayFor(model => model.Id)</dd>
 
@@ -42,6 +37,16 @@
 
         <dt>@Html.LabelFor(model => model.ArtefactCategory, "Category:")</dt>
         <dd>@Html.DisplayFor(model => model.ArtefactCategory.Name)</dd>
+
+         <dt>@Html.LabelFor(model => model.Image, "Main Image:")</dt>
+
+        @if (Model.Image == null || Model.Image.Length == 0) {
+            <dd> No Image uploaded for this Artefact yet </dd>
+        } else {
+            <dd>
+                <img src="data:image;base64,@System.Convert.ToBase64String(Model.Image)" width="160" height="160" />
+            </dd>
+        }
 
     </dl>
 </div>
