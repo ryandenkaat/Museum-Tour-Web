@@ -160,6 +160,26 @@ namespace Forge.Museum.Web.Controllers {
             if (artefact == null) {
                 return HttpNotFound();
             }
+
+            List<ArtefactCategorySimpleDto> artefactCateories = await request.Get<List<ArtefactCategorySimpleDto>>("api/artefactCatergory?pageNumber=0&numPerPage=5-0&isDeleted=false");
+
+            List<SelectListItem> categoryDropdown = new List<SelectListItem>();
+
+            if (artefactCateories != null && artefactCateories.Any())
+            {
+                foreach (var category in artefactCateories)
+                {
+                    categoryDropdown.Add(new SelectListItem()
+                    {
+                        Text = category.Name,
+                        Value = category.Id.ToString()
+                    });
+                }
+            }
+
+            ViewBag.CategoryList = categoryDropdown;
+
+
             return View(artefact);
         }
 
@@ -178,6 +198,8 @@ namespace Forge.Museum.Web.Controllers {
                 artefact_editted.Measurement_Height = artefact.Measurement_Height;
                 artefact_editted.Measurement_Width = artefact.Measurement_Width;
                 artefact_editted.AdditionalComments = artefact.AdditionalComments;
+                artefact_editted.ArtefactCategory = artefact.ArtefactCategory;
+
                 await request.Put<ArtefactDto>("api/artefact", artefact_editted);
                 return RedirectToAction("Index");
             }
