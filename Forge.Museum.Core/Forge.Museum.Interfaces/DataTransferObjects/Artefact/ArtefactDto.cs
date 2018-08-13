@@ -13,6 +13,7 @@ namespace Forge.Museum.Interfaces.DataTransferObjects.Artefact
         public string Name { get; set; }
         public string Description { get; set; }
         public byte[] Image { get; set; }
+		public string ImageFileType { get; set; }
         public string AdditionalComments { get; set; }
         public DateTime AcquisitionDate { get; set; }
         public int Measurement_Length { get; set; }

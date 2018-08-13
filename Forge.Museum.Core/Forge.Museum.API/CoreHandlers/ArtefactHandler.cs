@@ -18,6 +18,7 @@ namespace Forge.Museum.API.CoreHandlers
                 Name = dto.Name,
                 Description = dto.Description,
                 Image = dto.Image,
+				ImageFileType = dto.ImageFileType,
                 AdditionalComments = dto.AdditionalComments,
                 AcquisitionDate = dto.AcquisitionDate,
                 Measurement_Height = dto.Measurement_Height,
@@ -57,6 +58,7 @@ namespace Forge.Museum.API.CoreHandlers
             artefact.Name = dto.Name;
             artefact.Description = dto.Description;
             artefact.Image = dto.Image;
+			artefact.ImageFileType = dto.ImageFileType;
             artefact.AdditionalComments = dto.AdditionalComments;
             artefact.AcquisitionDate = dto.AcquisitionDate;
             artefact.Measurement_Height = dto.Measurement_Height;

@@ -22,6 +22,9 @@ namespace Forge.Museum.API.Models
 
         public byte[] Image { get; set; }
 
+		[StringLength(256)]
+		public string ImageFileType { get; set; }
+
         [StringLength(4000)]
         public string AdditionalComments { get; set; }
 
