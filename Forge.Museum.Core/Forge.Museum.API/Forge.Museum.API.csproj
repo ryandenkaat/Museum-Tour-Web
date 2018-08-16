@@ -105,8 +105,8 @@
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.1\lib\net45\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.4\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -117,8 +117,8 @@
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Http, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.4\lib\net45\System.Web.Http.dll</HintPath>
+    <Reference Include="System.Web.Http, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.6\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.WebHost, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.4\lib\net45\System.Web.Http.WebHost.dll</HintPath>
@@ -203,7 +203,10 @@
     <Compile Include="Controllers\ArtefactInfoController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\ExampleController.cs" />
+    <Compile Include="Controllers\ExhibitionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\StoreItemController.cs" />
+    <Compile Include="Controllers\StoreItemImageController.cs" />
     <Compile Include="Controllers\TourController.cs" />
     <Compile Include="Controllers\ZoneController.cs" />
     <Compile Include="CoreHandlers\ArtefactCategoryHandler.cs" />
@@ -211,6 +214,9 @@
     <Compile Include="CoreHandlers\ArtefactInfoHandler.cs" />
     <Compile Include="CoreHandlers\BaseApiHandler.cs" />
     <Compile Include="CoreHandlers\ExampleHandler.cs" />
+    <Compile Include="CoreHandlers\ExhibitonHandler.cs" />
+    <Compile Include="CoreHandlers\StoreItemHandler.cs" />
+    <Compile Include="CoreHandlers\StoreItemImageHandler.cs" />
     <Compile Include="CoreHandlers\TourHandler.cs" />
     <Compile Include="CoreHandlers\ZoneHandler.cs" />
     <Compile Include="Global.asax.cs">
@@ -232,6 +238,10 @@
     <Compile Include="Migrations\201808130106229_AddedImageFileTypePropToArtefact.Designer.cs">
       <DependentUpon>201808130106229_AddedImageFileTypePropToArtefact.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201808130550580_AddedExhibitionsAndStore.cs" />
+    <Compile Include="Migrations\201808130550580_AddedExhibitionsAndStore.Designer.cs">
+      <DependentUpon>201808130550580_AddedExhibitionsAndStore.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Artefact.cs" />
     <Compile Include="Models\ArtefactCategory.cs" />
@@ -241,7 +251,10 @@
     <Compile Include="Models\AspNetUserClaim.cs" />
     <Compile Include="Models\AspNetUserLogin.cs" />
     <Compile Include="Models\Base.cs" />
+    <Compile Include="Models\Exhibition.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\StoreItem.cs" />
+    <Compile Include="Models\StoreItemImage.cs" />
     <Compile Include="Models\Tour.cs" />
     <Compile Include="Models\Zone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -378,6 +391,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808130106229_AddedImageFileTypePropToArtefact.resx">
       <DependentUpon>201808130106229_AddedImageFileTypePropToArtefact.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201808130550580_AddedExhibitionsAndStore.resx">
+      <DependentUpon>201808130550580_AddedExhibitionsAndStore.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

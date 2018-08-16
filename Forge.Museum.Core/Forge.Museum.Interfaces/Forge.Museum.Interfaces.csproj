@@ -55,6 +55,10 @@
     <Compile Include="DataTransferObjects\BaseDto.cs" />
     <Compile Include="DataTransferObjects\Common\ApiFilter.cs" />
     <Compile Include="DataTransferObjects\ExampleDto.cs" />
+    <Compile Include="DataTransferObjects\Exhibition\ExhibitionDto.cs" />
+    <Compile Include="DataTransferObjects\Store\StoreItemDto.cs" />
+    <Compile Include="DataTransferObjects\Store\StoreItemImageDto.cs" />
+    <Compile Include="DataTransferObjects\Store\StoreItemSimpleDto.cs" />
     <Compile Include="DataTransferObjects\Tour\TourDto.cs" />
     <Compile Include="Enumerators\AgeGroup.cs" />
     <Compile Include="Enumerators\ArtefactInfoType.cs" />
@@ -65,5 +69,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

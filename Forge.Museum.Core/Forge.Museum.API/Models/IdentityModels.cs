@@ -21,6 +21,9 @@ namespace Forge.Museum.API.Models
         public virtual DbSet<Artefact> Artefacts { get; set; }
         public virtual DbSet<ArtefactInfo> ArtefactInfos { get; set; }
         public virtual DbSet<ArtefactCategory> ArtefactCategories { get; set; }
+		public virtual DbSet<Exhibition> Exhibitions { get; set; }
+		public virtual DbSet<StoreItem> StoreItems { get; set; }
+		public virtual DbSet<StoreItemImage> StoreItemImages { get; set; }
         public virtual DbSet<Zone> Zones { get; set; }
         public virtual DbSet<Tour> Tours { get; set; }
         #endregion

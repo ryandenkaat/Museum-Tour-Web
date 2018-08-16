@@ -7,6 +7,8 @@ using Forge.Museum.API.Models;
 using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
 using Forge.Museum.Interfaces.DataTransferObjects;
 using Forge.Museum.Interfaces.DataTransferObjects.Tour;
+using Forge.Museum.Interfaces.DataTransferObjects.Exhibition;
+using Forge.Museum.Interfaces.DataTransferObjects.Store;
 
 namespace Forge.Museum.API
 {
@@ -23,6 +25,9 @@ namespace Forge.Museum.API
                 config.CreateMap<ArtefactInfo, ArtefactInfoSimpleDto>();
                 config.CreateMap<ArtefactCategory, ArtefactCategoryDto>();
                 config.CreateMap<ArtefactCategory, ArtefactCategorySimpleDto>();
+				config.CreateMap<Exhibition, ExhibitionDto>();
+				config.CreateMap<StoreItem, StoreItemDto>();
+				config.CreateMap<StoreItemImage, StoreItemImageDto>();
                 config.CreateMap<Zone, ZoneDto>();
                 config.CreateMap<Zone, ZoneSimpleDto>();
                 config.CreateMap<Base, BaseDto>();
