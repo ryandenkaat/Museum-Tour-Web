@@ -24,7 +24,7 @@ namespace Forge.Museum.Web.Controllers
         {
             var request = new HTTPrequest();
 
-            List<ArtefactInfo> viewModel = await request.Get<List<ArtefactInfo>>("api/artefactInfo?pageNumber=0&numPerPage=500&isDeleted=false");
+            List<ArtefactInfoDto> viewModel = await request.Get<List<ArtefactInfoDto>>("api/artefactInfo?pageNumber=0&numPerPage=500&isDeleted=false");
 
             return View(viewModel);
 
@@ -97,7 +97,8 @@ namespace Forge.Museum.Web.Controllers
                     newFile.InputStream.Read(artefactInfo.File, 0, newFile.ContentLength);
 
                   //  var fileName = Path.GetFileName(artefactInfoFile.ToString());
-                    //string fileExtension = Path.GetExtension(fileName);
+                    string fileExtension = Path.GetExtension(newFile.FileName);
+                    artefactInfo.FileExtension = fileExtension;
                     //newArtefactInfo.File = new byte[artefactInfoFile.ContentLength];
                     //newArtefactInfo.FileExtension = fileExtension;
 
