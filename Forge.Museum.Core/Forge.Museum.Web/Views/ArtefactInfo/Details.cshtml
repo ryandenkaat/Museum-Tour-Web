@@ -1,7 +1,15 @@
-﻿@model Forge.Museum.API.Models.ArtefactInfo
+﻿@model Forge.Museum.Interfaces.DataTransferObjects.Artefact.ArtefactInfoDto
 
 @{
     ViewBag.Title = "Details";
+    bool fileUploadedBool;
+    if(Model.File != null && Model.File.Length != 0)
+    {
+        fileUploadedBool = true;
+    } else
+    {
+        fileUploadedBool = false;
+    }
 }
 
 <h2>Details</h2>
@@ -16,14 +24,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.File)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.File)
         </dd>
 
         <dt>
@@ -49,6 +49,36 @@
         <dd>
             @Html.DisplayFor(model => model.Content)
         </dd>
+
+
+        @if (Model.ArtefactInfoType == Forge.Museum.Interfaces.Enumerators.ArtefactInfoType.Text) {
+            <dt>
+                @Html.DisplayNameFor(model => model.File)
+            </dt>
+            <dd>
+                <text>Text</text>
+                @Html.DisplayFor(model => model.File)
+            </dd>
+        } else if (Model.ArtefactInfoType == Forge.Museum.Interfaces.Enumerators.ArtefactInfoType.Image) { 
+            <dt>
+                @Html.DisplayNameFor(model => model.File)
+            </dt>
+            if(fileUploadedBool == false)
+            {
+                <dd>
+                    <text> No photo uploaded yet</text>
+                </dd>
+            } else {
+                <dd><img src="data:image;base64,@System.Convert.ToBase64String(Model.File)" width="160" height="160" /></dd>
+            }
+
+        } else if (Model.ArtefactInfoType == Forge.Museum.Interfaces.Enumerators.ArtefactInfoType.Video) { 
+            <dd>
+                <text>VIDEO</text>
+                @Html.DisplayFor(model => model.File)
+            </dd>
+        }
+
 
     </dl>
 </div>

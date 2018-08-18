@@ -37,7 +37,9 @@ namespace Forge.Museum.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArtefactInfo artefactInfo = await db.ArtefactInfoes.FindAsync(id);
+            var request = new HTTPrequest();
+
+            ArtefactInfoDto artefactInfo = await request.Get<ArtefactInfoDto>("api/artefactInfo/" + id);
             if (artefactInfo == null)
             {
                 return HttpNotFound();
@@ -149,7 +151,8 @@ namespace Forge.Museum.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArtefactInfo artefactInfo = await db.ArtefactInfoes.FindAsync(id);
+            var request = new HTTPrequest();
+            ArtefactInfoDto artefactInfo = await request.Get<ArtefactInfoDto>("api/artefactInfo/" + id);
             if (artefactInfo == null)
             {
                 return HttpNotFound();
