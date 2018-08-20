@@ -12,6 +12,7 @@ using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
 using Forge.Museum.Web.Models;
 using PagedList;
 using System.IO;
+using Forge.Museum.Web.Controllers;
 
 namespace Forge.Museum.Web.Controllers {
     public class ArtefactsController : Controller {
@@ -82,6 +83,22 @@ namespace Forge.Museum.Web.Controllers {
             //return View(artefacts.ToList());
         }
 
+
+        public async Task<List<SelectListItem>> PopulateCategoryDropdown() {
+            var request = new HTTPrequest();
+            List<ArtefactCategorySimpleDto> artefactCateories = await request.Get<List<ArtefactCategorySimpleDto>>("api/artefactCatergory?pageNumber=0&numPerPage=5-0&isDeleted=false");
+            List<SelectListItem> categoryDropdown = new List<SelectListItem>();
+            if (artefactCateories != null && artefactCateories.Any()) {
+                foreach (var category in artefactCateories) {
+                    categoryDropdown.Add(new SelectListItem() {
+                        Text = category.Name,
+                        Value = category.Id.ToString()
+                    });
+                }
+            }
+            return categoryDropdown;
+        }
+
         // GET: Artefacts/Details/5
         public async Task<ActionResult> Details(int? id) {
             if (id == null) {
@@ -98,19 +115,12 @@ namespace Forge.Museum.Web.Controllers {
         // GET: Artefacts/Create
         public async Task<ActionResult> Create() {
             var request = new HTTPrequest();
-            //TODO Add filter to this api call
+
             // ARTEFACT CATEGORY DROPDOWN
-            List<ArtefactCategorySimpleDto> artefactCateories = await request.Get<List<ArtefactCategorySimpleDto>>("api/artefactCatergory?pageNumber=0&numPerPage=5-0&isDeleted=false");
             List<SelectListItem> categoryDropdown = new List<SelectListItem>();
-            if (artefactCateories != null && artefactCateories.Any()) {
-                foreach(var category in artefactCateories) {
-                    categoryDropdown.Add(new SelectListItem() {
-                        Text = category.Name,
-                        Value = category.Id.ToString()
-                    });
-                }
-            }
+            categoryDropdown = await PopulateCategoryDropdown();
             ViewBag.CategoryList = categoryDropdown;
+
 
             // ARTEFACT ZONE DROPDOWN
             List<ZoneSimpleDto> museumZones = await request.Get<List<ZoneSimpleDto>>("api/zone?pageNumber=0&numPerPage=5-0&isDeleted=false");
@@ -153,23 +163,11 @@ namespace Forge.Museum.Web.Controllers {
                 }
                 artefact = await request.Post<ArtefactDto>("api/artefact", artefact);
                 return RedirectToAction("Index");
-            } else
-            {
+            } else {
                 var request = new HTTPrequest();
                 // ARTEFACT CATEGORY DROPDOWN
-                List<ArtefactCategorySimpleDto> artefactCateories = await request.Get<List<ArtefactCategorySimpleDto>>("api/artefactCatergory?pageNumber=0&numPerPage=5-0&isDeleted=false");
                 List<SelectListItem> categoryDropdown = new List<SelectListItem>();
-                if (artefactCateories != null && artefactCateories.Any())
-                {
-                    foreach (var category in artefactCateories)
-                    {
-                        categoryDropdown.Add(new SelectListItem()
-                        {
-                            Text = category.Name,
-                            Value = category.Id.ToString()
-                        });
-                    }
-                }
+                categoryDropdown = await PopulateCategoryDropdown();
                 ViewBag.CategoryList = categoryDropdown;
 
                 // ARTEFACT ZONE DROPDOWN
@@ -190,10 +188,6 @@ namespace Forge.Museum.Web.Controllers {
 
                 return View();
             }
-
-   
-
-            return View(artefact);
         }
 
         // GET: Artefacts/Edit/5
@@ -206,24 +200,11 @@ namespace Forge.Museum.Web.Controllers {
             if (artefact == null) {
                 return HttpNotFound();
             }
-
-            List<ArtefactCategorySimpleDto> artefactCateories = await request.Get<List<ArtefactCategorySimpleDto>>("api/artefactCatergory?pageNumber=0&numPerPage=5-0&isDeleted=false");
-
+            // ARTEFACT CATEGORY DROPDOWN
             List<SelectListItem> categoryDropdown = new List<SelectListItem>();
-
-            if (artefactCateories != null && artefactCateories.Any())
-            {
-                foreach (var category in artefactCateories)
-                {
-                    categoryDropdown.Add(new SelectListItem()
-                    {
-                        Text = category.Name,
-                        Value = category.Id.ToString()
-                    });
-                }
-            }
-
+            categoryDropdown = await PopulateCategoryDropdown();
             ViewBag.CategoryList = categoryDropdown;
+
 
 
             return View(artefact);
