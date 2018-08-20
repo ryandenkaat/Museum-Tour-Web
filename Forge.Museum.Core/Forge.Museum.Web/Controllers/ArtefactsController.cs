@@ -99,23 +99,31 @@ namespace Forge.Museum.Web.Controllers {
         public async Task<ActionResult> Create() {
             var request = new HTTPrequest();
             //TODO Add filter to this api call
+            // ARTEFACT CATEGORY DROPDOWN
             List<ArtefactCategorySimpleDto> artefactCateories = await request.Get<List<ArtefactCategorySimpleDto>>("api/artefactCatergory?pageNumber=0&numPerPage=5-0&isDeleted=false");
-
             List<SelectListItem> categoryDropdown = new List<SelectListItem>();
-
-            if (artefactCateories != null && artefactCateories.Any())
-            {
-                foreach(var category in artefactCateories)
-                {
-                    categoryDropdown.Add(new SelectListItem()
-                    {
+            if (artefactCateories != null && artefactCateories.Any()) {
+                foreach(var category in artefactCateories) {
+                    categoryDropdown.Add(new SelectListItem() {
                         Text = category.Name,
                         Value = category.Id.ToString()
                     });
                 }
             }
-
             ViewBag.CategoryList = categoryDropdown;
+
+            // ARTEFACT ZONE DROPDOWN
+            List<ZoneSimpleDto> museumZones = await request.Get<List<ZoneSimpleDto>>("api/zone?pageNumber=0&numPerPage=5-0&isDeleted=false");
+            List<SelectListItem> zoneDropdown = new List<SelectListItem>();
+            if (museumZones != null && museumZones.Any()) {
+                foreach (var zone in museumZones) {
+                    zoneDropdown.Add(new SelectListItem() {
+                        Text = zone.Name,
+                        Value = zone.Id.ToString()
+                    });
+                }
+            }
+            ViewBag.ZoneList = zoneDropdown;
 
             return View();
         }
@@ -145,7 +153,45 @@ namespace Forge.Museum.Web.Controllers {
                 }
                 artefact = await request.Post<ArtefactDto>("api/artefact", artefact);
                 return RedirectToAction("Index");
+            } else
+            {
+                var request = new HTTPrequest();
+                // ARTEFACT CATEGORY DROPDOWN
+                List<ArtefactCategorySimpleDto> artefactCateories = await request.Get<List<ArtefactCategorySimpleDto>>("api/artefactCatergory?pageNumber=0&numPerPage=5-0&isDeleted=false");
+                List<SelectListItem> categoryDropdown = new List<SelectListItem>();
+                if (artefactCateories != null && artefactCateories.Any())
+                {
+                    foreach (var category in artefactCateories)
+                    {
+                        categoryDropdown.Add(new SelectListItem()
+                        {
+                            Text = category.Name,
+                            Value = category.Id.ToString()
+                        });
+                    }
+                }
+                ViewBag.CategoryList = categoryDropdown;
+
+                // ARTEFACT ZONE DROPDOWN
+                List<ZoneSimpleDto> museumZones = await request.Get<List<ZoneSimpleDto>>("api/zone?pageNumber=0&numPerPage=5-0&isDeleted=false");
+                List<SelectListItem> zoneDropdown = new List<SelectListItem>();
+                if (museumZones != null && museumZones.Any())
+                {
+                    foreach (var zone in museumZones)
+                    {
+                        zoneDropdown.Add(new SelectListItem()
+                        {
+                            Text = zone.Name,
+                            Value = zone.Id.ToString()
+                        });
+                    }
+                }
+                ViewBag.ZoneList = zoneDropdown;
+
+                return View();
             }
+
+   
 
             return View(artefact);
         }
