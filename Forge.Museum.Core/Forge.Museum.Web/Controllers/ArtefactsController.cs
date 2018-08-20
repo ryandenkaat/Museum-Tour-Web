@@ -18,6 +18,46 @@ namespace Forge.Museum.Web.Controllers {
     public class ArtefactsController : Controller {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public async Task<List<SelectListItem>> PopulateCategoryDropdown()
+        {
+            var request = new HTTPrequest();
+            List<ArtefactCategorySimpleDto> artefactCateories = await request.Get<List<ArtefactCategorySimpleDto>>("api/artefactCatergory?pageNumber=0&numPerPage=5-0&isDeleted=false");
+            List<SelectListItem> categoryDropdown = new List<SelectListItem>();
+            if (artefactCateories != null && artefactCateories.Any())
+            {
+                foreach (var category in artefactCateories)
+                {
+                    categoryDropdown.Add(new SelectListItem()
+                    {
+                        Text = category.Name,
+                        Value = category.Id.ToString()
+                    });
+                }
+            }
+            return categoryDropdown;
+        }
+
+        public async Task<List<SelectListItem>> PopulateZoneDropdownList()
+        {
+            var request = new HTTPrequest();
+            List<ZoneSimpleDto> museumZones = await request.Get<List<ZoneSimpleDto>>("api/zone?pageNumber=0&numPerPage=5-0&isDeleted=false");
+            List<SelectListItem> zoneDropdown = new List<SelectListItem>();
+            if (museumZones != null && museumZones.Any())
+            {
+                foreach (var zone in museumZones)
+                {
+                    zoneDropdown.Add(new SelectListItem()
+                    {
+                        Text = zone.Name,
+                        Value = zone.Id.ToString()
+                    });
+                }
+            }
+            return zoneDropdown;
+        }
+
+
+
         // GET: Artefacts
         public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page) {
             var request = new HTTPrequest();
@@ -84,21 +124,6 @@ namespace Forge.Museum.Web.Controllers {
         }
 
 
-        public async Task<List<SelectListItem>> PopulateCategoryDropdown() {
-            var request = new HTTPrequest();
-            List<ArtefactCategorySimpleDto> artefactCateories = await request.Get<List<ArtefactCategorySimpleDto>>("api/artefactCatergory?pageNumber=0&numPerPage=5-0&isDeleted=false");
-            List<SelectListItem> categoryDropdown = new List<SelectListItem>();
-            if (artefactCateories != null && artefactCateories.Any()) {
-                foreach (var category in artefactCateories) {
-                    categoryDropdown.Add(new SelectListItem() {
-                        Text = category.Name,
-                        Value = category.Id.ToString()
-                    });
-                }
-            }
-            return categoryDropdown;
-        }
-
         // GET: Artefacts/Details/5
         public async Task<ActionResult> Details(int? id) {
             if (id == null) {
@@ -121,18 +146,9 @@ namespace Forge.Museum.Web.Controllers {
             categoryDropdown = await PopulateCategoryDropdown();
             ViewBag.CategoryList = categoryDropdown;
 
-
             // ARTEFACT ZONE DROPDOWN
-            List<ZoneSimpleDto> museumZones = await request.Get<List<ZoneSimpleDto>>("api/zone?pageNumber=0&numPerPage=5-0&isDeleted=false");
             List<SelectListItem> zoneDropdown = new List<SelectListItem>();
-            if (museumZones != null && museumZones.Any()) {
-                foreach (var zone in museumZones) {
-                    zoneDropdown.Add(new SelectListItem() {
-                        Text = zone.Name,
-                        Value = zone.Id.ToString()
-                    });
-                }
-            }
+            zoneDropdown = await PopulateZoneDropdownList();
             ViewBag.ZoneList = zoneDropdown;
 
             return View();
@@ -171,19 +187,8 @@ namespace Forge.Museum.Web.Controllers {
                 ViewBag.CategoryList = categoryDropdown;
 
                 // ARTEFACT ZONE DROPDOWN
-                List<ZoneSimpleDto> museumZones = await request.Get<List<ZoneSimpleDto>>("api/zone?pageNumber=0&numPerPage=5-0&isDeleted=false");
                 List<SelectListItem> zoneDropdown = new List<SelectListItem>();
-                if (museumZones != null && museumZones.Any())
-                {
-                    foreach (var zone in museumZones)
-                    {
-                        zoneDropdown.Add(new SelectListItem()
-                        {
-                            Text = zone.Name,
-                            Value = zone.Id.ToString()
-                        });
-                    }
-                }
+                zoneDropdown = await PopulateZoneDropdownList();
                 ViewBag.ZoneList = zoneDropdown;
 
                 return View();
@@ -205,6 +210,10 @@ namespace Forge.Museum.Web.Controllers {
             categoryDropdown = await PopulateCategoryDropdown();
             ViewBag.CategoryList = categoryDropdown;
 
+            // ARTEFACT ZONE DROPDOWN
+            List<SelectListItem> zoneDropdown = new List<SelectListItem>();
+            zoneDropdown = await PopulateZoneDropdownList();
+            ViewBag.ZoneList = zoneDropdown;
 
 
             return View(artefact);
