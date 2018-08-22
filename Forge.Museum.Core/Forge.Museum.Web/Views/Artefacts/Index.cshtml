@@ -63,7 +63,7 @@
                 @Html.DisplayFor(modelItem => item.AcquisitionDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ArtefactCategory.Name)
+                @Html.ActionLink(item.ArtefactCategory.Id.ToString() + ": " + item.ArtefactCategory.Name, "Details", "ArtefactCategories", new { id = item.ArtefactCategory.Id }, null)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Measurement_Length)

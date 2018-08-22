@@ -30,7 +30,7 @@ namespace Forge.Museum.Web.Controllers
                 viewModel = await request.Get<List<ArtefactInfoDto>>("api/artefactInfo?pageNumber=0&numPerPage=500&isDeleted=false");
             } else
             {
-                viewModel = await request.Get<List<ArtefactInfoDto>>("api/artefactInfo?artefactId="+artefactId+"&pageNumber=0&numPerPage=5&isDeleted=false");
+                viewModel = await request.Get<List<ArtefactInfoDto>>("api/artefactInfo?artefactId="+artefactId+"&pageNumber=0&numPerPage=500&isDeleted=false");
             }
             return View(viewModel);
 
@@ -68,7 +68,7 @@ namespace Forge.Museum.Web.Controllers
                 artefact = await request.Get<ArtefactSimpleDto>("api/artefact/"+artefactId);
                 if (artefact == null)
                 {
-                    return View();
+                    return HttpNotFound();
                 }
                 else
                 {
@@ -78,9 +78,11 @@ namespace Forge.Museum.Web.Controllers
                         Value = artefact.Id.ToString()
 
                     });
+                    ViewBag.ArtefactName = artefact.Name;
+                    ViewBag.ArtefactID = artefact.Id.ToString();
+
                 }
-            } else
-            {
+            } else {
                 artefactsList = await request.Get<List<ArtefactSimpleDto>>("api/artefact?pageNumber=0&numPerPage=5-0&isDeleted=false");
                 if (artefactsList != null && artefactsList.Any())
                 {
@@ -88,7 +90,7 @@ namespace Forge.Museum.Web.Controllers
                     {
                         artefactDropdown.Add(new SelectListItem()
                         {
-                            Text = artefacts.Name,
+                            Text = artefacts.Id + ":" + artefacts.Name,
                             Value = artefacts.Id.ToString()
                         });
                     }
@@ -96,8 +98,6 @@ namespace Forge.Museum.Web.Controllers
             }
 
             ViewBag.ArtefactList = artefactDropdown;
-
-
             return View();
         }
 

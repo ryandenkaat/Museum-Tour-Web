@@ -29,7 +29,7 @@ namespace Forge.Museum.Web.Controllers {
                 {
                     categoryDropdown.Add(new SelectListItem()
                     {
-                        Text = category.Name,
+                        Text = category.Id + ": " + category.Name,
                         Value = category.Id.ToString()
                     });
                 }
@@ -48,7 +48,7 @@ namespace Forge.Museum.Web.Controllers {
                 {
                     zoneDropdown.Add(new SelectListItem()
                     {
-                        Text = zone.Name,
+                        Text = zone.Id + ": " + zone.Name,
                         Value = zone.Id.ToString()
                     });
                 }
