@@ -12,6 +12,7 @@ using Forge.Museum.Web.Models;
 using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
 using Forge.Museum.BLL.Http;
 using System.IO;
+using System.Net.Http;
 
 namespace Forge.Museum.Web.Controllers
 {
@@ -119,15 +120,15 @@ namespace Forge.Museum.Web.Controllers
 
             if (ModelState.IsValid) { 
                 var request = new HTTPrequest();
-                HttpPostedFileBase newFile = Request.Files["ArtefactInfoFile"];
+                //HttpPostedFileBase newFile = Request.Files["ArtefactInfoFile"];
                 //HttpPostedFileBase newFile = ArtefactInfoFile;
-                    if (newFile != null && newFile.ContentLength > 0)
+                    if (ArtefactInfoFile != null && ArtefactInfoFile.ContentLength > 0)
                     {
-                        artefactInfo.File = new byte[newFile.ContentLength];
-                        newFile.InputStream.Read(artefactInfo.File, 0, newFile.ContentLength);
-                        string fileExtension = Path.GetExtension(newFile.FileName);
+                        artefactInfo.File = new byte[ArtefactInfoFile.ContentLength];
+                    ArtefactInfoFile.InputStream.Read(artefactInfo.File, 0, ArtefactInfoFile.ContentLength);
+                        string fileExtension = Path.GetExtension(ArtefactInfoFile.FileName);
                         artefactInfo.FileExtension = fileExtension;
-                    if (newFile == null) {
+                    if (ArtefactInfoFile == null) {
                         throw new ArgumentException("file");
                     }
                 }

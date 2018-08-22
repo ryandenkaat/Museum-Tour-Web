@@ -60,7 +60,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AcquisitionDate)
+                @item.AcquisitionDate.ToShortDateString()
             </td>
             <td>
                 @Html.ActionLink(item.ArtefactCategory.Id.ToString() + ": " + item.ArtefactCategory.Name, "Details", "ArtefactCategories", new { id = item.ArtefactCategory.Id }, null)
@@ -86,7 +86,7 @@
                 <!-- Delete Button */ !-->
                 <a href="@Url.Action("Delete", "Artefacts",  new { id = item.Id })" class="btn btn-link">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                </a>
+                </a>|
                 <a href="@Url.Action("Index", "ArtefactInfo",  new { artefactId = item.Id })" class="btn btn-link">
                     <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
                 </a>

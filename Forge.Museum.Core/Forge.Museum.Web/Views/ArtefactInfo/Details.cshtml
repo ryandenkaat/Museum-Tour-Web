@@ -86,16 +86,25 @@
             </dt>
             if (fileUploadedBool == false)
             {
-                <dd>
-                    <text> No video uploaded yet</text>
-                </dd>
+            <dd>
+                <text> No video uploaded yet</text><p></p>
+
+                <p>Test Example Video:</p>
+                <video width="320" height="240" controls>
+                    <source src="~/CSS/test_video.mp4" type="video/mp4">
+                </video>
+            </dd>
             }
             else
             {
-                <dd>
-                    @Html.DisplayFor(model => model.File)
+            <dd>
+                @Html.DisplayFor(model => model.File)
 
-                </dd>
+                <video width="320" height="240" controls>
+                    <source src="@Model.File" type="video/" + @Model.FileExtension>
+                </video>
+
+            </dd>
 
             }
         }
