@@ -16,7 +16,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>ArtefactInfo</h4>
+    <h4>Artefact Content ID#@Model.Id - @Model.Description</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -52,7 +52,8 @@
         </dd>
 
 
-        @if (Model.ArtefactInfoType == ArtefactInfoType.Text) {
+        @if (Model.ArtefactInfoType == ArtefactInfoType.Text)
+        {
             <dt>
                 @Html.DisplayNameFor(model => model.File)
             </dt>
@@ -60,20 +61,26 @@
                 <text>Text</text>
                 @Html.DisplayFor(model => model.File)
             </dd>
-        } else if (Model.ArtefactInfoType == ArtefactInfoType.Image) { 
+        }
+        else if (Model.ArtefactInfoType == ArtefactInfoType.Image)
+        {
             <dt>
                 @Html.DisplayNameFor(model => model.File)
             </dt>
-            if(fileUploadedBool == false)
+            if (fileUploadedBool == false)
             {
                 <dd>
                     <text> No photo uploaded yet</text>
                 </dd>
-            } else {
+            }
+            else
+            {
                 <dd><img src="data:image;base64,@System.Convert.ToBase64String(Model.File)" width="160" height="160" /></dd>
             }
 
-        } else if (Model.ArtefactInfoType == ArtefactInfoType.Video) {
+        }
+        else if (Model.ArtefactInfoType == ArtefactInfoType.Video)
+        {
             <dt>
                 @Html.DisplayNameFor(model => model.File)
             </dt>
@@ -91,7 +98,9 @@
                 </dd>
 
             }
-        } else if (Model.ArtefactInfoType == ArtefactInfoType.Audio) {
+        }
+        else if (Model.ArtefactInfoType == ArtefactInfoType.Audio)
+        {
 
         }
 

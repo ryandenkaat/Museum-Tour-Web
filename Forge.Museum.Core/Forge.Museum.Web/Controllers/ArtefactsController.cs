@@ -116,7 +116,7 @@ namespace Forge.Museum.Web.Controllers {
                     break;
             }
 
-            int pageSize = 3;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             return View(artefacts.ToPagedList(pageNumber, pageSize));
 

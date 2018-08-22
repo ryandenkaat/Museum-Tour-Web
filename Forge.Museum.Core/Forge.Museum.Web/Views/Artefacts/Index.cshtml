@@ -87,6 +87,9 @@
                 <a href="@Url.Action("Delete", "Artefacts",  new { id = item.Id })" class="btn btn-link">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </a>
+                <a href="@Url.Action("Index", "ArtefactInfo",  new { artefactId = item.Id })" class="btn btn-link">
+                    <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+                </a>
             </td>
         </tr>
     }

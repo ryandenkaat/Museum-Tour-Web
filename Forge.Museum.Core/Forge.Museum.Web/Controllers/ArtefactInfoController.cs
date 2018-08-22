@@ -20,12 +20,18 @@ namespace Forge.Museum.Web.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: ArtefactInfo
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int? artefactId)
         {
             var request = new HTTPrequest();
-
-            List<ArtefactInfoDto> viewModel = await request.Get<List<ArtefactInfoDto>>("api/artefactInfo?pageNumber=0&numPerPage=500&isDeleted=false");
-
+            ViewBag.ArtefactID = artefactId;
+            List<ArtefactInfoDto> viewModel = new List<ArtefactInfoDto>();
+            if (artefactId == null)
+            {
+                viewModel = await request.Get<List<ArtefactInfoDto>>("api/artefactInfo?pageNumber=0&numPerPage=500&isDeleted=false");
+            } else
+            {
+                viewModel = await request.Get<List<ArtefactInfoDto>>("api/artefactInfo?artefactId="+artefactId+"&pageNumber=0&numPerPage=5&isDeleted=false");
+            }
             return View(viewModel);
 
         }
@@ -48,22 +54,44 @@ namespace Forge.Museum.Web.Controllers
         }
 
         // GET: ArtefactInfo/Create
-        public async Task<ActionResult> Create()
+        public async Task<ActionResult> Create(int? artefactId)
         {
+            bool artefact_Selected = artefactId.HasValue;
+            ViewBag.ArteFactSelected = artefact_Selected;
             var request = new HTTPrequest();
-            List<ArtefactSimpleDto> artefactsList = await request.Get<List<ArtefactSimpleDto>>("api/artefact?pageNumber=0&numPerPage=5-0&isDeleted=false");
+            List<ArtefactSimpleDto> artefactsList = new List<ArtefactSimpleDto>();
+            ArtefactSimpleDto artefact = new ArtefactSimpleDto();
 
             List<SelectListItem> artefactDropdown = new List<SelectListItem>();
-
-            if (artefactsList != null && artefactsList.Any())
+            if (artefact_Selected == true)
             {
-                foreach (var artefact in artefactsList)
+                artefact = await request.Get<ArtefactSimpleDto>("api/artefact/"+artefactId);
+                if (artefact == null)
+                {
+                    return View();
+                }
+                else
                 {
                     artefactDropdown.Add(new SelectListItem()
                     {
                         Text = artefact.Name,
                         Value = artefact.Id.ToString()
+
                     });
+                }
+            } else
+            {
+                artefactsList = await request.Get<List<ArtefactSimpleDto>>("api/artefact?pageNumber=0&numPerPage=5-0&isDeleted=false");
+                if (artefactsList != null && artefactsList.Any())
+                {
+                    foreach (var artefacts in artefactsList)
+                    {
+                        artefactDropdown.Add(new SelectListItem()
+                        {
+                            Text = artefacts.Name,
+                            Value = artefacts.Id.ToString()
+                        });
+                    }
                 }
             }
 
