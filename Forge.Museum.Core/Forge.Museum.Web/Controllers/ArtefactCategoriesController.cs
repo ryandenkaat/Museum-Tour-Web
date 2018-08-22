@@ -95,12 +95,24 @@ namespace Forge.Museum.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(ArtefactCategoryDto category)
+        public async Task<ActionResult> Edit(ArtefactCategoryDto category, HttpPostedFileBase imageFile)
         {
             var request = new HTTPrequest();
-            if (ModelState.IsValid)
-            {
-                await request.Put<ArtefactCategoryDto>("api/artefactCatergory", category);
+            ArtefactCategoryDto category_editted = await request.Get<ArtefactCategoryDto>("api/artefactCatergory/" + category.Id);
+            if (ModelState.IsValid) {
+                category_editted.Name = category.Name;
+                category_editted.Description = category.Description;
+                category_editted.ModifiedDate = DateTime.Now;
+                HttpPostedFileBase imgFile = Request.Files["ImageFile"];
+
+                if (imageFile != null) {
+                    category_editted.Image = new byte[imageFile.ContentLength];
+                    imageFile.InputStream.Read(category_editted.Image, 0, imageFile.ContentLength);
+                } else {
+                    category_editted.Image = category_editted.Image;
+                }
+
+                await request.Put<ArtefactCategoryDto>("api/artefactCatergory", category_editted);
                 return RedirectToAction("Index");
             }
             return View(category);

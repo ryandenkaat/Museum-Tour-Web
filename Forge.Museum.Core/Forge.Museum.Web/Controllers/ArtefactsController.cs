@@ -238,12 +238,11 @@ namespace Forge.Museum.Web.Controllers {
                 artefact_editted.ArtefactCategory = artefact.ArtefactCategory;
                 artefact_editted.Zone = artefact.Zone;
 
-                HttpPostedFileBase imgFile = Request.Files["ImageFile"];
+              //  HttpPostedFileBase imgFile = Request.Files["ImageFile"];
                 if (imageFile != null) {
-                    artefact_editted.Image = new byte[imgFile.ContentLength];
-                    imgFile.InputStream.Read(artefact_editted.Image, 0, imgFile.ContentLength);
-                } else
-                {
+                    artefact_editted.Image = new byte[imageFile.ContentLength];
+                    imageFile.InputStream.Read(artefact_editted.Image, 0, imageFile.ContentLength);
+                } else {
                     artefact_editted.Image = artefact_editted.Image;
                 }
 

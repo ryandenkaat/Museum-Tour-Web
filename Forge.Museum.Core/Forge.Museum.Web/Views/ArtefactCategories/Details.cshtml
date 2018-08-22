@@ -12,13 +12,6 @@
     <dl class="dl-horizontal">
 
         <dt>
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-        <dd>
-            <img src="data:image;base64,@System.Convert.ToBase64String(Model.Image)" width="80" height="80" />
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Id)
         </dt>
         <dd>
@@ -38,6 +31,19 @@
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
+
+        <dt>
+            @Html.LabelFor(model => model.Image, "Image:")
+        </dt>
+
+        @if (Model.Image == null || Model.Image.Length == 0) {
+            <dd> No Image uploaded for this Artefact yet </dd>
+        } else {
+            <dd>
+                <img src="data:image;base64,@System.Convert.ToBase64String(Model.Image)" width="160" height="160" />
+            </dd>
+        }
+
     </dl>
 </div>
 <p>
