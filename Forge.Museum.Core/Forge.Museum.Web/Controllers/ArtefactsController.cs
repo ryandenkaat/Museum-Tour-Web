@@ -201,6 +201,7 @@ namespace Forge.Museum.Web.Controllers {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             ArtefactDto artefact = await request.Get<ArtefactDto>("api/artefact/" + id);
             if (artefact == null) {
                 return HttpNotFound();
@@ -235,12 +236,15 @@ namespace Forge.Museum.Web.Controllers {
                 artefact_editted.Measurement_Width = artefact.Measurement_Width;
                 artefact_editted.AdditionalComments = artefact.AdditionalComments;
                 artefact_editted.ArtefactCategory = artefact.ArtefactCategory;
+                artefact_editted.Zone = artefact.Zone;
 
                 HttpPostedFileBase imgFile = Request.Files["ImageFile"];
-                if (imgFile != null)
-                {
+                if (imageFile != null) {
                     artefact_editted.Image = new byte[imgFile.ContentLength];
                     imgFile.InputStream.Read(artefact_editted.Image, 0, imgFile.ContentLength);
+                } else
+                {
+                    artefact_editted.Image = artefact_editted.Image;
                 }
 
                 //if (artefact.Image != null) { artefact_editted.Image = artefact.Image; }

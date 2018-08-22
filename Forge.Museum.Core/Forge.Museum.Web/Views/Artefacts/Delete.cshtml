@@ -37,6 +37,12 @@
 
         <dt>@Html.LabelFor(model => model.AdditionalComments, "Additional Comments:")</dt>
         <dd>@Html.DisplayFor(model => model.AdditionalComments)</dd>
+
+        <dt>@Html.LabelFor(model => model.ArtefactCategory, "Category:")</dt>
+        <dd>@Html.DisplayFor(model => model.ArtefactCategory.Name)</dd>
+
+        <dt>@Html.LabelFor(model => model.Zone, "Zone:")</dt>
+        <dd>@Html.DisplayFor(model => model.Zone.Name)</dd>
     </dl>
 
 
