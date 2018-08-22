@@ -78,7 +78,7 @@ namespace Forge.Museum.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ArtefactInfoDto artefactInfo)
+        public async Task<ActionResult> Create(ArtefactInfoDto artefactInfo, HttpPostedFileBase ArtefactInfoFile)
         {
 
             ArtefactInfoDto newArtefactInfo = new ArtefactInfoDto();
@@ -92,24 +92,23 @@ namespace Forge.Museum.Web.Controllers
             if (ModelState.IsValid) { 
                 var request = new HTTPrequest();
                 HttpPostedFileBase newFile = Request.Files["ArtefactInfoFile"];
-
-                if (newFile != null && newFile.ContentLength > 0) {
-
-                    artefactInfo.File = new byte[newFile.ContentLength];
-                    newFile.InputStream.Read(artefactInfo.File, 0, newFile.ContentLength);
-
-                  //  var fileName = Path.GetFileName(artefactInfoFile.ToString());
-                    string fileExtension = Path.GetExtension(newFile.FileName);
-                    artefactInfo.FileExtension = fileExtension;
-                    //newArtefactInfo.File = new byte[artefactInfoFile.ContentLength];
-                    //newArtefactInfo.FileExtension = fileExtension;
-
-                   // artefactInfoFile.InputStream.Read(newArtefactInfo.File, 0, artefactInfoFile.ContentLength);
+                //HttpPostedFileBase newFile = ArtefactInfoFile;
+                    if (newFile != null && newFile.ContentLength > 0)
+                    {
+                        artefactInfo.File = new byte[newFile.ContentLength];
+                        newFile.InputStream.Read(artefactInfo.File, 0, newFile.ContentLength);
+                        string fileExtension = Path.GetExtension(newFile.FileName);
+                        artefactInfo.FileExtension = fileExtension;
+                    if (newFile == null) {
+                        throw new ArgumentException("file");
+                    }
                 }
-                artefactInfo = await request.Post<ArtefactInfoDto>("api/artefactInfo", artefactInfo);
+                var request2 = new HTTPrequest();
+
+                artefactInfo = await request2.Post<ArtefactInfoDto>("api/artefactInfo", artefactInfo);
+
                 return RedirectToAction("Index");
             }
-
             return View(artefactInfo);
         }
 
