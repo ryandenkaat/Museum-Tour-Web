@@ -176,6 +176,8 @@ namespace Forge.Museum.Web.Controllers {
                 if (imgFile != null) {
                     artefact.Image = new byte[imgFile.ContentLength];
                     imgFile.InputStream.Read(artefact.Image, 0, imgFile.ContentLength);
+                    string fileExtension = Path.GetExtension(imgFile.FileName);
+                    artefact.ImageFileType = fileExtension;
                 }
                 artefact = await request.Post<ArtefactDto>("api/artefact", artefact);
                 return RedirectToAction("Index");
@@ -237,13 +239,18 @@ namespace Forge.Museum.Web.Controllers {
                 artefact_editted.AdditionalComments = artefact.AdditionalComments;
                 artefact_editted.ArtefactCategory = artefact.ArtefactCategory;
                 artefact_editted.Zone = artefact.Zone;
+                artefact_editted.ModifiedDate = DateTime.Now;
 
               //  HttpPostedFileBase imgFile = Request.Files["ImageFile"];
                 if (imageFile != null) {
                     artefact_editted.Image = new byte[imageFile.ContentLength];
                     imageFile.InputStream.Read(artefact_editted.Image, 0, imageFile.ContentLength);
+                    string fileExtension = Path.GetExtension(imageFile.FileName);
+                    artefact_editted.ImageFileType = fileExtension;
                 } else {
                     artefact_editted.Image = artefact_editted.Image;
+                    artefact_editted.ImageFileType = artefact_editted.ImageFileType;
+
                 }
 
                 //if (artefact.Image != null) { artefact_editted.Image = artefact.Image; }
