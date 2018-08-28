@@ -63,7 +63,10 @@
                 @item.AcquisitionDate.ToShortDateString()
             </td>
             <td>
-                @Html.ActionLink(item.ArtefactCategory.Id.ToString() + ": " + item.ArtefactCategory.Name, "Details", "ArtefactCategories", new { id = item.ArtefactCategory.Id }, null)
+				@if(item.ArtefactCategory != null)
+				{
+					@Html.ActionLink(item.ArtefactCategory.Id.ToString() + ": " + item.ArtefactCategory.Name, "Details", "ArtefactCategories", new { id = item.ArtefactCategory.Id }, null)
+				}
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Measurement_Length)
