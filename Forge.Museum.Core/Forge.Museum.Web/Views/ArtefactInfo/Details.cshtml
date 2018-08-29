@@ -28,7 +28,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.FileExtension)
+            @Html.LabelFor(model => model.FileExtension, "File Extension")
         </dt>
 
         <dd>
@@ -36,7 +36,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ArtefactInfoType)
+            @Html.LabelFor(model => model.ArtefactInfoType, "Artefact Media Type")
         </dt>
 
         <dd>
@@ -54,62 +54,39 @@
 
         @if (Model.ArtefactInfoType == ArtefactInfoType.Text)
         {
-            <dt>
-                @Html.DisplayNameFor(model => model.File)
-            </dt>
-            <dd>
-                <text>Text</text>
-                @Html.DisplayFor(model => model.File)
-            </dd>
+
         }
-        else if (Model.ArtefactInfoType == ArtefactInfoType.Image)
+        else
         {
             <dt>
                 @Html.DisplayNameFor(model => model.File)
             </dt>
             if (fileUploadedBool == false)
             {
-                <dd>
-                    <text> No photo uploaded yet</text>
-                </dd>
+                    <dd>
+                       <text> No media file uploaded yet</text>
+                    </dd>
+            } else {
+                if (Model.ArtefactInfoType == ArtefactInfoType.Image) {
+                    <dd><img src="data:image;base64,@System.Convert.ToBase64String(Model.File)" width="160" height="160" /></dd>
+                }
+                else if (Model.ArtefactInfoType == ArtefactInfoType.Video) {
+                    <dd>
+                        <video width="320" height="240" controls="controls" preload="none" >
+                            <source src="data:video;base64,@System.Convert.ToBase64String(Model.File)" type="video/mp4" />
+                        </video>
+                    </dd>
+                }
+                else if (Model.ArtefactInfoType == ArtefactInfoType.Audio) {
+                    <dd>
+                    <audio controls="controls">
+                        <source src="data:audio;base64,@System.Convert.ToBase64String(Model.File)" type="audio/mp3" />
+                    </audio>
+                    </dd>
+                }
             }
-            else
-            {
-                <dd><img src="data:image;base64,@System.Convert.ToBase64String(Model.File)" width="160" height="160" /></dd>
-            }
 
-        }
-        else if (Model.ArtefactInfoType == ArtefactInfoType.Video)
-        {
-            <dt>
-                @Html.DisplayNameFor(model => model.File)
-            </dt>
-            if (fileUploadedBool == false)
-            {
-            <dd>
-                <text> No video uploaded yet</text><p></p>
 
-                <p>Test Example Video:</p>
-                <video width="320" height="240" controls>
-                    <source src="~/CSS/test_video.mp4" type="video/mp4">
-                </video>
-            </dd>
-            }
-            else
-            {
-            <dd>
-                @Html.DisplayFor(model => model.File)
-
-                <video width="320" height="240" controls>
-                    <source src="@Model.File" type="video/" + @Model.FileExtension>
-                </video>
-
-            </dd>
-
-            }
-        }
-        else if (Model.ArtefactInfoType == ArtefactInfoType.Audio)
-        {
 
         }
 
