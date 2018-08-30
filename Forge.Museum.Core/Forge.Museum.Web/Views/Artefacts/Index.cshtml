@@ -4,6 +4,8 @@
 @using Forge.Museum.BLL.Http;
 @using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Index";
@@ -15,8 +17,6 @@
 <p>
     @Html.ActionLink("Add Artefact", "Create")
 </p>
-
-
 @using (Html.BeginForm("Index", "Artefacts", FormMethod.Get))
 {
     <p>
@@ -24,86 +24,107 @@
         <input type="submit" value="Search" />
     </p>
 }
-<table class="table">
-    <tr>
-        <th>
-            @Html.ActionLink("ID#", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
-            @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
-            @Html.ActionLink("Acquisiton Date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
-            @Html.ActionLink("Category", "Index", new { sortOrder = ViewBag.CategorySortParm, currentFilter = ViewBag.CurrentFilter })
-        </th>
-        <th>
-            Length
-        </th>
-        <th>
-            Width
-        </th>
-        <th>
-            Height
-        </th>
-        <th></th>
-    </tr>
+<div class="content-box">
+    <div class="content-box-header">
+        <h3>All Artefacts</h3>
+        <ul class="content-box-tabs" style="display: block;">
+            <li><a href="#tab1" class="default-tab current">Results</a></li> <!-- href must be unique and match the id of target div -->
+            <li>
+                @Html.ActionLink("Create New Artefact", "Create")
+            </li>
 
-    @foreach (var item in Model)
+        </ul>
+    </div>
+
+    <div class="content-box-content" style="display: block;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.ActionLink("ID#", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Acquisiton Date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Category", "Index", new { sortOrder = ViewBag.CategorySortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        Length
+                    </th>
+                    <th>
+                        Width
+                    </th>
+                    <th>
+                        Height
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <div class="pagination-sm">
+                            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                            <!--    Page at(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of atModel.PageCount-->
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+            @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @item.AcquisitionDate.ToShortDateString()
-            </td>
-            <td>
-				@if(item.ArtefactCategory != null)
-				{
-					@Html.ActionLink(item.ArtefactCategory.Id.ToString() + ": " + item.ArtefactCategory.Name, "Details", "ArtefactCategories", new { id = item.ArtefactCategory.Id }, null)
-				}
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Measurement_Length)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Measurement_Width)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Measurement_Height)
-            </td>
-            <td>
-                <!-- Edit Button */ !-->
-                <a href="@Url.Action("Edit", "Artefacts",  new { id = item.Id })" class="btn btn-link">
-                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                </a>|
-                <!-- Details Button */ !-->
-                <a href="@Url.Action("Details", "Artefacts",  new { id = item.Id })" class="btn btn-link">
-                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                </a>|
-                <!-- Delete Button */ !-->
-                <a href="@Url.Action("Delete", "Artefacts",  new { id = item.Id })" class="btn btn-link">
-                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                </a>|
-                <a href="@Url.Action("Index", "ArtefactInfo",  new { artefactId = item.Id })" class="btn btn-link">
-                    <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
-                </a>
-            </td>
-        </tr>
-    }
-
-</table>
-<br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("Index",
-    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
-
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @item.AcquisitionDate.ToShortDateString()
+                </td>
+                <td>
+                    @if (item.ArtefactCategory != null)
+        {
+            @Html.ActionLink(item.ArtefactCategory.Id.ToString() + ": " + item.ArtefactCategory.Name, "Details", "ArtefactCategories", new { id = item.ArtefactCategory.Id }, null)
+}
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Measurement_Length)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Measurement_Width)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Measurement_Height)
+                </td>
+                <td>
+                    <!-- Edit Button */ !-->
+                    <a href="@Url.Action("Edit", "Artefacts",  new { id = item.Id })" class="btn btn-link">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    </a>|
+                    <!-- Details Button */ !-->
+                    <a href="@Url.Action("Details", "Artefacts",  new { id = item.Id })" class="btn btn-link">
+                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </a>|
+                    <!-- Delete Button */ !-->
+                    <a href="@Url.Action("Delete", "Artefacts",  new { id = item.Id })" class="btn btn-link">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </a>|
+                    <a href="@Url.Action("Index", "ArtefactInfo",  new { artefactId = item.Id })" class="btn btn-link">
+                        <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+                    </a>
+                </td>
+            </tr>
+}
+            </tbody>
+        </table>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-4">
         <h2>Artefact Categories</h2>

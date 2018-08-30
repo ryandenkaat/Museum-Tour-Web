@@ -1,5 +1,6 @@
 ﻿@model Forge.Museum.Interfaces.DataTransferObjects.Artefact.ArtefactCategoryDto
-
+<link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Delete";
 }
@@ -32,7 +33,8 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">

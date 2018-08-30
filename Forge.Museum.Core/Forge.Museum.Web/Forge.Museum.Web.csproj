@@ -232,6 +232,8 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\redland-museum-logo-wide.png" />
+    <Content Include="Content\Index.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="CSS\Navbar.css" />
     <Content Include="favicon.ico" />
@@ -243,6 +245,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\reset.css" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
