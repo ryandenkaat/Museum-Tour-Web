@@ -1,4 +1,4 @@
-﻿@model Forge.Museum.Interfaces.DataTransferObjects.Artefact.ArtefactCategoryDto
+﻿@model Forge.Museum.Interfaces.DataTransferObjects.Tour.TourDto
 <link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
 @{
@@ -8,7 +8,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Category #@Model.Id - @Model.Name</h4>
+    <h4>Tour #@Model.Id - @Model.Name</h4>
     <hr />
     <dl class="dl-horizontal">
 
@@ -32,21 +32,24 @@
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
-
         <dt>
-            @Html.LabelFor(model => model.Image, "Image:")
+            @Html.DisplayNameFor(model => model.AgeGroup)
         </dt>
-
-        @if (Model.Image == null || Model.Image.Length == 0)
-        {
-            <dd> No Image uploaded for this Category yet </dd>
-        }
-        else
-        {
-            <dd>
-                <img src="data:image;base64,@System.Convert.ToBase64String(Model.Image)" width="160" height="160" />
-            </dd>
-        }
+        <dd>
+            @Html.DisplayFor(model => model.AgeGroup)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Artefacts)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Artefacts)
+        </dd>
 
     </dl>
 </div>

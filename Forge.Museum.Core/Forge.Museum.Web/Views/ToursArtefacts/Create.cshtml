@@ -1,0 +1,67 @@
+﻿@model Forge.Museum.Interfaces.DataTransferObjects.Tour.TourDto
+<link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Create";
+
+    // Get Tour ID
+    string test = ViewBag.TourID;
+
+
+    var artefactDropdown = new List<SelectListItem>();
+    if (ViewBag.ArtefactList != null)
+    {
+        artefactDropdown = ViewBag.ArtefactList;
+    }
+    ViewBag.artefactList = artefactDropdown;
+
+
+    var tourDropdown = new List<SelectListItem>();
+    if (ViewBag.TourList != null)
+    {
+        tourDropdown = ViewBag.TourList;
+    }
+    ViewBag.tourList = tourDropdown;
+
+    ViewBag.selectedTourID = test;
+}
+
+<h2>Create</h2>
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>New Tour</h4>@test
+
+    <div class="form-group">
+        @Html.Label("Tour", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Tour", tourDropdown, new { htmlAttributes = new { @class = "form-control" } })
+            @*          @Html.ValidationMessageFor(model => model.ArtefactCategory, "", new { @class = "text-danger" })
+            *@
+        </div>
+    </div>
+
+    @Html.Hidden("tourId", test)
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Id, artefactDropdown, new { htmlAttributes = new { @class = "form-control" } })
+            @*          @Html.ValidationMessageFor(model => model.ArtefactCategory, "", new { @class = "text-danger" })
+            *@
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" new { tourId=@test } />
+        </div>
+    </div>
+</div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

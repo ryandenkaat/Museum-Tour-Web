@@ -1,5 +1,6 @@
 ﻿@model Forge.Museum.Interfaces.DataTransferObjects.Artefact.ArtefactDto
-
+<link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Details";
 }
@@ -43,9 +44,12 @@
 
         <dt>@Html.LabelFor(model => model.Image, "Main Image:")</dt>
 
-        @if (Model.Image == null || Model.Image.Length == 0) {
+        @if (Model.Image == null || Model.Image.Length == 0)
+        {
             <dd> No Image uploaded for this Artefact yet </dd>
-        } else {
+        }
+        else
+        {
             <dd>
                 <img src="data:image;base64,@System.Convert.ToBase64String(Model.Image)" width="160" height="160" />
             </dd>

@@ -62,8 +62,8 @@ namespace Forge.Museum.Web.Controllers
             var request = new HTTPrequest();
             List<ArtefactSimpleDto> artefactsList = new List<ArtefactSimpleDto>();
             ArtefactSimpleDto artefact = new ArtefactSimpleDto();
-
             List<SelectListItem> artefactDropdown = new List<SelectListItem>();
+            // Checks if page was access from Index of all MediaFiles, or Direct from a particular artefact
             if (artefact_Selected == true)
             {
                 artefact = await request.Get<ArtefactSimpleDto>("api/artefact/"+artefactId);
@@ -125,7 +125,7 @@ namespace Forge.Museum.Web.Controllers
                     if (ArtefactInfoFile != null && ArtefactInfoFile.ContentLength > 0)
                     {
                         artefactInfo.File = new byte[ArtefactInfoFile.ContentLength];
-                    ArtefactInfoFile.InputStream.Read(artefactInfo.File, 0, ArtefactInfoFile.ContentLength);
+                        ArtefactInfoFile.InputStream.Read(artefactInfo.File, 0, ArtefactInfoFile.ContentLength);
                         string fileExtension = Path.GetExtension(ArtefactInfoFile.FileName);
                         artefactInfo.FileExtension = fileExtension;
                     if (ArtefactInfoFile == null) {

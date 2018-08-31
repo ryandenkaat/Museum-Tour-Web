@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Forge.Museum.Interfaces.DataTransferObjects.Artefact.ArtefactSimpleDto>
+<link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+    int test = ViewBag.tourId;
+}
+
+<h2>Tours</h2>
+@test
+<p>
+    @Html.ActionLink("Create New", "Create", new { tourId = ViewBag.tourId })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            ID#
+        </th>
+        <th>
+            Name
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            <!-- Edit Button */ !-->
+            <a href="@Url.Action("Edit", "Tours",  new { id = item.Id })" class="btn btn-link">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            </a>|
+            <!-- Details Button */ !-->
+            <a href="@Url.Action("Details", "Tours",  new { id = item.Id })" class="btn btn-link">
+                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            </a>|
+            <!-- Delete Button */ !-->
+            <a href="@Url.Action("Delete", "Tours",  new { id = item.Id })" class="btn btn-link">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+            </a>
+        </td>
+    </tr>
+    }
+
+</table>

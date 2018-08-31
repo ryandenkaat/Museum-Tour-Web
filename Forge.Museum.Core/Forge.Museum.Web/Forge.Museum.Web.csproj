@@ -207,6 +207,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ToursArtefactsController.cs" />
+    <Compile Include="Controllers\ToursController.cs" />
     <Compile Include="Controllers\ArtefactCategoriesController.cs" />
     <Compile Include="Controllers\ArtefactInfoController.cs" />
     <Compile Include="Controllers\ArtefactsController.cs" />
@@ -316,6 +318,16 @@
     <Content Include="Views\Zones\Details.cshtml" />
     <Content Include="Views\Zones\Edit.cshtml" />
     <Content Include="Views\Zones\Index.cshtml" />
+    <Content Include="Views\Tours\Create.cshtml" />
+    <Content Include="Views\Tours\Delete.cshtml" />
+    <Content Include="Views\Tours\Details.cshtml" />
+    <Content Include="Views\Tours\Edit.cshtml" />
+    <Content Include="Views\Tours\Index.cshtml" />
+    <Content Include="Views\ToursArtefacts\Create.cshtml" />
+    <Content Include="Views\ToursArtefacts\Delete.cshtml" />
+    <Content Include="Views\ToursArtefacts\Details.cshtml" />
+    <Content Include="Views\ToursArtefacts\Edit.cshtml" />
+    <Content Include="Views\ToursArtefacts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
