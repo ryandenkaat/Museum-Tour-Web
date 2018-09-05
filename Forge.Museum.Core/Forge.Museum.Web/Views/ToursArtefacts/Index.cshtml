@@ -4,16 +4,19 @@
 
 @{
     ViewBag.Title = "Index";
-    int test = ViewBag.tourId;
+    int tourId = ViewBag.tourId;
+    string tourName = ViewBag.tourName;
+    var list = Model.ToList();
 }
-
-<h2>Tours</h2>
-@test
+<h2>Artefacts in Tour# @tourId - @tourName</h2>
 <p>
-    @Html.ActionLink("Create New", "Create", new { tourId = ViewBag.tourId })
+    @Html.ActionLink("Create New", "Create", new { tourId = tourId })
 </p>
 <table class="table">
     <tr>
+        <th>
+            Position
+        </th>
         <th>
             ID#
         </th>
@@ -23,30 +26,30 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in list)
     {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            <!-- Edit Button */ !-->
-            <a href="@Url.Action("Edit", "Tours",  new { id = item.Id })" class="btn btn-link">
-                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-            </a>|
-            <!-- Details Button */ !-->
-            <a href="@Url.Action("Details", "Tours",  new { id = item.Id })" class="btn btn-link">
-                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            </a>|
-            <!-- Delete Button */ !-->
-            <a href="@Url.Action("Delete", "Tours",  new { id = item.Id })" class="btn btn-link">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-            </a>
-        </td>
-    </tr>
+        <tr>
+            <td>
+                @list.IndexOf(item).ToString()
+                @Html.DisplayText(list.IndexOf(item).ToString())
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <!-- Edit Button */ !-->
+                <a href="@Url.Action("Edit", "ToursArtefacts",  new { artefactId = item.Id, tourId = tourId })" class="btn btn-link">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                </a>|
+                <!-- Delete Button */ !-->
+                <a href="@Url.Action("Delete", "Tours",  new { id = item.Id })" class="btn btn-link">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </a>
+            </td>
+        </tr>
     }
 
 </table>

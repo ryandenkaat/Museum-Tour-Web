@@ -42,12 +42,15 @@ namespace Forge.Museum.Web.Controllers
         {
             var request = new HTTPrequest();
             ViewBag.tourId = tourId;
-
             TourDto tour = await request.Get<TourDto>("api/tour/"+tourId);
+            ViewBag.tourName = tour.Name;
+
+
             //viewModel = await request.Get<List<TourDto>>("api/tour?tourId=" + tourId + "&pageNumber=0&numPerPage=500&isDeleted=false");
+            List<ArtefactSimpleDto> artefactList = tour.Artefacts;
+            ViewBag.artefactsList = artefactList;
 
-
-            List<ArtefactSimpleDto> viewModel = tour.Artefacts;
+            List<ArtefactSimpleDto> viewModel = artefactList;
             return View(viewModel);
         }
 
@@ -76,10 +79,12 @@ namespace Forge.Museum.Web.Controllers
             List<TourDto> tourList = new List<TourDto>();
             TourDto tour = new TourDto();
             List<SelectListItem> tourDropdown = new List<SelectListItem>();
+           
+            
             // Checks if page was access from Index of all MediaFiles, or Direct from a particular artefact
             if (tour_Selected == true)
             {
-                 tour = await request.Get<TourDto>("api/tour/" + tourId);
+                tour = await request.Get<TourDto>("api/tour/" + tourId);
                 if (tour == null)
                 {
                     return HttpNotFound();
@@ -96,7 +101,7 @@ namespace Forge.Museum.Web.Controllers
                     ViewBag.TourID = tour.Id.ToString();
                 }
             }
-            ViewBag.tourList = tourDropdown;
+            ViewBag.TourList = tourDropdown;
             //ARTEFACT CATEGORY DROPDOWN
             List<SelectListItem> artefactDropdown = new List<SelectListItem>();
             artefactDropdown = await PopulateArtefactDropdown();
@@ -112,20 +117,25 @@ namespace Forge.Museum.Web.Controllers
         public async Task<ActionResult> Create(TourDto tour, int? tourId, ArtefactSimpleDto artefact)
         {
             var request = new HTTPrequest();
-
-            string tourID = ViewBag.SelectedTourID;
+            List<SelectListItem> artefactDropdown = new List<SelectListItem>();
+            artefactDropdown = await PopulateArtefactDropdown();
+            ViewBag.ArtefactList = artefactDropdown;
+            ViewBag.TourID = tourId;
             tour = await request.Get<TourDto>("api/tour/"+tourId);
             ArtefactSimpleDto newTourArtefact = await request.Get<ArtefactSimpleDto>("api/artefact/" + artefact.Id.ToString());
             //List<ArtefactSimpleDto> = 
-            tour.Artefacts.Insert(0, newTourArtefact);
+            List<ArtefactSimpleDto> newTourArtefactList = tour.Artefacts;
+
            // tour.Artefacts.Add(newTourArtefact);
             if(tourId != null && artefact.Id != null)
             {
+                newTourArtefactList.Add(newTourArtefact);
+                tour.Artefacts = newTourArtefactList.ToList();
                 var request2 = new HTTPrequest();
 
-                tour = await request2.Put<TourDto>("api/tour", tour);
+                await request2.Put<TourDto>("api/tour", tour);
                 //    return RedirectToAction("Index");
-                return RedirectToAction("Index", "Tours");
+                return RedirectToAction("Index", "ToursArtefacts", new { tourId = tourId });
 
             }
             //return View(tour);
@@ -134,36 +144,64 @@ namespace Forge.Museum.Web.Controllers
         }
 
         // GET: TourDtoes/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit(int? artefactId, int? tourId)
         {
+            bool tour_Selected = tourId.HasValue;
+            ViewBag.TourSelected = tour_Selected;
+            ViewBag.originalArtefactId = artefactId;
+
+            ViewBag.ArtefactId = artefactId;
             var request = new HTTPrequest();
-            if (id == null)
+            if (artefactId == null || tourId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TourDto tour = await request.Get<TourDto>("api/tour/" + id);
+            TourDto tour = await request.Get<TourDto>("api/tour/" + tourId);
             if (tour == null)
             {
                 return HttpNotFound();
             }
-            List<ArtefactSimpleDto> artefactsList = new List<ArtefactSimpleDto>();
-            ArtefactSimpleDto artefact = new ArtefactSimpleDto();
 
-            List<SelectListItem> artefactDropdown = new List<SelectListItem>();
-            artefactsList = await request.Get<List<ArtefactSimpleDto>>("api/artefact?pageNumber=0&numPerPage=5-0&isDeleted=false");
-            if (artefactsList != null && artefactsList.Any())
+           
+            List<TourDto> tourList = new List<TourDto>();
+            List<SelectListItem> tourDropdown = new List<SelectListItem>();
+            // Checks if page was access from Index of all MediaFiles, or Direct from a particular artefact
+            if (tour_Selected == true)
             {
-                foreach (var artefacts in artefactsList)
+                tour = await request.Get<TourDto>("api/tour/" + tourId);
+                if (tour == null)
                 {
-                    artefactDropdown.Add(new SelectListItem()
+                    return HttpNotFound();
+                }
+                else
+                {
+                    tourDropdown.Add(new SelectListItem()
                     {
-                        Text = artefacts.Id + ":" + artefacts.Name,
-                        Value = artefacts.Id.ToString()
+                        Text = tour.Name,
+                        Value = tour.Id.ToString()
+
                     });
+                    ViewBag.TourName = tour.Name;
+                    ViewBag.TourID = tour.Id.ToString();
                 }
             }
+            ViewBag.TourList = tourDropdown;
 
+            var request2 = new HTTPrequest();
+            ArtefactSimpleDto artefact = await request2.Get<ArtefactSimpleDto>("api/artefact/" + artefactId);
+            ViewBag.artefact = artefact;
+
+
+            List<ArtefactSimpleDto> tourArtefactList = new List<ArtefactSimpleDto>();
+            tourArtefactList = tour.Artefacts;
+
+
+            //ARTEFACT CATEGORY DROPDOWN
+            List<SelectListItem> artefactDropdown = new List<SelectListItem>();
+            artefactDropdown = await PopulateArtefactDropdown();
             ViewBag.ArtefactList = artefactDropdown;
+
+
             return View(tour);
         }
 
@@ -172,19 +210,30 @@ namespace Forge.Museum.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(TourDto tour, HttpPostedFileBase imageFile)
+        public async Task<ActionResult> Edit(TourDto tour, int? tourId, ArtefactSimpleDto artefact, int? originalArtefactId)
         {
             var request = new HTTPrequest();
-            TourDto tour_editted = await request.Get<TourDto>("api/tour/" + tour.Id);
+            TourDto tour_editted = await request.Get<TourDto>("api/tour/" + tourId);
+            ArtefactSimpleDto newArtefact = await request.Get<ArtefactSimpleDto>("api/artefact/" + artefact.Id);
+            ArtefactSimpleDto originalArtefact = await request.Get<ArtefactSimpleDto>("api/artefact/" + originalArtefactId);
+
+            List<ArtefactSimpleDto> artefactList = tour_editted.Artefacts;
+            int index = artefactList.FindIndex(a => a.Id == originalArtefact.Id);
+            artefactList.RemoveAt(index);
+            artefactList.Insert(index, newArtefact);
+            tour_editted.Artefacts = artefactList;
+            await request.Put<TourDto>("api/tour", tour_editted);
+
+
             if (ModelState.IsValid) {
-                tour_editted.Name = tour.Name;
-                tour_editted.Description = tour.Description;
-                tour_editted.AgeGroup = tour.AgeGroup;
+                tour_editted.Artefacts = artefactList;
                 tour_editted.ModifiedDate = DateTime.Now;
                 await request.Put<TourDto>("api/tour", tour_editted);
                 return RedirectToAction("Index");
             }
-            return View(tour);
+            //return View(tour);
+            return RedirectToAction("Index", "ToursArtefacts", new { tourId = tourId });
+
         }
 
         // GET: TourDtoes/Delete/5

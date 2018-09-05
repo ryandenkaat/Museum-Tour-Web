@@ -5,7 +5,7 @@
     ViewBag.Title = "Create";
 
     // Get Tour ID
-    string test = ViewBag.TourID;
+    string tourId = ViewBag.TourID;
 
 
     var artefactDropdown = new List<SelectListItem>();
@@ -23,7 +23,6 @@
     }
     ViewBag.tourList = tourDropdown;
 
-    ViewBag.selectedTourID = test;
 }
 
 <h2>Create</h2>
@@ -32,7 +31,7 @@
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <h4>New Tour</h4>@test
+    <h4>New Tour</h4>@tourId
 
     <div class="form-group">
         @Html.Label("Tour", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -43,7 +42,7 @@
         </div>
     </div>
 
-    @Html.Hidden("tourId", test)
+    @Html.Hidden("tourId", tourId)
 
 
     <div class="form-group">
@@ -57,7 +56,7 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" new { tourId=@test } />
+            <input type="submit" value="Create" class="btn btn-default" new { tourId=@tourId />
         </div>
     </div>
 </div>

@@ -4,22 +4,28 @@
 @{
     ViewBag.Title = "Edit";
 
-    var artefactDropdown = new List<SelectListItem>();
+    // Get Tour ID
+    string tourId = ViewBag.TourID;
+    string originalArtefactId = ViewBag.orignalArtefactId;
+    string newArtefactId;
 
+
+    var artefactDropdown = new List<SelectListItem>();
     if (ViewBag.ArtefactList != null)
     {
         artefactDropdown = ViewBag.ArtefactList;
     }
+    ViewBag.artefactList = artefactDropdown;
 
 
-    var ageGroups = new List<SelectListItem>()
+    var tourDropdown = new List<SelectListItem>();
+    if (ViewBag.TourList != null)
     {
-        new SelectListItem { Text = "Toddler", Value = "0" },
-        new SelectListItem { Text = "Child", Value = "1" },
-        new SelectListItem { Text = "Teenager", Value = "2" },
-        new SelectListItem { Text = "Adult", Value = "3" },
-        new SelectListItem { Text = "Senior Citizen", Value = "4" }
-        };
+        tourDropdown = ViewBag.TourList;
+    }
+    ViewBag.tourList = tourDropdown;
+
+    ViewBag.selectedTourID = tourId;
 
 }
 
@@ -29,41 +35,29 @@
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <h4>Category #@Model.Id - @Model.Name</h4>
+    <h4>Tour  - </h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Id)
+
+
+    <div class="form-group">
+        @Html.Label("Tour", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Tour", tourDropdown, new { htmlAttributes = new { @class = "form-control" } })
+            @*          @Html.ValidationMessageFor(model => model.ArtefactCategory, "", new { @class = "text-danger" })
+            *@
+        </div>
+    </div>
+
+    @Html.Hidden("tourId", tourId)
+    @Html.Hidden("originalArtefactId", originalArtefactId)
+
+
 
     <div class="form-group">
         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.AgeGroup, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.AgeGroup, ageGroups, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.AgeGroup, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Artefacts, "Artefact", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(m => m.Artefacts, artefactDropdown, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.DropDownListFor(m => m.Id, artefactDropdown, new { htmlAttributes = new { @class = "form-control" } })
             @*          @Html.ValidationMessageFor(model => model.ArtefactCategory, "", new { @class = "text-danger" })
             *@
         </div>
@@ -71,7 +65,7 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
+            <input type="submit" value="Save" class="btn btn-default" new { tourId=@tourId } />
         </div>
     </div>
 </div>
