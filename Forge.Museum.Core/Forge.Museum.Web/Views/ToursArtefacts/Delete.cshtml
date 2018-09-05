@@ -18,7 +18,7 @@
     <dl class="dl-horizontal">
         <dt>
             @Html.Label("Tour ID: ", tourId)
-            Tour ID: 
+            Tour ID:
         </dt>
         <dd>
             @tourId
@@ -49,7 +49,13 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
         </div>
     }
+    <div>
+        <a href="@Url.Action("Index", "ToursArtefacts",  new { tourId = Model.Id })" class="btn btn-link">
+            <span class="text-left" aria-hidden="true">Back to List</span>
+        </a>
+
+    </div>
+
 </div>

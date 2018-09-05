@@ -10,7 +10,7 @@
 }
 <h2>Artefacts in Tour# @tourId - @tourName</h2>
 <p>
-    @Html.ActionLink("Create New", "Create", new { tourId = tourId })
+    @Html.ActionLink("Add Artefact to Tour:" + @tourName, "Create", new { tourId = tourId })
 </p>
 <table class="table">
     <tr>
@@ -53,3 +53,10 @@
     }
 
 </table>
+<div>
+    <a href="@Url.Action("Index", "Tours")" class="btn btn-link">
+        <span class="text-left" aria-hidden="true">Back to List of All Tours</span>
+    </a>
+
+</div>
+
