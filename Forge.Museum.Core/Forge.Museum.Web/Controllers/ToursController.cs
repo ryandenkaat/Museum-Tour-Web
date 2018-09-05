@@ -143,17 +143,12 @@ namespace Forge.Museum.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            try
-            {
                 var request = new HTTPrequest();
-                await request.Delete("api/tour/" + id);
+                TourDto tour = await request.Get<TourDto>("api/tour/" + id);
+                tour.IsDeleted = true;
+                await request.Put<ArtefactInfoDto>("api/tour", tour);
+                await request.Delete("api/tour/" + id.ToString());
                 return RedirectToAction("Index");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
         }
 
         protected override void Dispose(bool disposing)

@@ -1,7 +1,16 @@
-﻿@model Forge.Museum.API.Models.ArtefactInfo
-
+﻿@using Forge.Museum.Interfaces.Enumerators;
+@model Forge.Museum.Interfaces.DataTransferObjects.Artefact.ArtefactInfoDto
 @{
     ViewBag.Title = "Delete";
+    bool fileUploadedBool;
+    if (Model.File != null && Model.File.Length != 0)
+    {
+        fileUploadedBool = true;
+    }
+    else
+    {
+        fileUploadedBool = false;
+    }
 }
 
 <h2>Delete</h2>
@@ -20,15 +29,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.File)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.File)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FileExtension)
+            @Html.LabelFor(model => model.FileExtension, "File Extension")
         </dt>
 
         <dd>
@@ -36,7 +37,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ArtefactInfoType)
+            @Html.LabelFor(model => model.ArtefactInfoType, "Artefact Media Type")
         </dt>
 
         <dd>
@@ -50,6 +51,50 @@
         <dd>
             @Html.DisplayFor(model => model.Content)
         </dd>
+
+        <dd>
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+
+        @if (Model.ArtefactInfoType == ArtefactInfoType.Text)
+        {
+
+        }
+        else
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.File)
+            </dt>
+            if (fileUploadedBool == false)
+            {
+                <dd>
+                    <text> No media file uploaded yet</text>
+                </dd>
+            }
+            else
+            {
+                if (Model.ArtefactInfoType == ArtefactInfoType.Image)
+                {
+                    <dd><img src="data:image;base64,@System.Convert.ToBase64String(Model.File)" width="160" height="160" /></dd>
+                }
+                else if (Model.ArtefactInfoType == ArtefactInfoType.Video)
+                {
+                    <dd>
+                        <video width="320" height="240" controls="controls" preload="none">
+                            <source src="data:video;base64,@System.Convert.ToBase64String(Model.File)" type="video/mp4" />
+                        </video>
+                    </dd>
+                }
+                else if (Model.ArtefactInfoType == ArtefactInfoType.Audio)
+                {
+                    <dd>
+                        <audio controls="controls">
+                            <source src="data:audio;base64,@System.Convert.ToBase64String(Model.File)" type="audio/mp3" />
+                        </audio>
+                    </dd>
+                }
+            }
+        }
 
     </dl>
 

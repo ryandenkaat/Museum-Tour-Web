@@ -211,10 +211,20 @@ namespace Forge.Museum.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            ArtefactInfo artefactInfo = await db.ArtefactInfoes.FindAsync(id);
-            db.ArtefactInfoes.Remove(artefactInfo);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            try
+            {
+                var request = new HTTPrequest();
+                ArtefactInfoDto artefactInfo = await request.Get<ArtefactInfoDto>("api/artefactInfo/" + id);
+                artefactInfo.IsDeleted = true;
+                await request.Put<ArtefactInfoDto>("api/artefactInfo", artefactInfo);
+                await request.Delete("api/artefactInfo/" + id.ToString());
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         protected override void Dispose(bool disposing)
