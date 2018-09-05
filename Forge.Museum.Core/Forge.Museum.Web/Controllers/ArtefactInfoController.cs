@@ -144,11 +144,13 @@ namespace Forge.Museum.Web.Controllers
         // GET: ArtefactInfo/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            var request = new HTTPrequest();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ArtefactInfo artefactInfo = await db.ArtefactInfoes.FindAsync(id);
+            ArtefactInfoDto artefactInfo = await request.Get<ArtefactInfoDto>("api/artefactInfo/" + id);
+
             if (artefactInfo == null)
             {
                 return HttpNotFound();
@@ -161,12 +163,28 @@ namespace Forge.Museum.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Description,File,FileExtension,ArtefactInfoType,Content")] ArtefactInfo artefactInfo)
+        public async Task<ActionResult> Edit(ArtefactInfoDto artefactInfo, HttpPostedFileBase ArtefactInfoFile)
         {
+            var request = new HTTPrequest();
+            ArtefactInfoDto artefactInfo_editted = await request.Get<ArtefactInfoDto>("api/artefactInfo/" + artefactInfo.Id.ToString());
+
             if (ModelState.IsValid)
             {
-                db.Entry(artefactInfo).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                artefactInfo_editted.Content = artefactInfo.Content;
+                artefactInfo_editted.Description = artefactInfo.Description;
+                artefactInfo_editted.ArtefactInfoType = artefactInfo.ArtefactInfoType;
+                if (ArtefactInfoFile != null)
+                {
+                    HttpPostedFileBase mediaFile = Request.Files["ArtefactInfoFile"];
+
+                    artefactInfo_editted.File = new byte[mediaFile.ContentLength];
+                    mediaFile.InputStream.Read(artefactInfo_editted.File, 0, mediaFile.ContentLength);
+                    string fileExtension = Path.GetExtension(mediaFile.FileName);
+                    artefactInfo_editted.FileExtension = fileExtension;
+                }
+
+
+                artefactInfo = await request.Put<ArtefactInfoDto>("api/artefactInfo", artefactInfo_editted);
                 return RedirectToAction("Index");
             }
             return View(artefactInfo);
