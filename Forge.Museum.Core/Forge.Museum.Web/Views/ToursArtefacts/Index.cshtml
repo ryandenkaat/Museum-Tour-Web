@@ -45,7 +45,7 @@
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                 </a>|
                 <!-- Delete Button */ !-->
-                <a href="@Url.Action("Delete", "Tours",  new { id = item.Id })" class="btn btn-link">
+                <a href="@Url.Action("Delete", "ToursArtefacts",  new { artefactId = item.Id, tourId = tourId })" class="btn btn-link">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </a>
             </td>
