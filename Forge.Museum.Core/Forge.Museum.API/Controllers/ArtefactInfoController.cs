@@ -69,7 +69,7 @@ namespace Forge.Museum.API.Controllers
         {
             try
             {
-                return new ArtefactCategoryHandler().Delete(artefactInfoId);
+                return new ArtefactInfoHandler().Delete(artefactInfoId);
             }
             catch (Exception ex)
             {
