@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Forge.Museum.BLL.Http;
 using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
+using Forge.Museum.Interfaces.DataTransferObjects.Exhibition;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,17 @@ namespace Forge.Museum.Web.Controllers
             int artefactInfoCount = artefactInfoMasterList.Count;
             ViewBag.TotalArtefactContentEntries = artefactInfoCount;
 
+            //Get list of Exibitions and pass Count of Artefact Entires
+            List<ExhibitionDto> exhibitionsMasterList = await GetExhibitions();
+            List<ExhibitionDto> futureExhibitions = exhibitionsMasterList.Where(e => e.StartDate >= DateTime.Today).ToList().OrderBy(e => e.StartDate).ToList();
+            int exhibitionCountFuture = futureExhibitions.Count();
+            ExhibitionDto nextExhibition = futureExhibitions.ElementAt(0);
+            ViewBag.FutureExhibitionCount = exhibitionCountFuture;
+            ViewBag.NextExhibitionId = nextExhibition.Id;
+            ViewBag.NextExhibitionName = nextExhibition.Name;
+            ViewBag.NextExhibitionStart = nextExhibition.StartDate.ToShortDateString();
+
+
 
             return View();
 
@@ -45,6 +57,15 @@ namespace Forge.Museum.Web.Controllers
             List<ArtefactInfoDto> artefactInfoMasterList = await request.Get<List<ArtefactInfoDto>>("api/artefactInfo?pageNumber=0&numPerPage=99999&isDeleted=false");
             return artefactInfoMasterList;
         }
+
+
+        public async Task<List<ExhibitionDto>> GetExhibitions()
+        {
+            var request = new HTTPrequest();
+            List<ExhibitionDto> exhibitionsMasterList = await request.Get<List<ExhibitionDto>>("api/exhibition?pageNumber=0&numPerPage=99999&isDeleted=false");
+            return exhibitionsMasterList;
+        }
+
 
         public ActionResult About()
         {
