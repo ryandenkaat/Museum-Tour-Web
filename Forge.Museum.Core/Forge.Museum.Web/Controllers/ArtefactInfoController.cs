@@ -173,10 +173,12 @@ namespace Forge.Museum.Web.Controllers
 
             ArtefactInfoDto newArtefactInfo = new ArtefactInfoDto();
             newArtefactInfo.Id = artefactInfo.Id;
+            newArtefactInfo.Artefact = artefactInfo.Artefact;
             newArtefactInfo.ArtefactInfoType = artefactInfo.ArtefactInfoType;
             newArtefactInfo.CreatedDate = DateTime.Now;
             newArtefactInfo.ModifiedDate = DateTime.Now;
             newArtefactInfo.Description = artefactInfo.Description;
+            // need to parse apostrophes out
             newArtefactInfo.Content = artefactInfo.Content;
 
             if (ModelState.IsValid) { 
@@ -193,9 +195,8 @@ namespace Forge.Museum.Web.Controllers
                         throw new ArgumentException("file");
                     }
                 }
-                var request2 = new HTTPrequest();
 
-                artefactInfo = await request2.Post<ArtefactInfoDto>("api/artefactInfo", artefactInfo);
+                await request.Post<ArtefactInfoDto>("api/artefactInfo", artefactInfo);
 
                 return RedirectToAction("Index");
             }

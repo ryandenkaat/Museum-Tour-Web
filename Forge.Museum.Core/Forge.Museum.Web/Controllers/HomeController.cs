@@ -39,11 +39,21 @@ namespace Forge.Museum.Web.Controllers
             List<ExhibitionDto> exhibitionsMasterList = await GetExhibitions();
             List<ExhibitionDto> futureExhibitions = exhibitionsMasterList.Where(e => e.StartDate >= DateTime.Today).ToList().OrderBy(e => e.StartDate).ToList();
             int exhibitionCountFuture = futureExhibitions.Count();
-            ExhibitionDto nextExhibition = futureExhibitions.ElementAt(0);
-            ViewBag.FutureExhibitionCount = exhibitionCountFuture;
-            ViewBag.NextExhibitionId = nextExhibition.Id;
-            ViewBag.NextExhibitionName = nextExhibition.Name;
-            ViewBag.NextExhibitionStart = nextExhibition.StartDate.ToShortDateString();
+            ExhibitionDto nextExhibition;
+            if (exhibitionCountFuture > 0)
+            {
+                nextExhibition = futureExhibitions.ElementAt(0);
+                ViewBag.FutureExhibitionCount = exhibitionCountFuture;
+                ViewBag.NextExhibitionId = nextExhibition.Id;
+                ViewBag.NextExhibitionName = nextExhibition.Name;
+                ViewBag.NextExhibitionStart = nextExhibition.StartDate.ToShortDateString();
+            } else
+            {
+                nextExhibition = null;
+                ViewBag.FutureExhibitionCount = 0;
+
+            }
+
 
 
 
