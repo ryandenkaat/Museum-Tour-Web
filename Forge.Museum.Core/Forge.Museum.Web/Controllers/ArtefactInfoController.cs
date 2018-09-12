@@ -13,6 +13,7 @@ using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
 using Forge.Museum.BLL.Http;
 using System.IO;
 using System.Net.Http;
+using PagedList;
 
 namespace Forge.Museum.Web.Controllers
 {
@@ -21,20 +22,80 @@ namespace Forge.Museum.Web.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: ArtefactInfo
-        public async Task<ActionResult> Index(int? artefactId)
+        public async Task<ActionResult> Index(int? artefactId, string sortOrder, string currentFilter, string searchString, int? page)
         {
-            var request = new HTTPrequest();
+            var requestArtefact = new HTTPrequest();
+            var requestArtefactsInfoList = new HTTPrequest();
+
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewBag.NameSortParm = sortOrder == "Name" ? "name_desc" : "Name";
+            ViewBag.DescriptionSortParm = sortOrder == "Description" ? "description_desc" : "Description";
+            ViewBag.TypeSortParm = sortOrder == "Type" ? "type_desc" : "Type";
+
             ViewBag.ArtefactID = artefactId;
-            List<ArtefactInfoDto> viewModel = new List<ArtefactInfoDto>();
+            // Retrives a list of All Artefacts if user has not navaigated through a particular Artefact Id 
+            List<ArtefactInfoDto> artefactContentMasterList = new List<ArtefactInfoDto>();
             if (artefactId == null)
             {
-                viewModel = await request.Get<List<ArtefactInfoDto>>("api/artefactInfo?pageNumber=0&numPerPage=500&isDeleted=false");
+                artefactContentMasterList = await requestArtefactsInfoList.Get<List<ArtefactInfoDto>>("api/artefactInfo?pageNumber=0&numPerPage=500&isDeleted=false");
             } else
             {
-                viewModel = await request.Get<List<ArtefactInfoDto>>("api/artefactInfo?artefactId="+artefactId+"&pageNumber=0&numPerPage=500&isDeleted=false");
+                artefactContentMasterList = await requestArtefactsInfoList.Get<List<ArtefactInfoDto>>("api/artefactInfo?artefactId="+artefactId+"&pageNumber=0&numPerPage=500&isDeleted=false");
+                ArtefactDto artefact = await requestArtefact.Get<ArtefactDto>("api/artefact/" + artefactId);
+                ViewBag.ArtefactName = artefact.Name;
             }
-            return View(viewModel);
+            IEnumerable<ArtefactInfoDto> artefactContentFiltered = artefactContentMasterList.ToList();
 
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                artefactContentFiltered = artefactContentFiltered.Where(a => a.Description.Contains(searchString));
+            }
+
+            var artefactsContent = artefactContentFiltered;
+
+            switch (sortOrder)
+            {
+                case "id_desc":
+                    artefactsContent = artefactsContent.OrderByDescending(a => a.Id);
+                    break;
+                case "Description":
+                    artefactsContent = artefactsContent.OrderBy(a => a.Description);
+                    break;
+                case "description_desc":
+                    artefactsContent = artefactsContent.OrderByDescending(a => a.Description);
+                    break;
+                case "Name":
+                    artefactsContent = artefactsContent.OrderBy(a => a.Artefact.Name);
+                    break;
+                case "name_desc":
+                    artefactsContent = artefactsContent.OrderByDescending(a => a.Artefact.Name);
+                    break;
+                case "Type":
+                    artefactsContent = artefactsContent.OrderBy(a => a.ArtefactInfoType);
+                    break;
+                case "type_desc":
+                    artefactsContent = artefactsContent.OrderByDescending(a => a.ArtefactInfoType);
+                    break;
+                default:
+                    artefactsContent = artefactsContent.OrderBy(a => a.Id);
+                    break;
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(artefactsContent.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: ArtefactInfo/Details/5

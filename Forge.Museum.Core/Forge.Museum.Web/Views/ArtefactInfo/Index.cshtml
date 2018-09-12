@@ -1,9 +1,17 @@
-﻿@model IEnumerable<Forge.Museum.Interfaces.DataTransferObjects.Artefact.ArtefactInfoDto>
+﻿@model PagedList.IPagedList<ArtefactInfoDto>
+@using PagedList.Mvc;
+@using Forge.Museum.BLL.Http;
+@using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
 <link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Index";
+    if (ViewBag.ArtefactID != null)
+    {
+        ViewBag.ContentBoxHeader = ViewBag.ArtefactID;
+    }
+
 }
 
 <h2>Artefact Content</h2>
@@ -11,45 +19,86 @@
 <p>
     @Html.ActionLink("Add New Content for Artefact", "Create", new { artefactId = ViewBag.ArtefactID })
 </p>
-<table class="table">
-    <tr>
 
-        <th>
-            ID#
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Artefact)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ArtefactInfoType)
-        </th>
-        <th></th>
-    </tr>
+@using (Html.BeginForm("Index", "ArtefactInfo", FormMethod.Get))
+{
+    <p>
+        Search by Description: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.ActionLink(item.Artefact.Id.ToString() + ": " + item.Artefact.Name, "Details", "Artefacts", new { id = item.Artefact.Id }, null)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ArtefactInfoType)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            </td>
-        </tr>
-    }
+<div class="content-box">
+    <div class="content-box-header">
+        @if (ViewBag.ArtefactID == null)
+        {
+            <h3>Artefact Content for: All Artefacts </h3>
+        }
+        else
+        {
+            <h3>Artefact Content for: Artefact #@ViewBag.ContentBoxHeader - @ViewBag.ArtefactName </h3>
+        }
+        <ul class="content-box-tabs" style="display: block;">
+            <li><a href="#tab1" class="default-tab current">Results</a></li> <!-- href must be unique and match the id of target div -->
+            <li>
+                @Html.ActionLink("Add New Content", "Create")
+            </li>
+        </ul>
+    </div>
 
-</table>
+    <div class="content-box-content" style="display: block;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.ActionLink("ID#", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Description", "Index", new { sortOrder = ViewBag.DescriptionSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Type", "Index", new { sortOrder = ViewBag.TypeSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <div class="pagination-sm">
+                            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.ActionLink(item.Artefact.Id.ToString() + ": " + item.Artefact.Name, "Details", "Artefacts", new { id = item.Artefact.Id }, null)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ArtefactInfoType)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

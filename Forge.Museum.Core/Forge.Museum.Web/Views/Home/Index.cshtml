@@ -2,32 +2,46 @@
 <link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Home Page";
+
+    //    int numberOfArtefact = ViewBag.TotalArtefacts;
+
 }
+<h2>REDLANDS MUSEUM Inc.</h2>
+<h3>Display Information and Guidance System</h3>
+<h3>Content Maintenance Dasboard</h3>
 
-<div class="jumbotron">
-    <h1>Management Portal</h1>
-    <p class="lead">Content management portal for authorised staff members of the Redland's Museum.</p>
-    <p><a href="~/Account/Login" class="btn btn-primary btn-lg">Login &raquo;</a></p>
+<div class="content-box column-left">
+    <div class="content-box-header">
+        <h3>Artefacts</h3>
+    </div>
+    <div class="content-box-content" style="display: block">
+        <div class="tab-content default-tab" style="display: block;">
+            <h4>Total Artefacts: </h4>
+            <p>Total Artefacts: @ViewBag.TotalArtefacts</p>
+            <p>Total Artefact Content Entires: @ViewBag.TotalArtefactContentEntries</p>
+
+            <p><a class="btn btn-default" href="~/Artefacts/">View all &raquo;</a></p>
+        </div>
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+<div class="content-box column-right">
+    <div class="content-box-header">
+        <h3>Artefacts</h3>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="content-box-content" style="display: block">
+
+        <div class="tab-content default-tab" style="display: block;">
+            <h4>Recents: </h4>
+            <p>Most Recently Editted Artefact: #@ViewBag.mostRecentArtefactId @ViewBag.mostRecentArtefactName</p>
+            <p>Last Editted: @ViewBag.mostRecentArtefactModDate</p>
+
+            <p><a class="btn btn-default" href="~/Artefacts/Details/@ViewBag.mostRecentArtefactId">View Artefact &raquo;</a></p>
+        </div>
     </div>
 </div>
+<div class="clear"></div>
+
+<p><a href="~/Account/Login" class="btn btn-primary btn-lg">Login &raquo;</a></p>
+
+

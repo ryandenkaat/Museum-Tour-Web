@@ -20,7 +20,7 @@
 @using (Html.BeginForm("Index", "Artefacts", FormMethod.Get))
 {
     <p>
-        Find by name: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        Search by Name: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
         <input type="submit" value="Search" />
     </p>
 }
@@ -75,51 +75,49 @@
                 </tr>
             </tfoot>
             <tbody>
-            @foreach (var item in Model)
-    {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @item.AcquisitionDate.ToShortDateString()
-                </td>
-                <td>
-                    @if (item.ArtefactCategory != null)
-        {
-            @Html.ActionLink(item.ArtefactCategory.Id.ToString() + ": " + item.ArtefactCategory.Name, "Details", "ArtefactCategories", new { id = item.ArtefactCategory.Id }, null)
-}
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Measurement_Length)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Measurement_Width)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Measurement_Height)
-                </td>
-                <td>
-                    <!-- Edit Button */ !-->
-                    <a href="@Url.Action("Edit", "Artefacts",  new { id = item.Id })" class="btn btn-link">
-                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                    </a>|
-                    <!-- Details Button */ !-->
-                    <a href="@Url.Action("Details", "Artefacts",  new { id = item.Id })" class="btn btn-link">
-                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                    </a>|
-                    <!-- Delete Button */ !-->
-                    <a href="@Url.Action("Delete", "Artefacts",  new { id = item.Id })" class="btn btn-link">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                    </a>|
-                    <a href="@Url.Action("Index", "ArtefactInfo",  new { artefactId = item.Id })" class="btn btn-link">
-                        <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
-                    </a>
-                </td>
-            </tr>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @item.AcquisitionDate.ToShortDateString()
+                    </td>
+                    <td>
+                        @if (item.ArtefactCategory != null) {
+                            @Html.ActionLink(item.ArtefactCategory.Id.ToString() + ": " + item.ArtefactCategory.Name, "Details", "ArtefactCategories", new { id = item.ArtefactCategory.Id }, null)
+                          }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Measurement_Length)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Measurement_Width)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Measurement_Height)
+                    </td>
+                    <td>
+                        <!-- Edit Button */ !-->
+                        <a href="@Url.Action("Edit", "Artefacts",  new { id = item.Id })" class="btn btn-link">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </a>|
+                        <!-- Details Button */ !-->
+                        <a href="@Url.Action("Details", "Artefacts",  new { id = item.Id })" class="btn btn-link">
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                        </a>|
+                        <!-- Delete Button */ !-->
+                        <a href="@Url.Action("Delete", "Artefacts",  new { id = item.Id })" class="btn btn-link">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>|
+                        <a href="@Url.Action("Index", "ArtefactInfo",  new { artefactId = item.Id })" class="btn btn-link">
+                            <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                </tr>
 }
             </tbody>
         </table>

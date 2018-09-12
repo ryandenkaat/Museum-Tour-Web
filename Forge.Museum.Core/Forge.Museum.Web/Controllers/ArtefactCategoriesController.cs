@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using Forge.Museum.BLL.Http;
 using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
 using Forge.Museum.Web.Models;
+using PagedList;
 
 namespace Forge.Museum.Web.Controllers
 {
@@ -18,13 +19,53 @@ namespace Forge.Museum.Web.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: ArtefactCategoryDtoes
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var request = new HTTPrequest();
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewBag.NameSortParm = sortOrder == "Name" ? "name_desc" : "Name";
+            List<ArtefactCategoryDto> categoryMasterList = await request.Get<List<ArtefactCategoryDto>>("api/artefactCatergory?pageNumber=0&numPerPage=500&isDeleted=false");
+            IEnumerable<ArtefactCategoryDto> categoriesFiltered = categoryMasterList.ToList();
 
-            List<ArtefactCategoryDto> viewModel = await request.Get<List<ArtefactCategoryDto>>("api/artefactCatergory?pageNumber=0&numPerPage=500&isDeleted=false");
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
 
-            return View(viewModel);
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                categoriesFiltered = categoriesFiltered.Where(a => a.Name.Contains(searchString));
+            }
+
+            var categories = categoriesFiltered;
+
+            switch (sortOrder)
+            {
+                case "id_desc":
+                    categories = categories.OrderByDescending(a => a.Id);
+                    break;
+                case "Name":
+                    categories = categories.OrderBy(a => a.Name);
+                    break;
+                case "name_desc":
+                    categories = categories.OrderByDescending(a => a.Name);
+                    break;
+                default:
+                    categories = categories.OrderBy(a => a.Id);
+                    break;
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(categories.ToPagedList(pageNumber, pageSize));
+
         }
 
         // GET: ArtefactCategoryDtoes/Details/5

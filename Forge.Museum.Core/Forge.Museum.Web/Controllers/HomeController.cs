@@ -1,4 +1,7 @@
-﻿using System;
+﻿using System.Threading.Tasks;
+using Forge.Museum.BLL.Http;
+using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +11,39 @@ namespace Forge.Museum.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
+            var requestArtefacts = new HTTPrequest();
+
+            //Get list of Artefacts and pass Count of Artefact Entires
+            List<ArtefactDto> artefactsMasterList = await requestArtefacts.Get<List<ArtefactDto>>("api/artefact?pageNumber=0&numPerPage=999999&isDeleted=false");
+            int artefactsCount = artefactsMasterList.Count;
+            ViewBag.TotalArtefacts = artefactsCount;
+
+
+            //Get the most recently modified Artefact and pass NAME, ID, MODIFIED DATE via ViewBag
+            List<ArtefactDto> orderedArtefactMasterList = artefactsMasterList.OrderByDescending(m => m.ModifiedDate).ToList();
+            ArtefactDto mostRecentArtefact = orderedArtefactMasterList.ElementAt(0);
+            ViewBag.mostRecentArtefactName = mostRecentArtefact.Name;
+            ViewBag.mostRecentArtefactId = mostRecentArtefact.Id;
+            ViewBag.mostRecentArtefactModDate = mostRecentArtefact.ModifiedDate;
+
+
+            //Get list of Artefacts and pass Count of Artefact Entires
+            List<ArtefactInfoDto> artefactInfoMasterList = await GetArtefactInfo();
+            int artefactInfoCount = artefactInfoMasterList.Count;
+            ViewBag.TotalArtefactContentEntries = artefactInfoCount;
+
+
             return View();
+
+        }
+
+        public async Task<List<ArtefactInfoDto>> GetArtefactInfo()
+        {
+            var request = new HTTPrequest();
+            List<ArtefactInfoDto> artefactInfoMasterList = await request.Get<List<ArtefactInfoDto>>("api/artefactInfo?pageNumber=0&numPerPage=99999&isDeleted=false");
+            return artefactInfoMasterList;
         }
 
         public ActionResult About()

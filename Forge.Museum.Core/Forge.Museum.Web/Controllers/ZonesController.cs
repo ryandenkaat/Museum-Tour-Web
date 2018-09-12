@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
 using Forge.Museum.Web.Models;
 using Forge.Museum.BLL.Http;
+using PagedList;
 
 namespace Forge.Museum.Web.Controllers
 {
@@ -18,13 +19,53 @@ namespace Forge.Museum.Web.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Zones
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var request = new HTTPrequest();
 
-            List<ZoneDto> viewModel = await request.Get<List<ZoneDto>>("api/zone?pageNumber=0&numPerPage=500&isDeleted=false");
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewBag.NameSortParm = sortOrder == "Name" ? "name_desc" : "Name";
+            List<ZoneDto> zoneMasterList = await request.Get<List<ZoneDto>>("api/zone?pageNumber=0&numPerPage=500&isDeleted=false");
+            IEnumerable<ZoneDto> zonesFiltered = zoneMasterList.ToList();
 
-            return View(viewModel);
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                zonesFiltered = zonesFiltered.Where(a => a.Name.Contains(searchString));
+            }
+
+
+            var zones = zonesFiltered;
+
+            switch (sortOrder)
+            {
+                case "id_desc":
+                    zones = zones.OrderByDescending(a => a.Id);
+                    break;
+                case "Name":
+                    zones = zones.OrderBy(a => a.Name);
+                    break;
+                case "name_desc":
+                    zones = zones.OrderByDescending(a => a.Name);
+                    break;
+                default:
+                    zones = zones.OrderBy(a => a.Id);
+                    break;
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(zones.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Zones/Details/5
