@@ -61,6 +61,11 @@ namespace Forge.Museum.Web.Controllers
 
         }
 
+        public ViewResult IndexAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<ArtefactInfoDto>> GetArtefactInfo()
         {
             var request = new HTTPrequest();

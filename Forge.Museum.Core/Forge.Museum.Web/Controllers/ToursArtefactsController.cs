@@ -62,10 +62,6 @@ namespace Forge.Museum.Web.Controllers
         }
     
 
-
-
-
-
         // GET: TourDtoes
         public async Task<ActionResult> Index(int? tourId)
         {
