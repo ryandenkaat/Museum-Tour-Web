@@ -29,7 +29,7 @@ namespace Forge.Museum.API.CoreHandlers
 			{
 				foreach(var artefact in dto.Artefacts)
 				{
-					var artefactEntity = Db.Artefacts.Find(artefact.Id);
+					var artefactEntity = Db.TourArtefacts.Find(artefact.Id);
 
 					if (artefactEntity != null)
 						tour.Artefacts.Add(artefactEntity);
@@ -71,7 +71,7 @@ namespace Forge.Museum.API.CoreHandlers
 			{
 				foreach (var artefact in dto.Artefacts)
 				{
-					var artefactEntity = Db.Artefacts.Find(artefact.Id);
+					var artefactEntity = Db.TourArtefacts.Find(artefact.Id);
 
 					if (artefactEntity != null)
 						tour.Artefacts.Add(artefactEntity);

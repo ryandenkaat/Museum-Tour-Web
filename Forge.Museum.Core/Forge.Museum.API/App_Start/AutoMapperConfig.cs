@@ -32,6 +32,10 @@ namespace Forge.Museum.API
                 config.CreateMap<Zone, ZoneSimpleDto>();
                 config.CreateMap<Base, BaseDto>();
                 config.CreateMap<Tour, TourDto>();
+                config.CreateMap<Tour, TourSimpleDto>();
+                config.CreateMap<TourArtefact, TourArtefactDto>();
+
+
             });
 
             Mapper.AssertConfigurationIsValid();

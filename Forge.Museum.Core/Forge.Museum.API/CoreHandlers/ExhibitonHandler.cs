@@ -94,6 +94,8 @@ namespace Forge.Museum.API.CoreHandlers
 
 			exhibition.IsDeleted = true;
 
+            Db.SaveChanges();
+
 			return true;
 		}
 		#endregion

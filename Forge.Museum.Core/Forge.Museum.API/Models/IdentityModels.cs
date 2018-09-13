@@ -24,6 +24,7 @@ namespace Forge.Museum.API.Models
 		public virtual DbSet<Exhibition> Exhibitions { get; set; }
 		public virtual DbSet<StoreItem> StoreItems { get; set; }
 		public virtual DbSet<StoreItemImage> StoreItemImages { get; set; }
+        public virtual DbSet<TourArtefact> TourArtefacts { get; set; }
         public virtual DbSet<Zone> Zones { get; set; }
         public virtual DbSet<Tour> Tours { get; set; }
         #endregion
@@ -33,8 +34,8 @@ namespace Forge.Museum.API.Models
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Tour>()
-                .HasMany(m => m.Artefacts).WithMany(m => m.Tours);
+            modelBuilder.Entity<Artefact>()
+                .HasMany(m => m.TourArtefacts).WithRequired(m => m.Artefact);
         }
 
         public override int SaveChanges()

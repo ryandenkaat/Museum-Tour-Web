@@ -10,7 +10,7 @@ namespace Forge.Museum.API.Models
     {
         public Artefact()
         {
-            Tours = new HashSet<Tour>();
+            TourArtefacts = new HashSet<TourArtefact>();
         }
 
         public int Id { get; set; }
@@ -44,6 +44,7 @@ namespace Forge.Museum.API.Models
 
         public virtual ICollection<ArtefactInfo> ArtefactInfos { get; set; }
 
-        public virtual ICollection<Tour> Tours { get; set; }
+        public virtual ICollection<TourArtefact> TourArtefacts { get; set; }
+
     }
 }

@@ -59,7 +59,9 @@
     <Compile Include="DataTransferObjects\Store\StoreItemDto.cs" />
     <Compile Include="DataTransferObjects\Store\StoreItemImageDto.cs" />
     <Compile Include="DataTransferObjects\Store\StoreItemSimpleDto.cs" />
+    <Compile Include="DataTransferObjects\Tour\TourArtefactDto.cs" />
     <Compile Include="DataTransferObjects\Tour\TourDto.cs" />
+    <Compile Include="DataTransferObjects\Tour\TourSimpleDto.cs" />
     <Compile Include="Enumerators\AgeGroup.cs" />
     <Compile Include="Enumerators\ArtefactInfoType.cs" />
     <Compile Include="Enumerators\ArtefactStatus.cs" />

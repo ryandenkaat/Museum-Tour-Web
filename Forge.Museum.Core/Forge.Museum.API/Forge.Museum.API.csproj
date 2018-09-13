@@ -207,6 +207,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StoreItemController.cs" />
     <Compile Include="Controllers\StoreItemImageController.cs" />
+    <Compile Include="Controllers\TourArtefactController.cs" />
     <Compile Include="Controllers\TourController.cs" />
     <Compile Include="Controllers\ZoneController.cs" />
     <Compile Include="CoreHandlers\ArtefactCategoryHandler.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="CoreHandlers\ExhibitonHandler.cs" />
     <Compile Include="CoreHandlers\StoreItemHandler.cs" />
     <Compile Include="CoreHandlers\StoreItemImageHandler.cs" />
+    <Compile Include="CoreHandlers\TourArtefactHandler.cs" />
     <Compile Include="CoreHandlers\TourHandler.cs" />
     <Compile Include="CoreHandlers\ZoneHandler.cs" />
     <Compile Include="Global.asax.cs">
@@ -242,6 +244,10 @@
     <Compile Include="Migrations\201808130550580_AddedExhibitionsAndStore.Designer.cs">
       <DependentUpon>201808130550580_AddedExhibitionsAndStore.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809130110374_ToursUpdate.cs" />
+    <Compile Include="Migrations\201809130110374_ToursUpdate.Designer.cs">
+      <DependentUpon>201809130110374_ToursUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Artefact.cs" />
     <Compile Include="Models\ArtefactCategory.cs" />
@@ -256,6 +262,7 @@
     <Compile Include="Models\StoreItem.cs" />
     <Compile Include="Models\StoreItemImage.cs" />
     <Compile Include="Models\Tour.cs" />
+    <Compile Include="Models\TourArtefact.cs" />
     <Compile Include="Models\Zone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -394,6 +401,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201808130550580_AddedExhibitionsAndStore.resx">
       <DependentUpon>201808130550580_AddedExhibitionsAndStore.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809130110374_ToursUpdate.resx">
+      <DependentUpon>201809130110374_ToursUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

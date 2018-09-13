@@ -135,7 +135,7 @@ namespace Forge.Museum.Web.Controllers
                 newTourArtefactList.Add(newTourArtefact);
                 tour.Artefacts = newTourArtefactList.ToList();
                 var request2 = new HTTPrequest();
-
+                // TODO - UPDATE TO NEW API CALL
                 await request2.Put<TourDto>("api/tour", tour);
                 //    return RedirectToAction("Index");
                 return RedirectToAction("Index", "ToursArtefacts", new { tourId = tourId });
@@ -195,6 +195,7 @@ namespace Forge.Museum.Web.Controllers
             var request = new HTTPrequest();
             TourDto tour_editted = await request.Get<TourDto>("api/tour/" + tourId);
             ArtefactSimpleDto newArtefact = await request.Get<ArtefactSimpleDto>("api/artefact/" + artefact.Id);
+
             ArtefactSimpleDto originalArtefact = await request.Get<ArtefactSimpleDto>("api/artefact/" + originalArtefactId);
 
             List<ArtefactSimpleDto> artefactList = tour_editted.Artefacts;
