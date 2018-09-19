@@ -1,0 +1,105 @@
+﻿
+@model PagedList.IPagedList<StoreItemDto>
+@using PagedList.Mvc;
+@using Forge.Museum.BLL.Http;
+@using Forge.Museum.Interfaces.DataTransferObjects.Store;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+
+}
+
+<h2>Store Items</h2>
+
+<p>
+    @Html.ActionLink("Add New Store Item", "Create")
+</p>
+@using (Html.BeginForm("Index", "Artefacts", FormMethod.Get))
+{
+    <p>
+        Search by Name: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+<div class="content-box">
+    <div class="content-box-header">
+        <h3>All Store Items</h3>
+        <ul class="content-box-tabs" style="display: block;">
+            <li><a href="#tab1" class="default-tab current">Results</a></li> <!-- href must be unique and match the id of target div -->
+            <li>
+                @Html.ActionLink("Create New Store Item", "Create")
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="content-box-content" style="display: block;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.ActionLink("ID#", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Cost", "Index", new { sortOrder = ViewBag.CostSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("In Stock", "Index", new { sortOrder = ViewBag.StockedSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <div class="pagination-sm">
+                            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                            <!--    Page at(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of atModel.PageCount-->
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cost)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InStock)
+                    </td>
+                    <td>
+                        <!-- Edit Button */ !-->
+                        <a href="@Url.Action("Edit", "StoreItems",  new { id = item.Id })" class="btn btn-link">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </a>|
+                        <!-- Details Button */ !-->
+                        <a href="@Url.Action("Details", "StoreItems",  new { id = item.Id })" class="btn btn-link">
+                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                        </a>|
+                        <!-- Delete Button */ !-->
+                        <a href="@Url.Action("Delete", "StoreItems",  new { id = item.Id })" class="btn btn-link">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>|
+                        <a href="@Url.Action("Index", "ArtefactInfo",  new { storeItemId = item.Id })" class="btn btn-link">
+                            <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                </tr>
+}
+            </tbody>
+        </table>
+    </div>
+</div>

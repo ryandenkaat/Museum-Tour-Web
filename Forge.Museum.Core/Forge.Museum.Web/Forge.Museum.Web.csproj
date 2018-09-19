@@ -207,6 +207,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\StoreItemsController.cs" />
     <Compile Include="Controllers\ExhibitionsController.cs" />
     <Compile Include="Controllers\ToursArtefactsController.cs" />
     <Compile Include="Controllers\ToursController.cs" />
@@ -334,6 +335,11 @@
     <Content Include="Views\Exhibitions\Details.cshtml" />
     <Content Include="Views\Exhibitions\Edit.cshtml" />
     <Content Include="Views\Exhibitions\Index.cshtml" />
+    <Content Include="Views\StoreItems\Create.cshtml" />
+    <Content Include="Views\StoreItems\Delete.cshtml" />
+    <Content Include="Views\StoreItems\Details.cshtml" />
+    <Content Include="Views\StoreItems\Edit.cshtml" />
+    <Content Include="Views\StoreItems\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -24,10 +24,18 @@ namespace Forge.Museum.Web.Controllers
 
             //Get the most recently modified Artefact and pass NAME, ID, MODIFIED DATE via ViewBag
             List<ArtefactDto> orderedArtefactMasterList = artefactsMasterList.OrderByDescending(m => m.ModifiedDate).ToList();
-            ArtefactDto mostRecentArtefact = orderedArtefactMasterList.ElementAt(0);
-            ViewBag.mostRecentArtefactName = mostRecentArtefact.Name;
-            ViewBag.mostRecentArtefactId = mostRecentArtefact.Id;
-            ViewBag.mostRecentArtefactModDate = mostRecentArtefact.ModifiedDate;
+            if (orderedArtefactMasterList.Count <= 0)
+            {
+
+            }
+            else
+            {
+                ArtefactDto mostRecentArtefact = orderedArtefactMasterList.ElementAt(0);
+                ViewBag.mostRecentArtefactName = mostRecentArtefact.Name;
+                ViewBag.mostRecentArtefactId = mostRecentArtefact.Id;
+                ViewBag.mostRecentArtefactModDate = mostRecentArtefact.ModifiedDate;
+
+            }
 
 
             //Get list of Artefacts and pass Count of Artefact Entires

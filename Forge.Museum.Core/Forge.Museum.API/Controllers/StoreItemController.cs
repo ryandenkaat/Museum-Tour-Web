@@ -11,8 +11,9 @@ namespace Forge.Museum.API.Controllers
 {
 	public class StoreItemController : BaseApiController
 	{
-		#region CRUD
-		[HttpPost, Route("api/storeItem")]
+
+        #region CRUD
+        [HttpPost, Route("api/storeItem")]
 		public StoreItemDto Create([FromBody]StoreItemDto dto)
 		{
 			try
@@ -52,7 +53,7 @@ namespace Forge.Museum.API.Controllers
 		}
 
 		[HttpGet, Route("api/storeItem")]
-		public List<StoreItemDto> GetFiltered(ApiFilter filter)
+		public List<StoreItemDto> GetFiltered([FromUri]ApiFilter filter)
 		{
 			try
 			{
