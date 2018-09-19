@@ -52,7 +52,7 @@ namespace Forge.Museum.API.Controllers
 		}
 
 		[HttpGet, Route("api/storeItemImage")]
-		public List<StoreItemImageDto> GetFiltered(ApiFilter filter)
+		public List<StoreItemImageDto> GetFiltered([FromUri] ApiFilter filter)
 		{
 			try
 			{

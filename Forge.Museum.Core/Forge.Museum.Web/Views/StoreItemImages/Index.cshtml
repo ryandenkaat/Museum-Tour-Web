@@ -1,0 +1,104 @@
+﻿@model PagedList.IPagedList<StoreItemImageDto>
+@using PagedList.Mvc;
+@using Forge.Museum.BLL.Http;
+@using Forge.Museum.Interfaces.DataTransferObjects.Store;
+<link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+    if (ViewBag.StoreItemID != null)
+    {
+        ViewBag.ContentBoxHeader = ViewBag.StoreItemID;
+    }
+
+}
+
+<h2>Store Item Images</h2>
+
+<p>
+    @Html.ActionLink("Add New Image for Store Item", "Create", new { storeItemId = ViewBag.StoreItemID })
+</p>
+
+@using (Html.BeginForm("Index", "StoreItemImages", FormMethod.Get))
+{
+    <p>
+        Search by Description: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+
+<div class="content-box">
+    <div class="content-box-header">
+        @if (ViewBag.StoreItemID == null)
+        {
+            <h3>Store Item Images for: All Items </h3>
+        }
+        else
+        {
+            <h3>Store Item Images: Store Item #@ViewBag.ContentBoxHeader - @ViewBag.StoreItemName </h3>
+        }
+        <ul class="content-box-tabs" style="display: block;">
+            <li><a href="#tab1" class="default-tab current">Results</a></li> <!-- href must be unique and match the id of target div -->
+            <li>
+                @Html.ActionLink("Add New Content", "Create")
+            </li>
+        </ul>
+    </div>
+
+    <div class="content-box-content" style="display: block;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.ActionLink("ID#", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Creat", "Index", new { sortOrder = ViewBag.DescriptionSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("File Type", "Index", new { sortOrder = ViewBag.TypeSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <div class="pagination-sm">
+                            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                        </td>
+                        <td>
+                            @Html.ActionLink(item.StoreItem.Id.ToString() + ": " + item.StoreItem.Name, "Details", "StoreItems", new { id = item.StoreItem.Id }, null)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FileType)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
