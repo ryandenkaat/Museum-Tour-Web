@@ -75,7 +75,7 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Cost)
+                        $@Html.DisplayFor(modelItem => item.Cost)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.InStock)
@@ -93,7 +93,7 @@
                         <a href="@Url.Action("Delete", "StoreItems",  new { id = item.Id })" class="btn btn-link">
                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                         </a>|
-                        <a href="@Url.Action("Index", "ArtefactInfo",  new { storeItemId = item.Id })" class="btn btn-link">
+                        <a href="@Url.Action("Index", "StoreItemImages",  new { storeItemId = item.Id })" class="btn btn-link">
                             <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
                         </a>
                     </td>
@@ -101,5 +101,12 @@
 }
             </tbody>
         </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Store Item Images</h2>
+        <p>Upload and manage images for all Store Items found within the Merchandise Store.</p>
+        <p><a class="btn btn-default" href="~/StoreItemImages">Learn more &raquo;</a></p>
     </div>
 </div>

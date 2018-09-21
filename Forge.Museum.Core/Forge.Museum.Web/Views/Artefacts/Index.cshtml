@@ -40,6 +40,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th></th>
                     <th>
                         @Html.ActionLink("ID#", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
                     </th>
@@ -53,13 +54,7 @@
                         @Html.ActionLink("Category", "Index", new { sortOrder = ViewBag.CategorySortParm, currentFilter = ViewBag.CurrentFilter })
                     </th>
                     <th>
-                        Length
-                    </th>
-                    <th>
-                        Width
-                    </th>
-                    <th>
-                        Height
+                        @Html.ActionLink("Zone", "Index", new { sortOrder = ViewBag.CategorySortParm, currentFilter = ViewBag.CurrentFilter })
                     </th>
                     <th></th>
                 </tr>
@@ -78,6 +73,13 @@
             @foreach (var item in Model) {
                 <tr>
                     <td>
+                        @if (item.Image == null || item.Image.Length == 0) { }
+                        else
+                        {
+                        <img src="data:image;base64,@System.Convert.ToBase64String(item.Image)" width="40" height="40" />
+                        }
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Id)
                     </td>
                     <td>
@@ -92,13 +94,9 @@
                           }
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Measurement_Length)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Measurement_Width)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Measurement_Height)
+                        @if (item.Zone != null) {
+                            @Html.ActionLink(item.Zone.Id.ToString() + ": " + item.Zone.Name, "Details", "Zones", new { id = item.Zone.Id }, null)
+                          }
                     </td>
                     <td>
                         <!-- Edit Button */ !-->

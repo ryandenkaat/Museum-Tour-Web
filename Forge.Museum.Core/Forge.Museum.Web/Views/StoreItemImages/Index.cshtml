@@ -50,14 +50,12 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th></th>
                     <th>
                         @Html.ActionLink("ID#", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
                     </th>
                     <th>
-                        @Html.ActionLink("Creat", "Index", new { sortOrder = ViewBag.DescriptionSortParm, currentFilter = ViewBag.CurrentFilter })
-                    </th>
-                    <th>
-                        @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                        @Html.ActionLink("Product ID", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
                     </th>
                     <th>
                         @Html.ActionLink("File Type", "Index", new { sortOrder = ViewBag.TypeSortParm, currentFilter = ViewBag.CurrentFilter })
@@ -79,11 +77,15 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Id)
+                       <td>
+                        @if (item.Image == null || item.Image.Length == 0) { }
+                        else
+                        {
+                            <img src="data:image;base64,@System.Convert.ToBase64String(item.Image)" width="40" height="40" />
+                        }
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                            @Html.DisplayFor(modelItem => item.Id)
                         </td>
                         <td>
                             @Html.ActionLink(item.StoreItem.Id.ToString() + ": " + item.StoreItem.Name, "Details", "StoreItems", new { id = item.StoreItem.Id }, null)

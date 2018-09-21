@@ -1,11 +1,11 @@
 ﻿@using Forge.Museum.Interfaces.Enumerators;
-@model Forge.Museum.Interfaces.DataTransferObjects.Artefact.ArtefactInfoDto
+@model Forge.Museum.Interfaces.DataTransferObjects.Store.StoreItemImageDto
 <link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Edit";
     bool fileUploadedBool;
-    if (Model.File != null && Model.File.Length != 0)
+    if (Model.Artefact != null && Model.File.Length != 0)
     {
         fileUploadedBool = true;
     }
@@ -36,47 +36,18 @@ new SelectListItem { Text = "Audio", Value = "3"}
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Artefact Content ID#@Model.Id - @Model.Description</h4>
+        <h4>Artefact Content ID#@Model.Id - </h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ArtefactInfoType, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ArtefactInfoType, multimediaOptions, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ArtefactInfoType, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Content, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.File, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <input type="file" name="ArtefactInfoFile" />
-                @Html.ValidationMessageFor(model => model.File, "", new { @class = "text-danger" })
-                @if (Model.ArtefactInfoType == ArtefactInfoType.Text)
-                {
-
-                }
-                else
-                {
-                    if (fileUploadedBool == false)
+                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+                @if (fileUploadedBool == false)
                     {
                         <dd>
                             <text> No media file uploaded yet</text>
@@ -84,31 +55,9 @@ new SelectListItem { Text = "Audio", Value = "3"}
                     }
                     else
                     {
-                        if (Model.ArtefactInfoType == ArtefactInfoType.Image)
-                        {
-                            <dd><img src="data:image;base64,@System.Convert.ToBase64String(Model.File)" width="160" height="160" /></dd>
-                        }
-                        else if (Model.ArtefactInfoType == ArtefactInfoType.Video)
-                        {
-                            <dd>
-                                <video width="320" height="240" controls="controls" preload="none">
-                                    <source src="data:video;base64,@System.Convert.ToBase64String(Model.File)" type="video/mp4" />
-                                </video>
-                            </dd>
-                        }
-                        else if (Model.ArtefactInfoType == ArtefactInfoType.Audio)
-                        {
-                            <dd>
-                                <audio controls="controls">
-                                    <source src="data:audio;base64,@System.Convert.ToBase64String(Model.File)" type="audio/mp3" />
-                                </audio>
-                            </dd>
-                        }
+                        <dd><img src="data:image;base64,@System.Convert.ToBase64String(Model.Image)" width="160" height="160" /></dd>
+
                     }
-
-
-
-                }
 
             </div>
         </div>
