@@ -77,13 +77,13 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                       <td>
+                    <td>
                         @if (item.Image == null || item.Image.Length == 0) { }
                         else
                         {
-                            <img src="data:image;base64,@System.Convert.ToBase64String(item.Image)" width="40" height="40" />
+                            <img class="img-thumbnail" src="data:image;base64,@System.Convert.ToBase64String(item.Image)" width="60" height="50" />
                         }
-                        </td>
+                    </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Id)
                         </td>

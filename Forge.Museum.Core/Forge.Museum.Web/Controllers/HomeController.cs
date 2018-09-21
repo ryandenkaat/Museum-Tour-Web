@@ -2,6 +2,8 @@
 using Forge.Museum.BLL.Http;
 using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
 using Forge.Museum.Interfaces.DataTransferObjects.Exhibition;
+using Forge.Museum.Interfaces.DataTransferObjects.Store;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +64,17 @@ namespace Forge.Museum.Web.Controllers
 
             }
 
+            //Get list of Store Items and pass Count of Artefact Entires
+            List<StoreItemDto> storeItemsMasterList = await GetStoreItems   ();
+            int storeItemCount = storeItemsMasterList.Count;
+            double costOfAllItems = 0;
+            foreach (var item in storeItemsMasterList) {
+                costOfAllItems = costOfAllItems + item.Cost;
+            }
+            double storeItemAvgCost = costOfAllItems / storeItemCount;
+            ViewBag.TotalStoreItems = storeItemCount;
+            ViewBag.AverageItemCost = storeItemAvgCost;
+
 
 
 
@@ -88,6 +101,15 @@ namespace Forge.Museum.Web.Controllers
             List<ExhibitionDto> exhibitionsMasterList = await request.Get<List<ExhibitionDto>>("api/exhibition?pageNumber=0&numPerPage=99999&isDeleted=false");
             return exhibitionsMasterList;
         }
+
+
+        public async Task<List<StoreItemDto>> GetStoreItems()
+        {
+            var request = new HTTPrequest();
+            List<StoreItemDto> storeItemsMasterList = await request.Get<List<StoreItemDto>>("api/storeItem?pageNumber=0&numPerPage=99999&isDeleted=false");
+            return storeItemsMasterList;
+        }
+
 
 
         public ActionResult About()

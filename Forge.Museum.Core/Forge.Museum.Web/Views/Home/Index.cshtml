@@ -50,15 +50,37 @@
             <h4>Future Exhibitions: </h4>
             @if (ViewBag.FutureExhibitionCount > 0)
             {
-            <p>Total Future Artefacts: @ViewBag.FutureExhibitionCount</p>
-            <p>Next Upcoming Exhibition: #@ViewBag.NextExhibitionId @ViewBag.NextExhibitionName</p>
-            <p>Starting: @ViewBag.NextExhibitionStart</p>
-            <p><a class="btn btn-default" href="~/Exhibitions/Details/@ViewBag.NextExhibitionId">View Exhibition &raquo;</a></p>
-            } else
+                <p>Total Future Artefacts: @ViewBag.FutureExhibitionCount</p>
+                <p>Next Upcoming Exhibition: #@ViewBag.NextExhibitionId @ViewBag.NextExhibitionName</p>
+                <p>Starting: @ViewBag.NextExhibitionStart</p>
+                <p><a class="btn btn-default" href="~/Exhibitions/Details/@ViewBag.NextExhibitionId">View Exhibition &raquo;</a></p>
+            }
+            else
             {
                 <p>No Future Exhibitions Planned.</p>
             }
             <p><a class="btn btn-default" href="~/Exhibitions/">View all &raquo;</a></p>
+        </div>
+    </div>
+</div>
+
+<div class="content-box column-right">
+    <div class="content-box-header">
+        <h3>Merchandise</h3>
+    </div>
+    <div class="content-box-content" style="display: block">
+
+        <div class="tab-content default-tab" style="display: block;">
+            <p>Total Store Items: @ViewBag.TotalStoreItems</p>
+            @if(ViewBag.TotalStoreItems == 0 || ViewBag.TotalStoreItems == null)
+            {
+                <p>Average Item Cost: $-</p>
+            } else
+            {
+                <p>Average Item Cost: $@ViewBag.AverageItemCost</p>
+            }
+
+            <p><a class="btn btn-default" href="~/StoreItems/">View all &raquo;</a></p>
         </div>
     </div>
 </div>
