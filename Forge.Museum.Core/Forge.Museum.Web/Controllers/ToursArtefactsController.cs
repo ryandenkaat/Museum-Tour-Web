@@ -50,7 +50,7 @@ namespace Forge.Museum.Web.Controllers
                 {
                     tourDropdown.Add(new SelectListItem()
                     {
-                        Text = tour.Name,
+                        Text = tour.Id + ":" + tour.Name,
                         Value = tour.Id.ToString()
 
                     });
@@ -117,13 +117,18 @@ namespace Forge.Museum.Web.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(TourDto tour, int? tourId, ArtefactSimpleDto artefact)
+        public async Task<ActionResult> Create(TourArtefactDto tourArtefact, TourDto tour, int? tourId, ArtefactSimpleDto artefact)
         {
             var request = new HTTPrequest();
             List<SelectListItem> artefactDropdown = new List<SelectListItem>();
             artefactDropdown = await PopulateArtefactDropdown();
             ViewBag.ArtefactList = artefactDropdown;
             ViewBag.TourID = tourId;
+
+            TourArtefactDto newTourItem = tourArtefact;
+            await request.Post<TourArtefactDto>("api/tourArtefact", newTourItem);
+
+
             tour = await request.Get<TourDto>("api/tour/"+tourId);
             ArtefactSimpleDto newTourArtefact = await request.Get<ArtefactSimpleDto>("api/artefact/" + artefact.Id.ToString());
             //List<ArtefactSimpleDto> = 

@@ -1,4 +1,4 @@
-﻿@model Forge.Museum.Interfaces.DataTransferObjects.Tour.TourDto
+﻿@model Forge.Museum.Interfaces.DataTransferObjects.Tour.TourArtefactDto
 <link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
 @{
@@ -46,9 +46,18 @@
 
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Artefact, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(m => m.Id, artefactDropdown, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.DropDownListFor(m => m.Artefact, artefactDropdown, new { htmlAttributes = new { @class = "form-control" } })
+            @*          @Html.ValidationMessageFor(model => model.ArtefactCategory, "", new { @class = "text-danger" })
+            *@
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Order, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.Order, new { htmlAttributes = new { @class = "form-control" } })
             @*          @Html.ValidationMessageFor(model => model.ArtefactCategory, "", new { @class = "text-danger" })
             *@
         </div>
