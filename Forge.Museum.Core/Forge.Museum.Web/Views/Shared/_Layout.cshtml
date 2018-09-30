@@ -22,13 +22,14 @@
             </div>
 
             <ul id="main-nav">
-                <div class="clear"></div>
+                <class="clear"></>
                 <li>@Html.ActionLink("Artefacts", "Index", "Artefacts", null, new { @class = "nav-top-item" })</li>
                 <li>@Html.ActionLink("Artefact Media", "Index", "ArtefactInfo", null, new { @class = "nav-top-item" })</li>
                 <li>@Html.ActionLink("Categories", "Index", "ArtefactCategories", null, new { @class = "nav-top-item" })</li>
                 <li>@Html.ActionLink("Exhibitions", "Index", "Exhibitions", null, new { @class = "nav-top-item" })</li>
-                <li>@Html.ActionLink("Zones", "Index", "Zones", null, new { @class = "nav-top-item" })</li>
+                <li>@Html.ActionLink("Merchandise", "Index", "StoreItems", null, new { @class = "nav-top-item" })</li>
                 <li>@Html.ActionLink("Tours", "Index", "Tours", null, new { @class = "nav-top-item" })</li>
+                <li>@Html.ActionLink("Zones", "Index", "Zones", null, new { @class = "nav-top-item" })</li>
                 <li>@Html.ActionLink("About", "About", "Home", null, new { @class = "nav-top-item" })</li>
                 <li>@Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-top-item" })</li>
                 @Html.Partial("_LoginPartial")

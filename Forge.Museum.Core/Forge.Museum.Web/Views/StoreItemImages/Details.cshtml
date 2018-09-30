@@ -1,0 +1,54 @@
+﻿@using Forge.Museum.Interfaces.Enumerators;
+@model Forge.Museum.Interfaces.DataTransferObjects.Store.StoreItemImageDto
+<link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Details";
+    bool fileUploadedBool;
+    if (Model.Image != null && Model.Image.Length != 0)
+    {
+        fileUploadedBool = true;
+    }
+    else
+    {
+        fileUploadedBool = false;
+    }
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Store Item Image ID#@Model.Id - @Model.</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.LabelFor(model => model.FileType, "File Extension")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileType)
+        </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Image)
+            </dt>
+            @if (fileUploadedBool == false)
+            {
+                <dd>
+                    <text> No image file uploaded yet</text>
+                </dd>
+            }
+            else
+            {
+                <dd><img src="data:image;base64,@System.Convert.ToBase64String(Model.Image)" width="160" height="160" /></dd>
+            }
+       
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

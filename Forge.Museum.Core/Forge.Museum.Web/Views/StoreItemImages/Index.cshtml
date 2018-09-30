@@ -1,32 +1,47 @@
-﻿@model PagedList.IPagedList<ArtefactCategoryDto>
+﻿@model PagedList.IPagedList<StoreItemImageDto>
 @using PagedList.Mvc;
 @using Forge.Museum.BLL.Http;
-@using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
+@using Forge.Museum.Interfaces.DataTransferObjects.Store;
 <link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
+
 @{
     ViewBag.Title = "Index";
+    if (ViewBag.StoreItemID != null)
+    {
+        ViewBag.ContentBoxHeader = ViewBag.StoreItemID;
+    }
+
 }
 
-<h2>Artefact Categories</h2>
+<h2>Store Item Images</h2>
 
 <p>
-    @Html.ActionLink("Add New Artefact Category", "Create")
+    @Html.ActionLink("Add New Image for Store Item", "Create", new { storeItemId = ViewBag.StoreItemID })
 </p>
-@using (Html.BeginForm("Index", "Artefacts", FormMethod.Get))
+
+@using (Html.BeginForm("Index", "StoreItemImages", FormMethod.Get))
 {
     <p>
-        Search by Name: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        Search by Description: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
         <input type="submit" value="Search" />
     </p>
 }
+
 <div class="content-box">
     <div class="content-box-header">
-        <h3>All Categories</h3>
+        @if (ViewBag.StoreItemID == null)
+        {
+            <h3>Store Item Images for: All Items </h3>
+        }
+        else
+        {
+            <h3>Store Item Images: Store Item #@ViewBag.ContentBoxHeader - @ViewBag.StoreItemName </h3>
+        }
         <ul class="content-box-tabs" style="display: block;">
             <li><a href="#tab1" class="default-tab current">Results</a></li> <!-- href must be unique and match the id of target div -->
             <li>
-                @Html.ActionLink("Create New Category", "Create")
+                @Html.ActionLink("Add New Content", "Create")
             </li>
         </ul>
     </div>
@@ -40,7 +55,10 @@
                         @Html.ActionLink("ID#", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
                     </th>
                     <th>
-                        @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                        @Html.ActionLink("Product ID", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("File Type", "Index", new { sortOrder = ViewBag.TypeSortParm, currentFilter = ViewBag.CurrentFilter })
                     </th>
                     <th></th>
                 </tr>
@@ -50,6 +68,7 @@
                     <td colspan="6">
                         <div class="pagination-sm">
                             @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
                         </div>
                     </td>
                 </tr>
@@ -69,21 +88,15 @@
                             @Html.DisplayFor(modelItem => item.Id)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Name)
+                            @Html.ActionLink(item.StoreItem.Id.ToString() + ": " + item.StoreItem.Name, "Details", "StoreItems", new { id = item.StoreItem.Id }, null)
                         </td>
                         <td>
-                            <!-- Edit Button */ !-->
-                            <a href="@Url.Action("Edit", "ArtefactCategories",  new { id = item.Id })" class="btn btn-link">
-                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                            </a>|
-                            <!-- Details Button */ !-->
-                            <a href="@Url.Action("Details", "ArtefactCategories",  new { id = item.Id })" class="btn btn-link">
-                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                            </a>|
-                            <!-- Delete Button */ !-->
-                            <a href="@Url.Action("Delete", "ArtefactCategories",  new { id = item.Id })" class="btn btn-link">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                            </a>
+                            @Html.DisplayFor(modelItem => item.FileType)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                         </td>
                     </tr>
                 }
@@ -91,4 +104,3 @@
         </table>
     </div>
 </div>
-

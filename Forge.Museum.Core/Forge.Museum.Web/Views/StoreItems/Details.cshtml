@@ -1,0 +1,34 @@
+﻿@model Forge.Museum.Interfaces.DataTransferObjects.Store.StoreItemDto
+<link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Artefact #@Model.Id - @Model.Name</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>@Html.LabelFor(model => model.Id, "Artefact ID#:")</dt>
+        <dd>@Html.DisplayFor(model => model.Id)</dd>
+
+        <dt>@Html.LabelFor(model => model.Name, "Artefact Name:")</dt>
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
+
+        <dt>@Html.LabelFor(model => model.Description, "Description:")</dt>
+        <dd>@Html.DisplayFor(model => model.Description)</dd>
+
+        <dt>@Html.LabelFor(model => model.Cost, "Cost:")</dt>
+        <dd>@Html.DisplayFor(model => model.Cost)</dd>
+
+        <dt>@Html.LabelFor(model => model.InStock, "In Stock?:")</dt>
+        <dd>@Html.DisplayFor(model => model.InStock)</dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,74 @@
+﻿@model Forge.Museum.Interfaces.DataTransferObjects.Store.StoreItemImageDto
+<link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Create";
+
+
+    var storeItemDropdown = new List<SelectListItem>();
+
+    if (ViewBag.StoreItemList != null)
+    {
+        storeItemDropdown = ViewBag.StoreItemList;
+    }
+
+    var multimediaOptions = new List<SelectListItem>()
+    {
+        new SelectListItem { Text = "Text", Value = "0"},
+        new SelectListItem { Text = "Image", Value = "1"},
+        new SelectListItem { Text = "Video", Value = "2"},
+        new SelectListItem { Text = "Audio", Value = "3"}
+
+    };
+
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    @if (ViewBag.StoreItemSelected == true)
+    {
+        <h4>Add New Content for Store Item ID#@ViewBag.StoreItemID - @ViewBag.StoreItemName</h4>
+
+    }
+    else
+    {
+        <h4>New Store Item Image</h4>
+
+    }
+
+    <hr />
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.StoreItem, "Store Item", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.StoreItem.Id, storeItemDropdown, new { htmlAttributes = new { @class = "form-control" } })
+            @*          @Html.ValidationMessageFor(model => model.ArtefactCategory, "", new { @class = "text-danger" })
+            *@
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="file" name="storeItemImageFile" />
+            @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

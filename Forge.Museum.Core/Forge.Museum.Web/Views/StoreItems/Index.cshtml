@@ -1,7 +1,8 @@
-﻿@model PagedList.IPagedList<ExhibitionDto>
+﻿
+@model PagedList.IPagedList<StoreItemDto>
 @using PagedList.Mvc;
 @using Forge.Museum.BLL.Http;
-@using Forge.Museum.Interfaces.DataTransferObjects.Exhibition;
+@using Forge.Museum.Interfaces.DataTransferObjects.Store;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
@@ -11,12 +12,12 @@
 
 }
 
-<h2>Exhibitions</h2>
+<h2>Store Items</h2>
 
 <p>
-    @Html.ActionLink("Add New Exhibition", "Create")
+    @Html.ActionLink("Add New Store Item", "Create")
 </p>
-@using (Html.BeginForm("Index", "Exhibitions", FormMethod.Get))
+@using (Html.BeginForm("Index", "Artefacts", FormMethod.Get))
 {
     <p>
         Search by Name: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
@@ -25,11 +26,11 @@
 }
 <div class="content-box">
     <div class="content-box-header">
-        <h3>All Exhibitions</h3>
+        <h3>All Store Items</h3>
         <ul class="content-box-tabs" style="display: block;">
             <li><a href="#tab1" class="default-tab current">Results</a></li> <!-- href must be unique and match the id of target div -->
             <li>
-                @Html.ActionLink("Create New Exhibition", "Create")
+                @Html.ActionLink("Create New Store Item", "Create")
             </li>
 
         </ul>
@@ -39,7 +40,6 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th></th>
                     <th>
                         @Html.ActionLink("ID#", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
                     </th>
@@ -47,10 +47,10 @@
                         @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
                     </th>
                     <th>
-                        @Html.ActionLink("Start Date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+                        @Html.ActionLink("Cost", "Index", new { sortOrder = ViewBag.CostSortParm, currentFilter = ViewBag.CurrentFilter })
                     </th>
                     <th>
-                        @Html.ActionLink("Organiser", "Index", new { sortOrder = ViewBag.CategorySortParm, currentFilter = ViewBag.CurrentFilter })
+                        @Html.ActionLink("In Stock", "Index", new { sortOrder = ViewBag.StockedSortParm, currentFilter = ViewBag.CurrentFilter })
                     </th>
                     <th></th>
                 </tr>
@@ -69,41 +69,44 @@
             @foreach (var item in Model) {
                 <tr>
                     <td>
-                        @if (item.Image == null || item.Image.Length == 0) { }
-                        else
-                        {
-                            <img class="img-thumbnail" src="data:image;base64,@System.Convert.ToBase64String(item.Image)" width="60" height="50" />
-                        }
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.Id)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        @item.StartDate.ToShortDateString()
+                        $@Html.DisplayFor(modelItem => item.Cost)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Organiser)
+                        @Html.DisplayFor(modelItem => item.InStock)
                     </td>
                     <td>
                         <!-- Edit Button */ !-->
-                        <a href="@Url.Action("Edit", "Exhibitions",  new { id = item.Id })" class="btn btn-link">
+                        <a href="@Url.Action("Edit", "StoreItems",  new { id = item.Id })" class="btn btn-link">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                         </a>|
                         <!-- Details Button */ !-->
-                        <a href="@Url.Action("Details", "Exhibitions",  new { id = item.Id })" class="btn btn-link">
+                        <a href="@Url.Action("Details", "StoreItems",  new { id = item.Id })" class="btn btn-link">
                             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                         </a>|
                         <!-- Delete Button */ !-->
-                        <a href="@Url.Action("Delete", "Exhibitions",  new { id = item.Id })" class="btn btn-link">
+                        <a href="@Url.Action("Delete", "StoreItems",  new { id = item.Id })" class="btn btn-link">
                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>|
+                        <a href="@Url.Action("Index", "StoreItemImages",  new { storeItemId = item.Id })" class="btn btn-link">
+                            <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
                         </a>
                     </td>
                 </tr>
 }
             </tbody>
         </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Store Item Images</h2>
+        <p>Upload and manage images for all Store Items found within the Merchandise Store.</p>
+        <p><a class="btn btn-default" href="~/StoreItemImages">Learn more &raquo;</a></p>
     </div>
 </div>

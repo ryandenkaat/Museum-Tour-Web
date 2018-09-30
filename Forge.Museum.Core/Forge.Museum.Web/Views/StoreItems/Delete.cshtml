@@ -1,0 +1,42 @@
+﻿@model Forge.Museum.Interfaces.DataTransferObjects.Store.StoreItemDto
+<link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this Artefact?</h3>
+<div>
+    <h4>Artefact #@Model.Id - @Model.Name</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>@Html.LabelFor(model => model.Id, "Artefact ID#:")</dt>
+        <dd>@Html.DisplayFor(model => model.Id)</dd>
+
+        <dt>@Html.LabelFor(model => model.Name, "Artefact Name:")</dt>
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
+
+        <dt>@Html.LabelFor(model => model.Description, "Description:")</dt>
+        <dd>@Html.DisplayFor(model => model.Description)</dd>
+
+        <dt>@Html.LabelFor(model => model.Cost, "Acquisition Date:")</dt>
+        <dd>@Html.DisplayFor(model => model.Cost)</dd>
+
+        <dt>@Html.LabelFor(model => model.InStock, "Length:")</dt>
+        <dd>@Html.DisplayFor(model => model.InStock)</dd>
+    </dl>
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+
+    }
+</div>

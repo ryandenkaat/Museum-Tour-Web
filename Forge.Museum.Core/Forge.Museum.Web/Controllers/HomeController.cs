@@ -2,6 +2,8 @@
 using Forge.Museum.BLL.Http;
 using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
 using Forge.Museum.Interfaces.DataTransferObjects.Exhibition;
+using Forge.Museum.Interfaces.DataTransferObjects.Store;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,17 +19,26 @@ namespace Forge.Museum.Web.Controllers
             var requestArtefacts = new HTTPrequest();
 
             //Get list of Artefacts and pass Count of Artefact Entires
-            List<ArtefactDto> artefactsMasterList = await requestArtefacts.Get<List<ArtefactDto>>("api/artefact?pageNumber=0&numPerPage=999999&isDeleted=false");
+            List<ArtefactDto> artefactsMasterList = await GetArtefacts();
+
             int artefactsCount = artefactsMasterList.Count;
             ViewBag.TotalArtefacts = artefactsCount;
 
 
             //Get the most recently modified Artefact and pass NAME, ID, MODIFIED DATE via ViewBag
             List<ArtefactDto> orderedArtefactMasterList = artefactsMasterList.OrderByDescending(m => m.ModifiedDate).ToList();
-            ArtefactDto mostRecentArtefact = orderedArtefactMasterList.ElementAt(0);
-            ViewBag.mostRecentArtefactName = mostRecentArtefact.Name;
-            ViewBag.mostRecentArtefactId = mostRecentArtefact.Id;
-            ViewBag.mostRecentArtefactModDate = mostRecentArtefact.ModifiedDate;
+            if (orderedArtefactMasterList.Count <= 0)
+            {
+
+            }
+            else
+            {
+                ArtefactDto mostRecentArtefact = orderedArtefactMasterList.ElementAt(0);
+                ViewBag.mostRecentArtefactName = mostRecentArtefact.Name;
+                ViewBag.mostRecentArtefactId = mostRecentArtefact.Id;
+                ViewBag.mostRecentArtefactModDate = mostRecentArtefact.ModifiedDate;
+
+            }
 
 
             //Get list of Artefacts and pass Count of Artefact Entires
@@ -54,6 +65,17 @@ namespace Forge.Museum.Web.Controllers
 
             }
 
+            //Get list of Store Items and pass Count of Artefact Entires
+            List<StoreItemDto> storeItemsMasterList = await GetStoreItems   ();
+            int storeItemCount = storeItemsMasterList.Count;
+            double costOfAllItems = 0;
+            foreach (var item in storeItemsMasterList) {
+                costOfAllItems = costOfAllItems + item.Cost;
+            }
+            double storeItemAvgCost = costOfAllItems / storeItemCount;
+            ViewBag.TotalStoreItems = storeItemCount;
+            ViewBag.AverageItemCost = storeItemAvgCost;
+
 
 
 
@@ -64,6 +86,13 @@ namespace Forge.Museum.Web.Controllers
         public ViewResult IndexAsync()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<ArtefactDto>> GetArtefacts()
+        {
+            var request = new HTTPrequest();
+            List<ArtefactDto> artefactMasterList = await request.Get<List<ArtefactDto>>("api/artefact?pageNumber=0&numPerPage=99999&isDeleted=false");
+            return artefactMasterList;
         }
 
         public async Task<List<ArtefactInfoDto>> GetArtefactInfo()
@@ -80,6 +109,15 @@ namespace Forge.Museum.Web.Controllers
             List<ExhibitionDto> exhibitionsMasterList = await request.Get<List<ExhibitionDto>>("api/exhibition?pageNumber=0&numPerPage=99999&isDeleted=false");
             return exhibitionsMasterList;
         }
+
+
+        public async Task<List<StoreItemDto>> GetStoreItems()
+        {
+            var request = new HTTPrequest();
+            List<StoreItemDto> storeItemsMasterList = await request.Get<List<StoreItemDto>>("api/storeItem?pageNumber=0&numPerPage=99999&isDeleted=false");
+            return storeItemsMasterList;
+        }
+
 
 
         public ActionResult About()

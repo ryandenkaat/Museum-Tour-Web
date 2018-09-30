@@ -1,0 +1,67 @@
+﻿@model Forge.Museum.Interfaces.DataTransferObjects.Store.StoreItemDto
+<link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Create";
+
+    var boolDropdown = new SelectList(new[] { new { Value = "true", Text = "Yes" }, new { Value = "false", Text = "No" } }, "Value", "Text", Model);
+
+
+
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>New Store Item</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "Name field is required", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Cost, "Cost", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.InStock, "In Stock?", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.InStock, boolDropdown, new { htmlAttributes = new { @class = "form-control" } })
+            @*          @Html.ValidationMessageFor(model => model.ArtefactCategory, "", new { @class = "text-danger" })
+            *@
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+    }
+
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
