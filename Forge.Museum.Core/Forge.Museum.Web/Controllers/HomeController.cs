@@ -19,7 +19,8 @@ namespace Forge.Museum.Web.Controllers
             var requestArtefacts = new HTTPrequest();
 
             //Get list of Artefacts and pass Count of Artefact Entires
-            List<ArtefactDto> artefactsMasterList = await requestArtefacts.Get<List<ArtefactDto>>("api/artefact?pageNumber=0&numPerPage=999999&isDeleted=false");
+            List<ArtefactDto> artefactsMasterList = await GetArtefacts();
+
             int artefactsCount = artefactsMasterList.Count;
             ViewBag.TotalArtefacts = artefactsCount;
 
@@ -85,6 +86,13 @@ namespace Forge.Museum.Web.Controllers
         public ViewResult IndexAsync()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<ArtefactDto>> GetArtefacts()
+        {
+            var request = new HTTPrequest();
+            List<ArtefactDto> artefactMasterList = await request.Get<List<ArtefactDto>>("api/artefact?pageNumber=0&numPerPage=99999&isDeleted=false");
+            return artefactMasterList;
         }
 
         public async Task<List<ArtefactInfoDto>> GetArtefactInfo()
