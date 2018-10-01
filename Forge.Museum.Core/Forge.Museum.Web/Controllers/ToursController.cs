@@ -11,6 +11,7 @@ using Forge.Museum.BLL.Http;
 using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
 using Forge.Museum.Interfaces.DataTransferObjects.Tour;
 using Forge.Museum.Web.Models;
+using PagedList;
 
 namespace Forge.Museum.Web.Controllers
 {
@@ -19,13 +20,61 @@ namespace Forge.Museum.Web.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: TourDtoes
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var request = new HTTPrequest();
 
-            List<TourDto> viewModel = await request.Get<List<TourDto>>("api/tour?pageNumber=0&numPerPage=500&isDeleted=false");
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewBag.NameSortParm = sortOrder == "Name" ? "name_desc" : "Name";
+            ViewBag.AgeSortParm = sortOrder == "Age Group" ? "age_desc" : "Age Group";
 
-            return View(viewModel);
+            List<TourDto> tourMasterList = await request.Get<List<TourDto>>("api/tour?pageNumber=0&numPerPage=500&isDeleted=false");
+            IEnumerable<TourDto> toursFiltered = tourMasterList.ToList();
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                toursFiltered = toursFiltered.Where(a => a.Name.Contains(searchString));
+            }
+
+
+            var tours = toursFiltered;
+
+            switch (sortOrder)
+            {
+                case "id_desc":
+                    tours = tours.OrderByDescending(a => a.Id);
+                    break;
+                case "Name":
+                    tours = tours.OrderBy(a => a.Name);
+                    break;
+                case "name_desc":
+                    tours = tours.OrderByDescending(a => a.Name);
+                    break;
+                case "Age Group":
+                    tours = tours.OrderBy(a => a.AgeGroup.ToString());
+                    break;
+                case "age_desc":
+                    tours = tours.OrderByDescending(a => a.AgeGroup.ToString());
+                    break;
+                default:
+                    tours = tours.OrderBy(a => a.Id);
+                    break;
+            }
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(tours.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: TourDtoes/Details/5

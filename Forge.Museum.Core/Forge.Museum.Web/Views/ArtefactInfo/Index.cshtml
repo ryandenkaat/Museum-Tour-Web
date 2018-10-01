@@ -92,9 +92,18 @@
                             @Html.DisplayFor(modelItem => item.ArtefactInfoType)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            <!-- Edit Button */ !-->
+                            <a href="@Url.Action("Edit", "ArtefactInfo",  new { id = item.Id })" class="btn btn-link" title="Edit Artefact Content">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            </a>|
+                            <!-- Details Button */ !-->
+                            <a href="@Url.Action("Details", "ArtefactInfo",  new { id = item.Id })" class="btn btn-link" title="Artefact Contect Details">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                            </a>|
+                            <!-- Delete Button */ !-->
+                            <a href="@Url.Action("Delete", "ArtefactInfo",  new { id = item.Id })" class="btn btn-link" title="Delete Artefact Content">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </a>
                         </td>
                     </tr>
                 }

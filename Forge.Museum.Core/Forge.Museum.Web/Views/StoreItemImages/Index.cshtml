@@ -23,7 +23,7 @@
 @using (Html.BeginForm("Index", "StoreItemImages", FormMethod.Get))
 {
     <p>
-        Search by Description: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        Search by Id: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
         <input type="submit" value="Search" />
     </p>
 }
@@ -97,6 +97,18 @@
                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                             @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                             @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            <!-- Edit Button */ !-->
+                            <a href="@Url.Action("Edit", "Tours",  new { id = item.Id })" class="btn btn-link" title="Edit Image">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            </a>|
+                            <!-- Details Button */ !-->
+                            <a href="@Url.Action("Details", "Tours",  new { id = item.Id })" class="btn btn-link" tilte="Image Details">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                            </a>|
+                            <!-- Delete Button */ !-->
+                            <a href="@Url.Action("Delete", "Tours",  new { id = item.Id })" class="btn btn-link" title="Delete Image">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </a>
                         </td>
                     </tr>
                 }

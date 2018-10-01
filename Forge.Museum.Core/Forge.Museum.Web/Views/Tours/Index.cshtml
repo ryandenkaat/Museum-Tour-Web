@@ -1,4 +1,7 @@
-﻿@model IEnumerable<Forge.Museum.Interfaces.DataTransferObjects.Tour.TourDto>
+﻿@model PagedList.IPagedList<TourDto>
+@using PagedList.Mvc;
+@using Forge.Museum.Interfaces.DataTransferObjects.Tour;
+
 <link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
 
@@ -11,49 +14,85 @@
 <p>
     @Html.ActionLink("Add New Tour", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            ID#
-        </th>
-        <th>
-            Name
-        <th>
-            Age Group
-        </th>
-        <th></th>
-    </tr>
+@using (Html.BeginForm("Index", "Tours", FormMethod.Get))
+{
+    <p>
+        Search by Name: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+<div class="content-box">
+    <div class="content-box-header">
+        <h3>All Tours</h3>
+        <ul class="content-box-tabs" style="display: block;">
+            <li><a href="#tab1" class="default-tab current">Results</a></li> <!-- href must be unique and match the id of target div -->
+            <li>
+                @Html.ActionLink("Create New Tour", "Create")
+            </li>
+        </ul>
+    </div>
+    <div class="content-box-content" style="display: block;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.ActionLink("ID#", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
+                    </th>
+                    <th>
+                        @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                     </th>
+                    <th>
+                        @Html.ActionLink("Age Group", "Index", new { sortOrder = ViewBag.AgeSortParm, currentFilter = ViewBag.CurrentFilter })
 
-    @foreach (var item in Model)
-    {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AgeGroup)
-        </td>
-        <td>
-            <!-- Edit Button */ !-->
-            <a href="@Url.Action("Edit", "Tours",  new { id = item.Id })" class="btn btn-link">
-                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-            </a>|
-            <!-- Details Button */ !-->
-            <a href="@Url.Action("Details", "Tours",  new { id = item.Id })" class="btn btn-link">
-                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            </a>|
-            <!-- Delete Button */ !-->
-            <a href="@Url.Action("Delete", "Tours",  new { id = item.Id })" class="btn btn-link">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-            </a>
-            <a href="@Url.Action("Index", "ToursArtefacts",  new { tourId = item.Id })" class="btn btn-link">
-                <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-            </a>
-        </td>
-    </tr>
-    }
+                    </th>
 
-</table>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AgeGroup)
+                        </td>
+                        <td>
+                            <!-- Edit Button */ !-->
+                            <a href="@Url.Action("Edit", "Tours",  new { id = item.Id })" class="btn btn-link" title="Edit Tour">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            </a>|
+                            <!-- Details Button */ !-->
+                            <a href="@Url.Action("Details", "Tours",  new { id = item.Id })" class="btn btn-link" title="Tour Details">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                            </a>|
+                            <!-- Delete Button */ !-->
+                            <a href="@Url.Action("Delete", "Tours",  new { id = item.Id })" class="btn btn-link" title="Delete Tour">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </a>|
+                            <a href="@Url.Action("Index", "ToursArtefacts",  new { tourId = item.Id })" class="btn btn-link" title="View Tour Artefacts">
+                                <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <div class="pagination-sm">
+                            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+                            <!--    Page at(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of atModel.PageCount-->
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+

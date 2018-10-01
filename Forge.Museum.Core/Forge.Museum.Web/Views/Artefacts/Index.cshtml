@@ -100,19 +100,19 @@
                     </td>
                     <td>
                         <!-- Edit Button */ !-->
-                        <a href="@Url.Action("Edit", "Artefacts",  new { id = item.Id })" class="btn btn-link">
+                        <a href="@Url.Action("Edit", "Artefacts",  new { id = item.Id })" class="btn btn-link" title="Edit Artefact">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                         </a>|
                         <!-- Details Button */ !-->
-                        <a href="@Url.Action("Details", "Artefacts",  new { id = item.Id })" class="btn btn-link">
+                        <a href="@Url.Action("Details", "Artefacts",  new { id = item.Id })" class="btn btn-link" title="Artefact Details">
                             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                         </a>|
                         <!-- Delete Button */ !-->
-                        <a href="@Url.Action("Delete", "Artefacts",  new { id = item.Id })" class="btn btn-link">
+                        <a href="@Url.Action("Delete", "Artefacts",  new { id = item.Id })" class="btn btn-link" title="Delete Artefact">
                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                         </a>|
-                        <a href="@Url.Action("Index", "ArtefactInfo",  new { artefactId = item.Id })" class="btn btn-link">
-                            <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+                        <a href="@Url.Action("Index", "ArtefactInfo",  new { artefactId = item.Id })" class="btn btn-link" title="View Artefact Content">
+                            <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
                         </a>
                     </td>
                 </tr>

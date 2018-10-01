@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Forge.Museum.Interfaces.DataTransferObjects.Artefact.ArtefactSimpleDto>
+﻿@model IEnumerable<Forge.Museum.Interfaces.DataTransferObjects.Tour.TourArtefactDto>
 <link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
 
@@ -27,7 +27,7 @@
     </tr>
 
     @foreach (var item in list)
-    {
+     {
         <tr>
             <td>
                 @list.IndexOf(item).ToString()
@@ -37,20 +37,20 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.Artefact.Name)
             </td>
             <td>
                 <!-- Edit Button */ !-->
-                <a href="@Url.Action("Edit", "ToursArtefacts",  new { artefactId = item.Id, tourId = tourId })" class="btn btn-link">
+                <a href="@Url.Action("Edit", "ToursArtefacts",  new { artefactId = item.Id, tourId = tourId })" class="btn btn-link" title="Edit Artefact in Tour">
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                 </a>|
                 <!-- Delete Button */ !-->
-                <a href="@Url.Action("Delete", "ToursArtefacts",  new { artefactId = item.Id, tourId = tourId })" class="btn btn-link">
+                <a href="@Url.Action("Delete", "ToursArtefacts",  new { artefactId = item.Id, tourId = tourId })" class="btn btn-link" title="Delete Artefact from Tour">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </a>
             </td>
         </tr>
-    }
+     }
 
 </table>
 <div>
