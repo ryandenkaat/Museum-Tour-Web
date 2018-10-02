@@ -12,6 +12,7 @@ using Forge.Museum.Web.Models;
 using Forge.Museum.BLL.Http;
 using PagedList;
 
+
 namespace Forge.Museum.Web.Controllers
 {
     public class ZonesController : Controller
@@ -84,8 +85,9 @@ namespace Forge.Museum.Web.Controllers
         }
 
         // GET: Zones/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
+            var request = new HTTPrequest();
             return View();
         }
 
@@ -96,15 +98,24 @@ namespace Forge.Museum.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ZoneDto zone)
         {
-            if (ModelState.IsValid)
+            ZoneDto newZone = new ZoneDto();
+            newZone.Id = newZone.Id;
+            newZone.CreatedDate = newZone.CreatedDate;
+            newZone.Description = newZone.Description;
+            newZone.Name = newZone.Name;
+            newZone.ModifiedDate = newZone.ModifiedDate;
+            newZone.Artefacts = newZone.Artefacts;
+
+            if (ModelState.IsValid && (zone.Name != null))
             {
                 var request = new HTTPrequest();
-
-                zone = await request.Post<ZoneDto>("api/zone", zone);
-
+                zone = await request.Post<ZoneDto>("api/zone", newZone);
+                return RedirectToAction("Index");
+            } else
+            {
+                var request = new HTTPrequest();
+                return View();
             }
-            return RedirectToAction("Index");
-
         }
 
         // GET: Zones/Edit/5

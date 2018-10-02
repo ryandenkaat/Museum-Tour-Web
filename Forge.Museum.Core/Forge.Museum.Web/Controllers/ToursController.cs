@@ -106,6 +106,7 @@ namespace Forge.Museum.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(TourDto tour, HttpPostedFileBase imageFile)
         {
+
             if (ModelState.IsValid)
             {
                 tour.CreatedDate = DateTime.Now;
@@ -114,7 +115,7 @@ namespace Forge.Museum.Web.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(tour);
+            return View();
         }
 
         // GET: TourDtoes/Edit/5
