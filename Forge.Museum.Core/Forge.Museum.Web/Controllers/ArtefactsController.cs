@@ -59,7 +59,7 @@ namespace Forge.Museum.Web.Controllers {
 
 
         // GET: Artefacts
-        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page) {
+        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page, string recentAction, string recentName, string recentId) {
             var request = new HTTPrequest();
             ViewBag.CurrentSort = sortOrder;
             ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
@@ -68,9 +68,15 @@ namespace Forge.Museum.Web.Controllers {
             ViewBag.CategorySortParm = sortOrder == "Category" ? "category_desc" : "Category";
             List<ArtefactDto> artefactsMasterList = await request.Get<List<ArtefactDto>>("api/artefact?pageNumber=0&numPerPage=999999&isDeleted=false");
             IEnumerable<ArtefactDto> artefactsFiltered = artefactsMasterList.ToList();
-        
 
-            if(searchString != null)
+            if (recentAction != null && recentAction.Count() > 0)
+            {
+                ViewBag.Action = recentAction;
+                ViewBag.RecentName = recentName;
+                ViewBag.RecentId = recentId;
+            }
+
+            if (searchString != null)
             {
                 page = 1;
             } else
@@ -181,8 +187,9 @@ namespace Forge.Museum.Web.Controllers {
                 }
                 artefact = await request.Post<ArtefactDto>("api/artefact", artefact);
 
-                return RedirectToAction("Index");
-            } else {
+                return RedirectToAction("Index", new { recentAction = "Created", recentName = artefact.Name, recentId = artefact.Id });
+            }
+            else {
                 var request = new HTTPrequest();
                 // ARTEFACT CATEGORY DROPDOWN
                 List<SelectListItem> categoryDropdown = new List<SelectListItem>();
@@ -257,7 +264,7 @@ namespace Forge.Museum.Web.Controllers {
                 //if (artefact.Image != null) { artefact_editted.Image = artefact.Image; }
 
                 await request.Put<ArtefactDto>("api/artefact", artefact_editted);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { recentAction = "Editted", recentName = artefact.Name, recentId = artefact.Id });
             }
             return View(artefact);
         }
@@ -282,8 +289,10 @@ namespace Forge.Museum.Web.Controllers {
         public async Task<ActionResult> DeleteConfirmed(int id) {
             try {
                 var request = new HTTPrequest();
+                ArtefactDto artefact = await request.Get<ArtefactDto>("api/artefact/" + id);
+
                 await request.Delete("api/artefact/" + id);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { recentAction = "Deleted", recentName = artefact.Name, recentId = artefact.Id });
             }
             catch (Exception) {
 

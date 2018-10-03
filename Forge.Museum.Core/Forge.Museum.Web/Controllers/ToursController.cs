@@ -20,9 +20,17 @@ namespace Forge.Museum.Web.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: TourDtoes
-        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page, string recentAction, string recentName, string recentId)
         {
             var request = new HTTPrequest();
+
+            if (recentAction != null && recentAction.Count() > 0)
+            {
+                ViewBag.Action = recentAction;
+                ViewBag.RecentName = recentName;
+                ViewBag.RecentId = recentId;
+
+            }
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
@@ -112,7 +120,7 @@ namespace Forge.Museum.Web.Controllers
                 tour.CreatedDate = DateTime.Now;
                 var request = new HTTPrequest();
                 tour = await request.Post<TourDto>("api/tour", tour);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { recentAction = "Created", recentName = tour.Name, recentId = tour.Id });
             }
 
             return View();
@@ -167,7 +175,7 @@ namespace Forge.Museum.Web.Controllers
                 tour_editted.AgeGroup = tour.AgeGroup;
                 tour_editted.ModifiedDate = DateTime.Now;
                 await request.Put<TourDto>("api/tour", tour_editted);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { recentAction = "Editted", recentName = tour.Name, recentId = tour.Id });
             }
             return View(tour);
         }
@@ -198,7 +206,7 @@ namespace Forge.Museum.Web.Controllers
                 tour.IsDeleted = true;
                 await request.Put<ArtefactInfoDto>("api/tour", tour);
                 await request.Delete("api/tour/" + id.ToString());
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { recentAction = "Deleted", recentName = tour.Name, recentId = tour.Id });
         }
 
         protected override void Dispose(bool disposing)

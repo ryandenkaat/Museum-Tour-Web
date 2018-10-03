@@ -70,57 +70,67 @@
                 </tr>
             </tfoot>
             <tbody>
-            @foreach (var item in Model) {
-                <tr>
-                    <td>
-                        @if (item.Image == null || item.Image.Length == 0) { }
-                        else
-                        {
-                            <img class="img-thumbnail" src="data:image;base64,@System.Convert.ToBase64String(item.Image)" width="60" height="50" />
-                        }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @item.AcquisitionDate.ToShortDateString()
-                    </td>
-                    <td>
-                        @if (item.ArtefactCategory != null) {
-                            @Html.ActionLink(item.ArtefactCategory.Id.ToString() + ": " + item.ArtefactCategory.Name, "Details", "ArtefactCategories", new { id = item.ArtefactCategory.Id }, null)
-                          }
-                    </td>
-                    <td>
-                        @if (item.Zone != null) {
-                            @Html.ActionLink(item.Zone.Id.ToString() + ": " + item.Zone.Name, "Details", "Zones", new { id = item.Zone.Id }, null)
-                          }
-                    </td>
-                    <td>
-                        <!-- Edit Button */ !-->
-                        <a href="@Url.Action("Edit", "Artefacts",  new { id = item.Id })" class="btn btn-link" title="Edit Artefact">
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                        </a>|
-                        <!-- Details Button */ !-->
-                        <a href="@Url.Action("Details", "Artefacts",  new { id = item.Id })" class="btn btn-link" title="Artefact Details">
-                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                        </a>|
-                        <!-- Delete Button */ !-->
-                        <a href="@Url.Action("Delete", "Artefacts",  new { id = item.Id })" class="btn btn-link" title="Delete Artefact">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        </a>|
-                        <a href="@Url.Action("Index", "ArtefactInfo",  new { artefactId = item.Id })" class="btn btn-link" title="View Artefact Content">
-                            <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-                        </a>
-                    </td>
-                </tr>
-}
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (item.Image == null || item.Image.Length == 0) { }
+                            else
+                            {
+                                <img class="img-thumbnail" src="data:image;base64,@System.Convert.ToBase64String(item.Image)" width="60" height="50" />
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @item.AcquisitionDate.ToShortDateString()
+                        </td>
+                        <td>
+                            @if (item.ArtefactCategory != null)
+                            {
+                                @Html.ActionLink(item.ArtefactCategory.Id.ToString() + ": " + item.ArtefactCategory.Name, "Details", "ArtefactCategories", new { id = item.ArtefactCategory.Id }, null)
+                            }
+                        </td>
+                        <td>
+                            @if (item.Zone != null)
+                            {
+                                @Html.ActionLink(item.Zone.Id.ToString() + ": " + item.Zone.Name, "Details", "Zones", new { id = item.Zone.Id }, null)
+                            }
+                        </td>
+                        <td>
+                            <!-- Edit Button */ !-->
+                            <a href="@Url.Action("Edit", "Artefacts",  new { id = item.Id })" class="btn btn-link" title="Edit Artefact">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            </a>|
+                            <!-- Details Button */ !-->
+                            <a href="@Url.Action("Details", "Artefacts",  new { id = item.Id })" class="btn btn-link" title="Artefact Details">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                            </a>|
+                            <!-- Delete Button */ !-->
+                            <a href="@Url.Action("Delete", "Artefacts",  new { id = item.Id })" class="btn btn-link" title="Delete Artefact">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </a>|
+                            <a href="@Url.Action("Index", "ArtefactInfo",  new { artefactId = item.Id })" class="btn btn-link" title="View Artefact Content">
+                                <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
 </div>
+@if (ViewBag.Action != null)
+{
+    <div class="notification success png_bg">
+        <div>Success! Zone #@ViewBag.RecentId - '@ViewBag.RecentName' has been @ViewBag.Action! </div>
+    </div>
+}
+
 <div class="row">
     <div class="col-md-4">
         <h2>Artefact Categories</h2>

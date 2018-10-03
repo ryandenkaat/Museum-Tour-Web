@@ -40,7 +40,7 @@
                     </th>
                     <th>
                         @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
-                     </th>
+                    </th>
                     <th>
                         @Html.ActionLink("Age Group", "Index", new { sortOrder = ViewBag.AgeSortParm, currentFilter = ViewBag.CurrentFilter })
 
@@ -95,4 +95,10 @@
         </table>
     </div>
 </div>
+@if (ViewBag.Action != null)
+{
+    <div class="notification success png_bg">
+        <div>Success! Tour #@ViewBag.RecentId - '@ViewBag.RecentName' has been @ViewBag.Action! </div>
+    </div>
+}
 
