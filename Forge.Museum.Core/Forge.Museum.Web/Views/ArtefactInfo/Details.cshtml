@@ -21,78 +21,65 @@
     <h4>Artefact Content ID#@Model.Id - @Model.Description</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+        <dt>@Html.LabelFor(model => model.Id, "Artefact Content ID#:", htmlAttributes: new { @class = "control-label col-md-2" })</dt>
+        <dd>@Html.DisplayFor(model => model.Id)</dd>
 
-        <dt>
-            @Html.LabelFor(model => model.FileExtension, "File Extension")
-        </dt>
+        <dt>@Html.LabelFor(model => model.FileExtension, "File Extension:", htmlAttributes: new { @class = "control-label col-md-2" })</dt>
+        <dd>@Html.DisplayFor(model => model.FileExtension)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.FileExtension)
-        </dd>
+        <dt>@Html.LabelFor(model => model.Description, "Description:", htmlAttributes: new { @class = "control-label col-md-2" })</dt>
+        <dd>@Html.DisplayFor(model => model.Description)</dd>
 
-        <dt>
-            @Html.LabelFor(model => model.ArtefactInfoType, "Artefact Media Type")
-        </dt>
+        <dt>@Html.LabelFor(model => model.Artefact, "Artefact:", htmlAttributes: new { @class = "control-label col-md-2" })</dt>
+        <dd>@Html.ActionLink(Model.Artefact.Id.ToString() + ": " + Model.Artefact.Name, "Details", "Artefacts", new { id = Model.Artefact.Id }, null)</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ArtefactInfoType)
-        </dd>
+        <dt>@Html.LabelFor(model => model.ArtefactInfoType, "Artefact Media Type:", htmlAttributes: new { @class = "control-label col-md-2" })</dt>
+        <dd>@Html.DisplayFor(model => model.ArtefactInfoType)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Content)
-        </dd>
+        <dt>@Html.LabelFor(model => model.Content, "Content:", htmlAttributes: new { @class = "control-label col-md-2" })</dt>
+        <dd>@Html.DisplayFor(model => model.Content)</dd>
 
 
         @if (Model.ArtefactInfoType == ArtefactInfoType.Text)
-        {
+    {
 
-        }
-        else
-        {
-            <dt>
-                @Html.DisplayNameFor(model => model.File)
-            </dt>
-            if (fileUploadedBool == false)
-            {
-                <dd>
-                    <text> No media file uploaded yet</text>
-                </dd>
-            }
-            else
-            {
-                if (Model.ArtefactInfoType == ArtefactInfoType.Image)
-                {
-                    <dd><img src="data:image;base64,@System.Convert.ToBase64String(Model.File)" width="160" height="160" /></dd>
-                }
-                else if (Model.ArtefactInfoType == ArtefactInfoType.Video)
-                {
-                    <dd>
-                        <video width="320" height="240" controls="controls" preload="none">
-                            <source src="data:video;base64,@System.Convert.ToBase64String(Model.File)" type="video/mp4" />
-                        </video>
-                    </dd>
-                }
-                else if (Model.ArtefactInfoType == ArtefactInfoType.Audio)
-                {
-                    <dd>
-                        <audio controls="controls">
-                            <source src="data:audio;base64,@System.Convert.ToBase64String(Model.File)" type="audio/mp3" />
-                        </audio>
-                    </dd>
-                }
-            }
-        }
+    }
+    else
+    {
+        <dt>
+            @Html.DisplayNameFor(model => model.File)
+        </dt>
+    if (fileUploadedBool == false)
+    {
+        <dd>
+            <text> No media file uploaded yet</text>
+        </dd>
+}
+else
+{
+    if (Model.ArtefactInfoType == ArtefactInfoType.Image)
+    {
+        <dd><img src="data:image;base64,@System.Convert.ToBase64String(Model.File)" width="160" height="160" /></dd>
+}
+else if (Model.ArtefactInfoType == ArtefactInfoType.Video)
+{
+    <dd>
+        <video width="320" height="240" controls="controls" preload="none">
+            <source src="data:video;base64,@System.Convert.ToBase64String(Model.File)" type="video/mp4" />
+        </video>
+    </dd>
+}
+else if (Model.ArtefactInfoType == ArtefactInfoType.Audio)
+{
+    <dd>
+        <audio controls="controls">
+            <source src="data:audio;base64,@System.Convert.ToBase64String(Model.File)" type="audio/mp3" />
+        </audio>
+    </dd>
+}
+}
+}
 
 
     </dl>

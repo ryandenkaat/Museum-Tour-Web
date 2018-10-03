@@ -12,26 +12,14 @@
     <hr />
     <dl class="dl-horizontal">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Id)
-        </dd>
+        <dt>@Html.LabelFor(model => model.Id, "Category ID#:")</dt>
+        <dd>@Html.DisplayFor(model => model.Id)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+        <dt>@Html.LabelFor(model => model.Name, "Category Name:")</dt>
+        <dd>@Html.DisplayFor(model => model.Name)</dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+        <dt>@Html.LabelFor(model => model.Description, "Description:")</dt>
+        <dd>@Html.DisplayFor(model => model.Description)</dd>
 
         <dt>
             @Html.LabelFor(model => model.Image, "Image:")

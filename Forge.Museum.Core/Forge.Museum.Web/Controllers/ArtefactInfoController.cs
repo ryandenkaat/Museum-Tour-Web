@@ -21,6 +21,29 @@ namespace Forge.Museum.Web.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+
+
+        public async Task<List<SelectListItem>> PopulateArtefactDropdown()
+        {
+            var request = new HTTPrequest();
+            List<ArtefactSimpleDto> artefacts = await request.Get<List<ArtefactSimpleDto>>("api/artefact?pageNumber=0&numPerPage=5-0&isDeleted=false");
+            List<SelectListItem> artefactDropdown = new List<SelectListItem>();
+            if (artefacts != null && artefacts.Any())
+            {
+                foreach (var category in artefacts)
+                {
+                    artefactDropdown.Add(new SelectListItem()
+                    {
+                        Text = category.Id + ": " + category.Name,
+                        Value = category.Id.ToString()
+                    });
+                }
+            }
+            return artefactDropdown;
+        }
+
+
+
         // GET: ArtefactInfo
         public async Task<ActionResult> Index(int? artefactId, string sortOrder, string currentFilter, string searchString, int? page)
         {
@@ -217,6 +240,12 @@ namespace Forge.Museum.Web.Controllers
             {
                 return HttpNotFound();
             }
+
+            //ARTEFACT CATEGORY DROPDOWN
+            List<SelectListItem> artefactDropdown = new List<SelectListItem>();
+            artefactDropdown = await PopulateArtefactDropdown();
+            ViewBag.ArtefactList = artefactDropdown;
+
             return View(artefactInfo);
         }
 
@@ -232,6 +261,7 @@ namespace Forge.Museum.Web.Controllers
 
             if (ModelState.IsValid)
             {
+                artefactInfo_editted.Artefact = artefactInfo.Artefact;
                 artefactInfo_editted.Content = artefactInfo.Content;
                 artefactInfo_editted.Description = artefactInfo.Description;
                 artefactInfo_editted.ArtefactInfoType = artefactInfo.ArtefactInfoType;
