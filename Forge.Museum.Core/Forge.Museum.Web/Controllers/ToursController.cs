@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -12,6 +11,7 @@ using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
 using Forge.Museum.Interfaces.DataTransferObjects.Tour;
 using Forge.Museum.Web.Models;
 using PagedList;
+using System.Windows.Input;
 
 namespace Forge.Museum.Web.Controllers
 {

@@ -20,9 +20,17 @@ namespace Forge.Museum.Web.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Zones
-        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page, string recentAction, string recentName, string recentId)
         {
             var request = new HTTPrequest();
+
+            if(recentAction != null && recentAction.Count() > 0)
+            {
+                ViewBag.Action = recentAction;
+                ViewBag.RecentName = recentName;
+                ViewBag.RecentId = recentId;
+
+            }
 
             ViewBag.CurrentSort = sortOrder;
             ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
@@ -98,22 +106,17 @@ namespace Forge.Museum.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ZoneDto zone)
         {
-            ZoneDto newZone = new ZoneDto();
-            newZone.Id = newZone.Id;
-            newZone.CreatedDate = newZone.CreatedDate;
-            newZone.Description = newZone.Description;
-            newZone.Name = newZone.Name;
-            newZone.ModifiedDate = newZone.ModifiedDate;
-            newZone.Artefacts = newZone.Artefacts;
 
             if (ModelState.IsValid && (zone.Name != null))
             {
                 var request = new HTTPrequest();
-                zone = await request.Post<ZoneDto>("api/zone", newZone);
-                return RedirectToAction("Index");
+                zone = await request.Post<ZoneDto>("api/zone", zone);
+                return RedirectToAction("Index", new { recentAction = "Created", recentName = zone.Name, recentId = zone.Id });
             } else
             {
                 var request = new HTTPrequest();
+                ViewBag.Action = null;
+
                 return View();
             }
         }
@@ -145,7 +148,7 @@ namespace Forge.Museum.Web.Controllers
             if (ModelState.IsValid)
             {
                 await request.Put<ArtefactCategoryDto>("api/zone", zone);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { recentAction = "Editted", recentName = zone.Name, recentId = zone.Id });
             }
             return View(zone);
         }
@@ -174,8 +177,9 @@ namespace Forge.Museum.Web.Controllers
             try
             {
                 var request = new HTTPrequest();
+                ZoneDto zone = await request.Get<ZoneDto>("api/zone/" + id);
                 await request.Delete("api/zone/" + id);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { recentAction = "Deleted", recentName = zone.Name, recentId = zone.Id });
             }
             catch (Exception)
             {

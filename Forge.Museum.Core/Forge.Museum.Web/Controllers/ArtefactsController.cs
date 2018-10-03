@@ -180,6 +180,7 @@ namespace Forge.Museum.Web.Controllers {
                     artefact.ImageFileType = fileExtension;
                 }
                 artefact = await request.Post<ArtefactDto>("api/artefact", artefact);
+
                 return RedirectToAction("Index");
             } else {
                 var request = new HTTPrequest();

@@ -6,6 +6,7 @@
 <link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Index";
+
 }
 
 <h2>Zones</h2>
@@ -46,30 +47,30 @@
             </thead>
             <tbody>
                 @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    <!-- Edit Button */ !-->
-                    <a href="@Url.Action("Edit", "Zones",  new { id = item.Id })" class="btn btn-link" title="Edit Zone">
-                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                    </a>|
-                    <!-- Details Button */ !-->
-                    <a href="@Url.Action("Details", "Zones",  new { id = item.Id })" class="btn btn-link" title="Zone Details">
-                        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                    </a>|
-                    <!-- Delete Button */ !-->
-                    <a href="@Url.Action("Delete", "Zones",  new { id = item.Id })" class="btn btn-link" title="Delete Zone">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                    </a>
-                </td>
-            </tr>
-}
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            <!-- Edit Button */ !-->
+                            <a href="@Url.Action("Edit", "Zones",  new { id = item.Id })" class="btn btn-link" title="Edit Zone">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            </a>|
+                            <!-- Details Button */ !-->
+                            <a href="@Url.Action("Details", "Zones",  new { id = item.Id })" class="btn btn-link" title="Zone Details">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                            </a>|
+                            <!-- Delete Button */ !-->
+                            <a href="@Url.Action("Delete", "Zones",  new { id = item.Id })" class="btn btn-link" title="Delete Zone">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
             </tbody>
             <tfoot>
                 <tr>
@@ -84,3 +85,9 @@
         </table>
     </div>
 </div>
+@if (ViewBag.Action != null)
+{
+    <div class="notification success png_bg">
+        <div>Success! Zone #@ViewBag.RecentId - '@ViewBag.RecentName' has been @ViewBag.Action! </div>
+    </div>
+}
