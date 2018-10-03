@@ -1,27 +1,32 @@
-﻿using System;
+﻿using Forge.Museum.BLL.Http;
+using Forge.Museum.Interfaces.DataTransferObjects.Exhibition;
+using Forge.Museum.Web.Models;
+using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Forge.Museum.BLL.Http;
-using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
-using Forge.Museum.Interfaces.DataTransferObjects.Exhibition;
-using Forge.Museum.Web.Models;
-using PagedList;
-using System.IO;
-using Forge.Museum.Web.Controllers;
 
-namespace Forge.Museum.Web.Controllers {
+namespace Forge.Museum.Web.Controllers
+{
     public class ExhibitionsController : Controller {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Artefacts
-        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page) {
+        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page, string recentAction, string recentName, string recentId) {
             var request = new HTTPrequest();
+            //Pass through most recent action details if redirected from an action
+            if (recentAction != null && recentAction.Count() > 0)
+            {
+                ViewBag.Action = recentAction;
+                ViewBag.RecentName = recentName;
+                ViewBag.RecentId = recentId;
+            }
             ViewBag.CurrentSort = sortOrder;
             ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
             ViewBag.NameSortParm = sortOrder == "Name" ? "name_desc" : "Name";
@@ -115,10 +120,8 @@ namespace Forge.Museum.Web.Controllers {
                     //exhibition.ImageFileType = fileExtension;
                 }
                 exhibition = await request.Post<ExhibitionDto>("api/exhibition", exhibition);
-                return RedirectToAction("Index");
-            } else {
-
-
+                return RedirectToAction("Index", new { recentAction = "Created", recentName = exhibition.Name, recentId = exhibition.Id });            }
+            else {
                 return View();
             }
         }
@@ -169,7 +172,7 @@ namespace Forge.Museum.Web.Controllers {
 
                 }
                 await request.Put<ExhibitionDto>("api/exhibition", exhibition_editted);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { recentAction = "Editted", recentName = exhibition.Name, recentId = exhibition.Id });
             }
             return View(exhibition);
         }
@@ -210,7 +213,7 @@ namespace Forge.Museum.Web.Controllers {
             exhibition = await requestDelete.Put<ExhibitionDto>("api/exhibition", exhibition);
             await request.Delete("api/exhibition/" + id.ToString());
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { recentAction = "Deleted", recentName = exhibition.Name, recentId = exhibition.Id });
 
         }
 

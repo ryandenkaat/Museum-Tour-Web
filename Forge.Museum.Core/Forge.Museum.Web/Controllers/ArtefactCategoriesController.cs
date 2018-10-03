@@ -19,9 +19,16 @@ namespace Forge.Museum.Web.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: ArtefactCategoryDtoes
-        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page, string recentAction, string recentName, string recentId)
         {
             var request = new HTTPrequest();
+            //Pass through most recent action details if redirected from an action
+            if (recentAction != null && recentAction.Count() > 0)
+            {
+                ViewBag.Action = recentAction;
+                ViewBag.RecentName = recentName;
+                ViewBag.RecentId = recentId;
+            }
             ViewBag.CurrentSort = sortOrder;
             ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
             ViewBag.NameSortParm = sortOrder == "Name" ? "name_desc" : "Name";
@@ -109,7 +116,7 @@ namespace Forge.Museum.Web.Controllers
                 }
 
                 category = await request.Post<ArtefactCategoryDto>("api/artefactCatergory", category);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { recentAction = "Created", recentName = category.Name, recentId = category.Id });
             }
 
             return View(category);
@@ -154,7 +161,7 @@ namespace Forge.Museum.Web.Controllers
                 }
 
                 await request.Put<ArtefactCategoryDto>("api/artefactCatergory", category_editted);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { recentAction = "Editted", recentName = category.Name, recentId = category.Id });
             }
             return View(category);
         }
@@ -183,8 +190,10 @@ namespace Forge.Museum.Web.Controllers
             try
             {
                 var request = new HTTPrequest();
+                ArtefactCategoryDto category = await request.Get<ArtefactCategoryDto>("api/artefactCatergory/" + id);
+
                 await request.Delete("api/artefactCatergory/" + id);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { recentAction = "Editted", recentName = category.Name, recentId = category.Id });
             }
             catch (Exception)
             {

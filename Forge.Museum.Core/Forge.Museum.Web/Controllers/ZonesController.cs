@@ -23,13 +23,12 @@ namespace Forge.Museum.Web.Controllers
         public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page, string recentAction, string recentName, string recentId)
         {
             var request = new HTTPrequest();
-
-            if(recentAction != null && recentAction.Count() > 0)
+            //Pass through most recent action details if redirected from an action
+            if (recentAction != null && recentAction.Count() > 0)
             {
                 ViewBag.Action = recentAction;
                 ViewBag.RecentName = recentName;
                 ViewBag.RecentId = recentId;
-
             }
 
             ViewBag.CurrentSort = sortOrder;
