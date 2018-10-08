@@ -248,6 +248,10 @@
     <Compile Include="Migrations\201809130110374_ToursUpdate.Designer.cs">
       <DependentUpon>201809130110374_ToursUpdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810080802226_UpdatedRolesTableName.cs" />
+    <Compile Include="Migrations\201810080802226_UpdatedRolesTableName.Designer.cs">
+      <DependentUpon>201810080802226_UpdatedRolesTableName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Artefact.cs" />
     <Compile Include="Models\ArtefactCategory.cs" />
@@ -404,6 +408,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809130110374_ToursUpdate.resx">
       <DependentUpon>201809130110374_ToursUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810080802226_UpdatedRolesTableName.resx">
+      <DependentUpon>201810080802226_UpdatedRolesTableName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -34,7 +34,17 @@ namespace Forge.Museum.API.Models
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Artefact>()
+			modelBuilder.Entity<AspNetUser>()
+			   .HasMany(p => p.AspNetRoles)
+			   .WithMany(m => m.AspNetUsers)
+			   .Map(mc =>
+			   {
+				   mc.MapLeftKey("UserId");
+				   mc.MapRightKey("RoleId");
+				   mc.ToTable("AspNetUserRoles");
+			   });
+
+			modelBuilder.Entity<Artefact>()
                 .HasMany(m => m.TourArtefacts).WithRequired(m => m.Artefact);
         }
 
