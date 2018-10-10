@@ -15,6 +15,7 @@ using System.IO;
 using Forge.Museum.Web.Controllers;
 
 namespace Forge.Museum.Web.Controllers {
+    [Authorize]
     public class ArtefactsController : Controller {
         private ApplicationDbContext db = new ApplicationDbContext();
 

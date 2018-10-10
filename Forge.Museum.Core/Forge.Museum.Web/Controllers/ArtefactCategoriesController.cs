@@ -14,6 +14,7 @@ using PagedList;
 
 namespace Forge.Museum.Web.Controllers
 {
+    [Authorize]
     public class ArtefactCategoriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

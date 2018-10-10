@@ -14,6 +14,7 @@ using System.Web.Mvc;
 
 namespace Forge.Museum.Web.Controllers
 {
+    [Authorize]
     public class ExhibitionsController : Controller {
         private ApplicationDbContext db = new ApplicationDbContext();
 

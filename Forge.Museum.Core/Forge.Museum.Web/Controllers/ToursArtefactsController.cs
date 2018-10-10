@@ -25,12 +25,12 @@ namespace Forge.Museum.Web.Controllers
             List<SelectListItem> artefactDropdown = new List<SelectListItem>();
             if (artefacts != null && artefacts.Any())
             {
-                foreach (var category in artefacts)
+                foreach (var artefact in artefacts)
                 {
                     artefactDropdown.Add(new SelectListItem()
                     {
-                        Text = category.Id + ": " + category.Name,
-                        Value = category.Id.ToString()
+                        Text = artefact.Id + ": " + artefact.Name,
+                        Value = artefact.Id.ToString()
                     });
                 }
             }
@@ -57,8 +57,18 @@ namespace Forge.Museum.Web.Controllers
                     ViewBag.TourName = tour.Name;
                     ViewBag.TourID = tour.Id.ToString();
                 }
+            } else
+            {
+                foreach (var t in toursList)
+                {
+                    tourDropdown.Add(new SelectListItem()
+                    {
+                        Text = t.Id + ": " + t.Name,
+                        Value = t.Id.ToString()
+                    });
+                }
             }
-            return  tourDropdown;
+            return tourDropdown;
         }
     
 
@@ -72,10 +82,10 @@ namespace Forge.Museum.Web.Controllers
 
 
             //viewModel = await request.Get<List<TourDto>>("api/tour?tourId=" + tourId + "&pageNumber=0&numPerPage=500&isDeleted=false");
-            List<ArtefactSimpleDto> artefactList = tour.Artefacts;
+            List<TourArtefactDto> artefactList = tour.Artefacts;
             ViewBag.artefactsList = artefactList;
 
-            List<ArtefactSimpleDto> viewModel = artefactList;
+            List<TourArtefactDto> viewModel = artefactList;
             return View(viewModel);
         }
 
@@ -101,6 +111,9 @@ namespace Forge.Museum.Web.Controllers
             bool tour_Selected = tourId.HasValue;
             ViewBag.TourSelected = tour_Selected;
             var request = new HTTPrequest();
+            ViewBag.TourID = tourId.ToString();
+
+
             //TOUR CATEGORY 
             List<SelectListItem> tourDropdown = new List<SelectListItem>();
             tourDropdown = await PopulateTourDropdown(tour_Selected, tourId);
@@ -119,35 +132,41 @@ namespace Forge.Museum.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(TourArtefactDto tourArtefact, TourDto tour, int? tourId, ArtefactSimpleDto artefact)
         {
-            var request = new HTTPrequest();
+            //TOUR CATEGORY 
+            List<SelectListItem> tourDropdown = new List<SelectListItem>();
+            tourDropdown = await PopulateTourDropdown(true, tourId);
+            ViewBag.TourList = tourDropdown;
+            //ARTEFACT DROPDOWN
             List<SelectListItem> artefactDropdown = new List<SelectListItem>();
             artefactDropdown = await PopulateArtefactDropdown();
             ViewBag.ArtefactList = artefactDropdown;
-            ViewBag.TourID = tourId;
 
-            TourArtefactDto newTourItem = tourArtefact;
-            await request.Post<TourArtefactDto>("api/tourArtefact", newTourItem);
+            ViewBag.TourID = tourId.ToString();
+
+           var tourRequest = new HTTPrequest();
+           TourDto tourCheck = await tourRequest.Get<TourDto>("api/tour/" + tourArtefact.Tour.Id);
+
+            TourArtefactDto newTourArtefact = new TourArtefactDto();
 
 
-            tour = await request.Get<TourDto>("api/tour/"+tourId);
-            ArtefactSimpleDto newTourArtefact = await request.Get<ArtefactSimpleDto>("api/artefact/" + artefact.Id.ToString());
-            //List<ArtefactSimpleDto> = 
-            List<ArtefactSimpleDto> newTourArtefactList = tour.Artefacts;
-
-           // tour.Artefacts.Add(newTourArtefact);
-            if(tourId != null && artefact.Id != null)
+            if (ModelState.IsValid)
             {
-                newTourArtefactList.Add(newTourArtefact);
-                tour.Artefacts = newTourArtefactList.ToList();
-                var request2 = new HTTPrequest();
-                // TODO - UPDATE TO NEW API CALL
-                await request2.Put<TourDto>("api/tour", tour);
-                //    return RedirectToAction("Index");
-                return RedirectToAction("Index", "ToursArtefacts", new { tourId = tourId });
+                newTourArtefact.Id = tourArtefact.Id;
+                newTourArtefact.Tour = tourArtefact.Tour;
+                newTourArtefact.Order = tourArtefact.Order;
+                newTourArtefact.CreatedDate = DateTime.Now;
+                newTourArtefact.ModifiedDate = DateTime.Now;
+                if (tourCheck.Artefacts.Any(m => m.Id != tourArtefact.Id && m.Order != tourArtefact.Order))
+                {
+                    var request = new HTTPrequest();
 
+
+                    await request.Post<TourArtefactDto>("api/tourArtefact", newTourArtefact);
+
+                    return RedirectToAction("Index");
+                }
             }
-            //return View(tour);
-            return RedirectToAction("Index", "Tours");
+            return View(newTourArtefact);
 
         }
 
@@ -199,11 +218,11 @@ namespace Forge.Museum.Web.Controllers
         {
             var request = new HTTPrequest();
             TourDto tour_editted = await request.Get<TourDto>("api/tour/" + tourId);
-            ArtefactSimpleDto newArtefact = await request.Get<ArtefactSimpleDto>("api/artefact/" + artefact.Id);
+            TourArtefactDto newArtefact = await request.Get<TourArtefactDto>("api/artefact/" + artefact.Id);
 
-            ArtefactSimpleDto originalArtefact = await request.Get<ArtefactSimpleDto>("api/artefact/" + originalArtefactId);
+            TourArtefactDto originalArtefact = await request.Get<TourArtefactDto>("api/artefact/" + originalArtefactId);
 
-            List<ArtefactSimpleDto> artefactList = tour_editted.Artefacts;
+            List<TourArtefactDto> artefactList = tour_editted.Artefacts;
             int index = artefactList.FindIndex(a => a.Id == originalArtefact.Id);
             artefactList.RemoveAt(index);
             artefactList.Insert(index, newArtefact);
@@ -277,7 +296,7 @@ namespace Forge.Museum.Web.Controllers
                 var request = new HTTPrequest();
                 TourDto tour = await request.Get<TourDto>("api/tour/" + tourId);
                 ArtefactSimpleDto artefact = await request.Get<ArtefactSimpleDto>("api/artefact/" + artefactId);
-                List<ArtefactSimpleDto> artefactList = tour.Artefacts;
+                List<TourArtefactDto> artefactList = tour.Artefacts;
 
                 int index = artefactList.FindIndex(a => a.Id == artefact.Id);
                 artefactList.RemoveAt(index);

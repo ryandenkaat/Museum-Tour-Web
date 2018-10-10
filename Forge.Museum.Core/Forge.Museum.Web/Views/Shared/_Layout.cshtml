@@ -14,28 +14,33 @@
     <div id="body-wrapper">
         <div id="sidebar">
             <div id="sidebar-wrapper">
-               <div id="sidebar-title">
-                   <a href="~/"><img id="logo" src="~/Content/images/redland-museum-logo-wide.png" alt="Simpla Admin logo" height="45" width="200">
-                   </a>
-                   @Html.ActionLink("Redlands Museum  ", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-               </div>
+                <div id="sidebar-title">
+                    <a href="~/">
+                        <img id="logo" src="~/Content/images/redland-museum-logo-wide.png" alt="Simpla Admin logo" height="45" width="200">
+                    </a>
+                    <div>
+                        @Html.ActionLink("Redlands Museum  ", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    </div>
+                </div>
             </div>
 
-            <ul id="main-nav">
-                <class="clear"></>
-                <li>@Html.ActionLink("Artefacts", "Index", "Artefacts", null, new { @class = "nav-top-item" })</li>
-                <li>@Html.ActionLink("Artefact Media", "Index", "ArtefactInfo", null, new { @class = "nav-top-item" })</li>
-                <li>@Html.ActionLink("Categories", "Index", "ArtefactCategories", null, new { @class = "nav-top-item" })</li>
-                <li>@Html.ActionLink("Exhibitions", "Index", "Exhibitions", null, new { @class = "nav-top-item" })</li>
-                <li>@Html.ActionLink("Merchandise", "Index", "StoreItems", null, new { @class = "nav-top-item" })</li>
-                <li>@Html.ActionLink("Tours", "Index", "Tours", null, new { @class = "nav-top-item" })</li>
-                <li>@Html.ActionLink("Zones", "Index", "Zones", null, new { @class = "nav-top-item" })</li>
-                <li>@Html.ActionLink("About", "About", "Home", null, new { @class = "nav-top-item" })</li>
-                <li>@Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-top-item" })</li>
+
+            <div>
+                <ul id="main-nav">
+                    <li>@Html.ActionLink("Artefacts", "Index", "Artefacts", null, new { @class = "nav-top-item" })</li>
+                    <li>@Html.ActionLink("Artefact Media", "Index", "ArtefactInfo", null, new { @class = "nav-top-item" })</li>
+                    <li>@Html.ActionLink("Categories", "Index", "ArtefactCategories", null, new { @class = "nav-top-item" })</li>
+                    <li>@Html.ActionLink("Exhibitions", "Index", "Exhibitions", null, new { @class = "nav-top-item" })</li>
+                    <li>@Html.ActionLink("Merchandise", "Index", "StoreItems", null, new { @class = "nav-top-item" })</li>
+                    <li>@Html.ActionLink("Tours", "Index", "Tours", null, new { @class = "nav-top-item" })</li>
+                    <li>@Html.ActionLink("Zones", "Index", "Zones", null, new { @class = "nav-top-item" })</li>
+                    <li>@Html.ActionLink("About", "About", "Home", null, new { @class = "nav-top-item" })</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-top-item" })</li>
+                </ul>
+            </div>
+            <div id="profile-links">
                 @Html.Partial("_LoginPartial")
-            </ul>
-
-
+            </div>
         </div>
         <!-- End sidebar -->
         <div class="clear"></div>

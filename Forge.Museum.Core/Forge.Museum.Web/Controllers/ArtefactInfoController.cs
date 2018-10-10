@@ -15,8 +15,8 @@ using System.IO;
 using System.Net.Http;
 using PagedList;
 
-namespace Forge.Museum.Web.Controllers
-{
+namespace Forge.Museum.Web.Controllers { 
+[Authorize]
     public class ArtefactInfoController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

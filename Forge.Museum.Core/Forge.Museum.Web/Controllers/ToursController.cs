@@ -15,6 +15,7 @@ using System.Windows.Input;
 
 namespace Forge.Museum.Web.Controllers
 {
+    [Authorize]
     public class ToursController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -114,7 +115,7 @@ namespace Forge.Museum.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(TourDto tour, HttpPostedFileBase imageFile)
         {
-
+            
             if (ModelState.IsValid)
             {
                 tour.CreatedDate = DateTime.Now;

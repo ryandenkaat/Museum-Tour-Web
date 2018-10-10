@@ -1,4 +1,4 @@
-﻿@model Forge.Museum.Interfaces.DataTransferObjects.Tour.TourDto
+﻿@model Forge.Museum.Interfaces.DataTransferObjects.Tour.TourArtefactDto
 <link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
 <link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
 @{
@@ -40,6 +40,12 @@
         </dt>
         <dd>
             @artefactName
+        </dd>
+        <dt>
+            @Html.DisplayName("Artefact Name: ")
+        </dt>
+        <dd>
+            @Model.Order
         </dd>
     </dl>
 

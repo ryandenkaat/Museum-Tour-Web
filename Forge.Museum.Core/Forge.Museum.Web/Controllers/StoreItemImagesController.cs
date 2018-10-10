@@ -17,6 +17,7 @@ using PagedList;
 
 namespace Forge.Museum.Web.Controllers
 {
+    [Authorize]
     public class StoreItemImagesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

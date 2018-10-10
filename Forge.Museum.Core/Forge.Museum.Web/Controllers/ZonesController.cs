@@ -15,6 +15,7 @@ using PagedList;
 
 namespace Forge.Museum.Web.Controllers
 {
+    [Authorize]
     public class ZonesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

@@ -14,6 +14,6 @@ namespace Forge.Museum.Interfaces.DataTransferObjects.Tour
         public string Name { get; set; }
         public string Description { get; set; }
         public AgeGroup AgeGroup { get; set; }
-        public List<ArtefactSimpleDto> Artefacts { get; set; }
+        public List<TourArtefactDto> Artefacts { get; set; }
     }
 }
