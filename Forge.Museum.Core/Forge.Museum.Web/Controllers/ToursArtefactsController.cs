@@ -40,12 +40,12 @@ namespace Forge.Museum.Web.Controllers
         public async Task<List<SelectListItem>> PopulateTourDropdown(bool tourSelected, int? tourId)
         {
             var request = new HTTPrequest();
-            List<TourDto> toursList = await request.Get<List<TourDto>>("api/artefact?pageNumber=0&numPerPage=5-0&isDeleted=false");
+            List<TourSimpleDto> toursList = await request.Get<List<TourSimpleDto>>("api/artefact?pageNumber=0&numPerPage=5-0&isDeleted=false");
             List<SelectListItem> tourDropdown = new List<SelectListItem>();
-            TourDto tour = new TourDto();
+            TourSimpleDto tour = new TourSimpleDto();
             if (tourSelected == true)
             {
-                tour = await request.Get<TourDto>("api/tour/" + tourId);
+                tour = await request.Get<TourSimpleDto>("api/tour/" + tourId);
                 if (tour != null)
                 {
                     tourDropdown.Add(new SelectListItem()
@@ -69,6 +69,7 @@ namespace Forge.Museum.Web.Controllers
                 }
             }
             return tourDropdown;
+        
         }
     
 
@@ -111,18 +112,55 @@ namespace Forge.Museum.Web.Controllers
             bool tour_Selected = tourId.HasValue;
             ViewBag.TourSelected = tour_Selected;
             var request = new HTTPrequest();
-            ViewBag.TourID = tourId.ToString();
 
 
-            //TOUR CATEGORY 
+            List<TourSimpleDto> toursList = new List<TourSimpleDto>();
+            TourSimpleDto tour = new TourSimpleDto();
             List<SelectListItem> tourDropdown = new List<SelectListItem>();
-            tourDropdown = await PopulateTourDropdown(tour_Selected, tourId);
+            // Checks if page was access from Index of all MediaFiles, or Direct from a particular artefact
+            if (tour_Selected == true)
+            {
+                tour = await request.Get<TourSimpleDto>("api/tour/" + tourId);
+                if (tour == null)
+                {
+                    return HttpNotFound();
+                }
+                else
+                {
+                    tourDropdown.Add(new SelectListItem()
+                    {
+                        Text = tour.Id + ": " + tour.Name,
+                        Value = tour.Id.ToString()
+
+                    });
+                    ViewBag.TourName = tour.Name;
+                    ViewBag.TourID = tour.Id.ToString();
+
+                }
+            }
+            else
+            {
+                toursList = await request.Get<List<TourSimpleDto>>("api/tour?pageNumber=0&numPerPage=5-0&isDeleted=false");
+                if (toursList != null && toursList.Any())
+                {
+                    foreach (var tours in toursList)
+                    {
+                        tourDropdown.Add(new SelectListItem()
+                        {
+                            Text = tours.Id + ": " + tours.Name,
+                            Value = tours.Id.ToString()
+                        });
+                    }
+                }
+            }
+
             ViewBag.TourList = tourDropdown;
             //ARTEFACT DROPDOWN
             List<SelectListItem> artefactDropdown = new List<SelectListItem>();
             artefactDropdown = await PopulateArtefactDropdown();
             ViewBag.ArtefactList = artefactDropdown;
             return View();
+
         }
 
         // POST: TourDtoes/Create

@@ -159,7 +159,7 @@ namespace Forge.Museum.Web.Controllers {
                 {
                     artefactDropdown.Add(new SelectListItem()
                     {
-                        Text = artefact.Name,
+                        Text = artefact.Id + ": " + artefact.Name,
                         Value = artefact.Id.ToString()
 
                     });
@@ -175,7 +175,7 @@ namespace Forge.Museum.Web.Controllers {
                     {
                         artefactDropdown.Add(new SelectListItem()
                         {
-                            Text = artefacts.Id + ":" + artefacts.Name,
+                            Text = artefacts.Id + ": " + artefacts.Name,
                             Value = artefacts.Id.ToString()
                         });
                     }
