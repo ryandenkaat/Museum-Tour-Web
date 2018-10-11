@@ -3,51 +3,44 @@
 <link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Delete";
-    string tourId = ViewBag.tourId.ToString();
-    string tourName = ViewBag.tourName;
-    string artefactId = ViewBag.artefactId.ToString();
-    string artefactName = ViewBag.artefactName;
+    int tourArtefactId = ViewBag.TourArtefactId;
+    string tourArtefactIdString = ViewBag.TourArtefactId.ToString();
+    // string tourName = ViewBag.tourName;
+    //string artefactId = ViewBag.artefactId.ToString();
+    //string artefactName = ViewBag.artefactName;
 }
 
 <h2>Delete</h2>
 
 <h3>Are you sure you want to remove this Artefact from this Tour?</h3>
 <div>
-    <h4>Tour #@tourId - @tourName</h4>
+    <h4>Tour #@Model.Tour.Id - @Model.Tour.Name</h4>
     <hr />
     <dl class="dl-horizontal">
+
         <dt>
-            @Html.Label("Tour ID: ", tourId)
-            Tour ID:
+            @Html.LabelFor(model => model.Artefact.Id, "Artefact ID:")
         </dt>
         <dd>
-            @tourId
+            @Html.DisplayFor(model => model.Artefact.Id)
         </dd>
+
         <dt>
-            @Html.DisplayName("Tour Name: ")
+            @Html.LabelFor(model => model.Artefact.Name, "Artefact Name:")
         </dt>
         <dd>
-            @tourName
+            @Html.DisplayFor(model => model.Artefact.Name)
         </dd>
+
         <dt>
-            @Html.DisplayName("Artefact ID: ")
+            @Html.LabelFor(model => model.Order, "Index Position:")
         </dt>
         <dd>
-            @artefactId
-        </dd>
-        <dt>
-            @Html.DisplayName("Artefact Name: ")
-        </dt>
-        <dd>
-            @artefactName
-        </dd>
-        <dt>
-            @Html.DisplayName("Artefact Name: ")
-        </dt>
-        <dd>
-            @Model.Order
+            @Html.DisplayFor(model => model.Order)
         </dd>
     </dl>
+
+
 
     @using (Html.BeginForm())
     {

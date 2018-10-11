@@ -327,7 +327,6 @@
     <Content Include="Views\Tours\Index.cshtml" />
     <Content Include="Views\ToursArtefacts\Create.cshtml" />
     <Content Include="Views\ToursArtefacts\Delete.cshtml" />
-    <Content Include="Views\ToursArtefacts\Details.cshtml" />
     <Content Include="Views\ToursArtefacts\Edit.cshtml" />
     <Content Include="Views\ToursArtefacts\Index.cshtml" />
     <Content Include="Views\Exhibitions\Create.cshtml" />

@@ -204,7 +204,13 @@ namespace Forge.Museum.Web.Controllers
                 return View(newTourArtefact);
 
             }
-                    newTourArtefact.Artefact = await tourRequest.Get<ArtefactSimpleDto>("api/artefact/" + tourArtefact.Artefact.Id);
+            if(tourCheck.Artefacts.Any(m => m.Order == tourArtefact.Order))
+            {
+                ViewBag.IndexAvail = false;
+                return View(newTourArtefact);
+            }
+
+            newTourArtefact.Artefact = await tourRequest.Get<ArtefactSimpleDto>("api/artefact/" + tourArtefact.Artefact.Id);
                     TourSimpleDto tour = await tourRequest.Get<TourSimpleDto>("api/tour/" + tourArtefact.Tour.Id);
                     newTourArtefact.Tour = tour;        
                     newTourArtefact.Order = tourArtefact.Order;
@@ -292,44 +298,22 @@ namespace Forge.Museum.Web.Controllers
         }
 
         // GET: TourDtoes/Delete/5
-        public async Task<ActionResult> Delete(int? artefactId, int? tourId)
+        public async Task<ActionResult> Delete(int? id)
         {
-            bool tour_Selected = tourId.HasValue;
-            ViewBag.TourSelected = tour_Selected;
-            ViewBag.originalArtefactId = artefactId;
-            ViewBag.ArtefactId = artefactId;
-            if (tourId == null || artefactId == null)
+            if (id == null)
             {
+                return RedirectToAction("Index", "Tours");
+
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //GET Tour and Pass Through ViewBag
             var request = new HTTPrequest();
-            TourDto tour = await request.Get<TourDto>("api/tour/" + tourId);
-            if (tour == null)
-            {
-                return HttpNotFound();
-            } else
-            {
-                ViewBag.tour = tour;
-                ViewBag.tourId = tour.Id;
-                ViewBag.tourName = tour.Name;
-            }
-
-
-            //GET Artefact and Pass through ViewBag
-            var requestArtefact = new HTTPrequest();
-            ArtefactSimpleDto artefact = await requestArtefact.Get<ArtefactSimpleDto>("api/artefact/" + artefactId);
-            if (artefact == null)
+            TourArtefactDto tourArtefact = await request.Get<TourArtefactDto>("api/tourArtefact/" + id);
+            ViewBag.TourArtefactId = id;
+            if (tourArtefact == null)
             {
                 return HttpNotFound();
             }
-            else
-            {
-                ViewBag.artefact = artefact;
-                ViewBag.artefactId = artefact.Id;
-                ViewBag.artefactName = artefact.Name;
-            }
-            return View(tour);
+            return View(tourArtefact);
 
 
         }
@@ -339,26 +323,25 @@ namespace Forge.Museum.Web.Controllers
         // POST: TourDtoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int? tourId, int? artefactId)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            try
-            {
-                var request = new HTTPrequest();
-                TourDto tour = await request.Get<TourDto>("api/tour/" + tourId);
-                ArtefactSimpleDto artefact = await request.Get<ArtefactSimpleDto>("api/artefact/" + artefactId);
-                List<TourArtefactDto> artefactList = tour.Artefacts;
-
-                int index = artefactList.FindIndex(a => a.Id == artefact.Id);
-                artefactList.RemoveAt(index);
-                tour.Artefacts = artefactList;
-                await request.Put<TourDto>("api/tour", tour);
-                return RedirectToAction("Index", "ToursArtefacts", new { tourId = tourId });
+                try
+                {
+                    var request = new HTTPrequest();
+                    TourArtefactDto tourArtefact = await request.Get<TourArtefactDto>("api/tourArtefact/" + id);
+                    tourArtefact.IsDeleted = true;
+                    int tourId = tourArtefact.Tour.Id;
+                //    await request.Put<TourArtefactDto>("api/tourArtefact", tourArtefact);
+                await request.Delete("api/tourArtefact/" + id.ToString());
+                    return RedirectToAction("Index", "ToursArtefacts", new { tourId = tourId });
             }
             catch (Exception)
-            {
-                throw;
-            }
+                {
+
+                    throw;
+                }
         }
+        
 
         protected override void Dispose(bool disposing)
         {
