@@ -72,10 +72,11 @@
 
         <div class="tab-content default-tab" style="display: block;">
             <p>Total Store Items: @ViewBag.TotalStoreItems</p>
-            @if(ViewBag.TotalStoreItems == 0 || ViewBag.TotalStoreItems == null)
+            @if (ViewBag.TotalStoreItems == 0 || ViewBag.TotalStoreItems == null)
             {
                 <p>Average Item Cost: $-</p>
-            } else
+            }
+            else
             {
                 <p>Average Item Cost: $@ViewBag.AverageItemCost</p>
             }
@@ -86,7 +87,8 @@
 </div>
 
 <div class="clear"></div>
-
-<p><a href="~/Account/Login" class="btn btn-primary btn-lg">Login &raquo;</a></p>
-
+@if (!Request.IsAuthenticated)
+{
+    <p><a href="~/Account/Login" class="btn btn-primary btn-lg">Login &raquo;</a></p>
+}
 
