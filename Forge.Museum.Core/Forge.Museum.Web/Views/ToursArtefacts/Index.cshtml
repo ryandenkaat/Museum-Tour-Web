@@ -30,8 +30,7 @@
      {
         <tr>
             <td>
-                @list.IndexOf(item).ToString()
-                @Html.DisplayText(list.IndexOf(item).ToString())
+                @Html.DisplayFor(modelItem => item.Order)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Id)
