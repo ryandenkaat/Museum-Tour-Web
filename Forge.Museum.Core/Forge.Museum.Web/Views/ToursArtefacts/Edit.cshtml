@@ -5,87 +5,83 @@
     ViewBag.Title = "Edit";
 
     // Get Tour ID
-    string tourId = ViewBag.TourID;
-    string originalArtefactId = ViewBag.orignalArtefactId;
-    string newArtefactId;
+    if (ViewBag.TourID != null)
+    {
+        string tourId = ViewBag.TourID;
+    }
 
-
+    //Populate artefact dropdown
     var artefactDropdown = new List<SelectListItem>();
     if (ViewBag.ArtefactList != null)
     {
         artefactDropdown = ViewBag.ArtefactList;
     }
-    ViewBag.artefactList = artefactDropdown;
 
-
+    //Populate tour Dropdown
     var tourDropdown = new List<SelectListItem>();
     if (ViewBag.TourList != null)
     {
         tourDropdown = ViewBag.TourList;
     }
-    ViewBag.tourList = tourDropdown;
-
-    ViewBag.selectedTourID = tourId;
-
 }
 
 <h2>Edit</h2>
 @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.AntiForgeryToken()
+@Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <h4>Tour #@Model.Id - @Model.Name </h4>
+    <h4>Tour #@Model.Tour.Id - @Model.Tour.Name </h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-
+    @Html.HiddenFor(model => model.Id)
     <div class="form-group">
-        @Html.Label("Tour: ", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Tour, "Tour", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownList("Tour", tourDropdown, new { htmlAttributes = new { @class = "form-control" } })
-            @*          @Html.ValidationMessageFor(model => model.ArtefactCategory, "", new { @class = "text-danger" })
-            *@
-        </div>
-    </div>
+            @Html.DropDownListFor(model => model.Tour.Id, tourDropdown, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Tour, "", new { @class = "text-danger" })
 
-    @Html.Hidden("tourId", tourId)
-    @Html.Hidden("originalArtefactId", originalArtefactId)
-
-
-
-    <div class="form-group">
-        @Html.Label("Artefact: ", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(m => m.Id, artefactDropdown, new { htmlAttributes = new { @class = "form-control" } })
-            @*          @Html.ValidationMessageFor(model => model.ArtefactCategory, "", new { @class = "text-danger" })
-            *@
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Order, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Artefact, "Artefact", htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(m => m.Order, new { htmlAttributes = new { @class = "form-control" } })
-            @*          @Html.ValidationMessageFor(model => model.ArtefactCategory, "", new { @class = "text-danger" })
-            *@
+            @Html.DropDownListFor(model => model.Artefact.Id, artefactDropdown, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Artefact, "", new { @class = "text-danger" })
         </div>
     </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Order, "Order", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Order, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Order, "", new { @class = "text-danger" })
+
+        </div>
+    </div>
+
+    @if (ViewBag.IndexAvail == false)
+    {
+        @Html.ValidationMessageFor(model => Model.Order, "This Index Position is Already in Use", new { @class = "text-danger" })
+
+    }
+
 
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" new { tourId=@tourId } />
+            <input type="submit" value="Create" class="btn btn-default" new { tourId=@ViewBag.TourID />
         </div>
     </div>
-    }
-    <div>
-        <a href="@Url.Action("Index", "ToursArtefacts",  new { tourId = Model.Id })" class="btn btn-link">
-            <span class="text-left" aria-hidden="true">Back to List</span>
-        </a>
-
-    </div>
-
 </div>
+}
+
+    <div>
+        <a href="@Url.Action("Index", "ToursArtefacts", new { tourId = Model.Id })" class="btn btn-link">
+            <span class="text-left" aria-hidden="true">Back to List</span>
+        </a
+    </div>
 
 

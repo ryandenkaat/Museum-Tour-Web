@@ -43,7 +43,7 @@ namespace Forge.Museum.API.CoreHandlers
 		{
 			var tour = Db.Tours.Find(dto.Tour.Id);
 
-			if (tour != null || (tour.Artefacts != null && tour.Artefacts.Any(m => m.Id != dto.Id && m.Order == dto.Order)))
+			if (tour == null || (tour.Artefacts == null)) // && tour.Artefacts.Any(m => m.Id != dto.Id && m.Order == dto.Order)))
 			{
 				throw new HttpResponseException(HttpStatusCode.BadRequest);
 			}
