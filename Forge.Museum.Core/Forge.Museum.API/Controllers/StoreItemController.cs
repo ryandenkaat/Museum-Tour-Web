@@ -11,14 +11,25 @@ namespace Forge.Museum.API.Controllers
 {
 	public class StoreItemController : BaseApiController
 	{
+		private bool isTest;
 
-        #region CRUD
-        [HttpPost, Route("api/storeItem")]
+		public StoreItemController()
+		{
+			isTest = false;
+		}
+
+		public StoreItemController(bool test = false)
+		{
+			isTest = test;
+		}
+
+		#region CRUD
+		[HttpPost, Route("api/storeItem")]
 		public StoreItemDto Create([FromBody]StoreItemDto dto)
 		{
 			try
 			{
-				return new StoreItemHandler().Create(dto);
+				return new StoreItemHandler(isTest).Create(dto);
 			}
 			catch (Exception ex)
 			{
@@ -31,7 +42,7 @@ namespace Forge.Museum.API.Controllers
 		{
 			try
 			{
-				return new StoreItemHandler().Update(dto);
+				return new StoreItemHandler(isTest).Update(dto);
 			}
 			catch(Exception ex)
 			{
@@ -44,7 +55,7 @@ namespace Forge.Museum.API.Controllers
 		{
 			try
 			{
-				return new StoreItemHandler().GetById(storeItemId);
+				return new StoreItemHandler(isTest).GetById(storeItemId);
 			}
 			catch(Exception ex)
 			{
@@ -57,7 +68,7 @@ namespace Forge.Museum.API.Controllers
 		{
 			try
 			{
-				return new StoreItemHandler().GetFiltered(filter);
+				return new StoreItemHandler(isTest).GetFiltered(filter);
 			}
 			catch(Exception ex)
 			{
@@ -70,7 +81,7 @@ namespace Forge.Museum.API.Controllers
 		{
 			try
 			{
-				return new StoreItemHandler().Delete(storeItemId);
+				return new StoreItemHandler(isTest).Delete(storeItemId);
 			}
 			catch(Exception ex)
 			{

@@ -8,7 +8,7 @@ namespace Forge.Museum.API.Models
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext() : base("DefaultConnection")
+        public ApplicationDbContext(string connectionType = "DefaultConnection") : base(connectionType)
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Migrations.Configuration>(true));
         }

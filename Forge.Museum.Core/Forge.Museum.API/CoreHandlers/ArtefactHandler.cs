@@ -10,8 +10,13 @@ namespace Forge.Museum.API.CoreHandlers
 {
     public class ArtefactHandler : BaseApiHandler
     {
-        #region CRUD
-        public ArtefactDto Create(ArtefactDto dto)
+		public ArtefactHandler(bool test = false) : base(test)
+		{
+
+		}
+
+		#region CRUD
+		public ArtefactDto Create(ArtefactDto dto)
         {
             Artefact artefact = new Artefact
             {

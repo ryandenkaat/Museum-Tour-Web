@@ -11,9 +11,16 @@ namespace Forge.Museum.API.CoreHandlers
 {
     public class ArtefactCategoryHandler : BaseApiHandler
     {
+		public ArtefactCategoryHandler(bool test = false) : base(test)
+		{
+			
+		}
+
         #region CRUD
         public ArtefactCategoryDto Create(ArtefactCategoryDto dto)
         {
+			if (string.IsNullOrEmpty(dto.Name)) throw new ArgumentNullException("Name");
+
             ArtefactCategory category = new ArtefactCategory
             {
                 Name = dto.Name,
@@ -24,8 +31,6 @@ namespace Forge.Museum.API.CoreHandlers
                 IsDeleted = false
             };
 
-            //TODO add processing for adding artefacts on create
-
             Db.ArtefactCategories.Add(category);
 
             Db.SaveChanges();
@@ -35,7 +40,9 @@ namespace Forge.Museum.API.CoreHandlers
 
         public ArtefactCategoryDto Update(ArtefactCategoryDto dto)
         {
-            ArtefactCategory category = Db.ArtefactCategories.FirstOrDefault(m => m.Id == dto.Id);
+			if (string.IsNullOrEmpty(dto.Name)) throw new ArgumentNullException("Name");
+
+			ArtefactCategory category = Db.ArtefactCategories.FirstOrDefault(m => m.Id == dto.Id);
 
             if (category == null) NotFoundException();
 
@@ -44,8 +51,6 @@ namespace Forge.Museum.API.CoreHandlers
             category.Image = dto.Image;
             category.ModifiedDate = DateTime.UtcNow;
             category.IsDeleted = dto.IsDeleted;
-
-            //TODO add processsing for adding artefacts on update
 
             Db.SaveChanges();
 

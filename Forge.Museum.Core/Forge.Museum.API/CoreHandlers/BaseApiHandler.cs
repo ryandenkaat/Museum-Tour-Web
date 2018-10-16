@@ -17,6 +17,18 @@ namespace Forge.Museum.API.CoreHandlers
             Db = new ApplicationDbContext();
         }
 
+		protected BaseApiHandler(bool test = false)
+		{
+			if(test)
+			{
+				Db = new ApplicationDbContext("TestConnection");
+			}
+			else 
+			{
+				Db = new ApplicationDbContext();
+			}
+		}
+
         protected BaseApiHandler(ApplicationDbContext context)
         {
             Db = context;

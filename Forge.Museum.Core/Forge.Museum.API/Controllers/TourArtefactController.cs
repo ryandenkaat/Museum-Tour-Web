@@ -18,13 +18,25 @@ namespace Forge.Museum.API.Controllers
 
     public class TourArtefactController : BaseApiController
     {
-        #region CRUD
-        [HttpPost, Route("api/tourArtefact")]
+		private bool isTest;
+
+		public TourArtefactController()
+		{
+			isTest = false;
+		}
+
+		public TourArtefactController(bool test = false)
+		{
+			isTest = test;
+		}
+
+		#region CRUD
+		[HttpPost, Route("api/tourArtefact")]
         public TourArtefactDto Create([FromBody]TourArtefactDto dto)
         {
             try
             {
-                return new TourArtefactHandler().Create(dto);
+                return new TourArtefactHandler(isTest).Create(dto);
             }
             catch (Exception ex)
             {
@@ -37,7 +49,7 @@ namespace Forge.Museum.API.Controllers
         {
             try
             {
-                return new TourArtefactHandler().Update(dto);
+                return new TourArtefactHandler(isTest).Update(dto);
             }
             catch (Exception ex)
             {
@@ -50,7 +62,7 @@ namespace Forge.Museum.API.Controllers
         {
             try
             {
-                return new TourArtefactHandler().GetById(tourArtefactId);
+                return new TourArtefactHandler(isTest).GetById(tourArtefactId);
             }
             catch (Exception ex)
             {
@@ -63,7 +75,7 @@ namespace Forge.Museum.API.Controllers
         {
             try
             {
-                return new TourArtefactHandler().GetFiltered(filter);
+                return new TourArtefactHandler(isTest).GetFiltered(filter);
             }
             catch (Exception ex)
             {
@@ -76,7 +88,7 @@ namespace Forge.Museum.API.Controllers
         {
             try
             {
-                return new TourArtefactHandler().Delete(tourArtefactId);
+                return new TourArtefactHandler(isTest).Delete(tourArtefactId);
             }
             catch (Exception ex)
             {

@@ -13,6 +13,8 @@ namespace Forge.Museum.API.CoreHandlers
 {
     public class TourArtefactHandler : BaseApiHandler
     {
+		public TourArtefactHandler(bool test = false) : base(test) { }
+
 		public TourArtefactDto Create(TourArtefactDto dto)
 		{
 			var tour = Db.Tours.Find(dto.Tour.Id);

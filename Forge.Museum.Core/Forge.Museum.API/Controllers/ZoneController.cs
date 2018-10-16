@@ -11,13 +11,25 @@ namespace Forge.Museum.API.Controllers
 {
     public class ZoneController : BaseApiController
     {
-        #region CRUD
-        [HttpPost, Route("api/zone")]
+		private bool isTest;
+
+		public ZoneController()
+		{
+			isTest = false;
+		}
+
+		public ZoneController(bool test = false)
+		{
+			isTest = test;
+		}
+
+		#region CRUD
+		[HttpPost, Route("api/zone")]
         public ZoneDto Create([FromBody]ZoneDto dto)
         {
             try
             {
-                return new ZoneHandler().Create(dto);
+                return new ZoneHandler(isTest).Create(dto);
             }
             catch (Exception ex)
             {
@@ -30,7 +42,7 @@ namespace Forge.Museum.API.Controllers
         {
             try
             {
-                return new ZoneHandler().Update(dto);
+                return new ZoneHandler(isTest).Update(dto);
             }
             catch (Exception ex)
             {
@@ -43,7 +55,7 @@ namespace Forge.Museum.API.Controllers
         {
             try
             {
-                return new ZoneHandler().GetById(zoneId);
+                return new ZoneHandler(isTest).GetById(zoneId);
             }
             catch (Exception ex)
             {
@@ -56,7 +68,7 @@ namespace Forge.Museum.API.Controllers
         {
             try
             {
-                return new ZoneHandler().GetFiltered(filter);
+                return new ZoneHandler(isTest).GetFiltered(filter);
             }
             catch (Exception ex)
             {
@@ -69,7 +81,7 @@ namespace Forge.Museum.API.Controllers
         {
             try
             {
-                return new ZoneHandler().Delete(zoneId);
+                return new ZoneHandler(isTest).Delete(zoneId);
             }
             catch (Exception ex)
             {

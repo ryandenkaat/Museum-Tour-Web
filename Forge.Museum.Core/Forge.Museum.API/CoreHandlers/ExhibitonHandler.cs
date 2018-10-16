@@ -11,6 +11,11 @@ namespace Forge.Museum.API.CoreHandlers
 {
 	public class ExhibitonHandler : BaseApiHandler
 	{
+		public ExhibitonHandler(bool test = false) : base(test)
+		{
+			
+		}
+
 		#region CRUD
 		public ExhibitionDto Create(ExhibitionDto dto)
 		{

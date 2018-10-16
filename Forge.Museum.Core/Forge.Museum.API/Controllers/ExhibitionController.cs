@@ -11,13 +11,25 @@ namespace Forge.Museum.API.Controllers
 {
 	public class ExhibitionController : BaseApiController
 	{
+		private bool isTest;
+
+		public ExhibitionController()
+		{
+			isTest = false;
+		}
+
+		public ExhibitionController(bool test = false)
+		{
+			isTest = test;
+		}
+
 		#region CRUD
 		[HttpPost, Route("api/exhibition")]
 		public ExhibitionDto Create([FromBody]ExhibitionDto dto)
 		{
 			try
 			{
-				return new ExhibitonHandler().Create(dto);
+				return new ExhibitonHandler(isTest).Create(dto);
 			}
 			catch(Exception ex)
 			{
@@ -30,7 +42,7 @@ namespace Forge.Museum.API.Controllers
 		{
 			try
 			{
-				return new ExhibitonHandler().Update(dto);
+				return new ExhibitonHandler(isTest).Update(dto);
 			}
 			catch(Exception ex)
 			{
@@ -43,7 +55,7 @@ namespace Forge.Museum.API.Controllers
 		{
 			try
 			{
-				return new ExhibitonHandler().GetById(exhibitionId);
+				return new ExhibitonHandler(isTest).GetById(exhibitionId);
 			}
 			catch(Exception ex)
 			{
@@ -56,7 +68,7 @@ namespace Forge.Museum.API.Controllers
 		{
 			try
 			{
-				return new ExhibitonHandler().GetFiltered(filter);
+				return new ExhibitonHandler(isTest).GetFiltered(filter);
 			}
 			catch(Exception ex)
 			{
@@ -69,7 +81,7 @@ namespace Forge.Museum.API.Controllers
 		{
 			try
 			{
-				return new ExhibitonHandler().Delete(exhibitionId);
+				return new ExhibitonHandler(isTest).Delete(exhibitionId);
 			}
 			catch(Exception ex)
 			{

@@ -25,8 +25,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forge.Museum.BLL", "Forge.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forge.Museum.Web", "Forge.Museum.Web\Forge.Museum.Web.csproj", "{32B3840C-6811-466D-9589-DB365AFB8C28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forge.Museum.Web.Tests", "Forge.Museum.Web.Tests\Forge.Museum.Web.Tests.csproj", "{CEB71175-67F8-4DFF-A5D6-A5E18D047177}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,10 +55,6 @@ Global
 		{32B3840C-6811-466D-9589-DB365AFB8C28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32B3840C-6811-466D-9589-DB365AFB8C28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32B3840C-6811-466D-9589-DB365AFB8C28}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CEB71175-67F8-4DFF-A5D6-A5E18D047177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CEB71175-67F8-4DFF-A5D6-A5E18D047177}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CEB71175-67F8-4DFF-A5D6-A5E18D047177}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CEB71175-67F8-4DFF-A5D6-A5E18D047177}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,7 +66,6 @@ Global
 		{DEF86FB9-05EF-41DD-851E-5A8DB6F34A84} = {2FC8EFA4-9436-4D18-B05F-F457D932F2B2}
 		{6EE677CD-564C-48F0-939C-9F85BC3B59FB} = {5641820C-A48E-4EC9-B663-B46BEC3DEB70}
 		{32B3840C-6811-466D-9589-DB365AFB8C28} = {6DDFA2A1-F135-4E47-B830-4A5E49AB6D55}
-		{CEB71175-67F8-4DFF-A5D6-A5E18D047177} = {F8462426-DA8E-47DA-B997-E053AF3E3E0F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E5466DB-F76E-4092-902A-3035CFBF5E1B}

@@ -9,8 +9,9 @@ using Forge.Museum.Interfaces.DataTransferObjects.Tour;
 
 namespace Forge.Museum.API.CoreHandlers
 {
-    public class TourHandler : BaseApiHandler
-    {
+	public class TourHandler : BaseApiHandler
+	{
+		public TourHandler(bool test = false) : base(test) { }
         #region CRUD
         public TourDto Create(TourDto dto)
         {

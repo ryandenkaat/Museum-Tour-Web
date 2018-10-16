@@ -11,13 +11,25 @@ namespace Forge.Museum.API.Controllers
 {
     public class ArtefactInfoController : BaseApiController
     {
-        #region CRUD
-        [HttpPost, Route("api/artefactInfo")]
+		private bool isTest;
+
+		public ArtefactInfoController()
+		{
+			isTest = false;
+		}
+
+		public ArtefactInfoController(bool test = false)
+		{
+			isTest = test;
+		}
+
+		#region CRUD
+		[HttpPost, Route("api/artefactInfo")]
         public ArtefactInfoDto Create([FromBody]ArtefactInfoDto dto)
         {
             try
             {
-                return new ArtefactInfoHandler().Create(dto);
+                return new ArtefactInfoHandler(isTest).Create(dto);
             }
             catch (Exception ex)
             {
@@ -30,7 +42,7 @@ namespace Forge.Museum.API.Controllers
         {
             try
             {
-                return new ArtefactInfoHandler().Update(dto);
+                return new ArtefactInfoHandler(isTest).Update(dto);
             }
             catch (Exception ex)
             {
@@ -43,7 +55,7 @@ namespace Forge.Museum.API.Controllers
         {
             try
             {
-                return new ArtefactInfoHandler().GetById(artefactInfoId);
+                return new ArtefactInfoHandler(isTest).GetById(artefactInfoId);
             }
             catch (Exception ex)
             {
@@ -56,7 +68,7 @@ namespace Forge.Museum.API.Controllers
         {
             try
             {
-                return new ArtefactInfoHandler().GetFiltered(filter, artefactId);
+                return new ArtefactInfoHandler(isTest).GetFiltered(filter, artefactId);
             }
             catch (Exception ex)
             {
@@ -69,7 +81,7 @@ namespace Forge.Museum.API.Controllers
         {
             try
             {
-                return new ArtefactInfoHandler().Delete(artefactInfoId);
+                return new ArtefactInfoHandler(isTest).Delete(artefactInfoId);
             }
             catch (Exception ex)
             {

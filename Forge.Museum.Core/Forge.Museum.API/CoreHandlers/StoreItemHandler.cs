@@ -11,6 +11,8 @@ namespace Forge.Museum.API.CoreHandlers
 {
 	public class StoreItemHandler : BaseApiHandler
 	{
+		public StoreItemHandler(bool test = false) : base(test) { }
+
 		#region CRUD
 		public StoreItemDto Create(StoreItemDto dto)
 		{

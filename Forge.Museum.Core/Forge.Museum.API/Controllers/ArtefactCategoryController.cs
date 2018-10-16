@@ -11,13 +11,25 @@ namespace Forge.Museum.API.Controllers
 {
     public class ArtefactCategoryController : BaseApiController
     {
+		private bool isTest;
+
+		public ArtefactCategoryController()
+		{
+			isTest = false;
+		}
+
+		public ArtefactCategoryController(bool test = false)
+		{
+			isTest = test;
+		}
+
         #region CRUD
         [HttpPost, Route("api/artefactCatergory")]
         public ArtefactCategoryDto Create([FromBody]ArtefactCategoryDto dto)
         {
             try
             {
-                return new ArtefactCategoryHandler().Create(dto);
+                return new ArtefactCategoryHandler(isTest).Create(dto);
             }
             catch (Exception ex)
             {
@@ -30,7 +42,7 @@ namespace Forge.Museum.API.Controllers
         {
             try
             {
-                return new ArtefactCategoryHandler().Update(dto);
+                return new ArtefactCategoryHandler(isTest).Update(dto);
             }
             catch (Exception ex)
             {
@@ -43,7 +55,7 @@ namespace Forge.Museum.API.Controllers
         {
             try
             {
-                return new ArtefactCategoryHandler().GetById(artefactCatergoryId);
+                return new ArtefactCategoryHandler(isTest).GetById(artefactCatergoryId);
             }
             catch (Exception ex)
             {
@@ -56,7 +68,7 @@ namespace Forge.Museum.API.Controllers
         {
             try
             {
-                return new ArtefactCategoryHandler().GetFiltered(filter);
+                return new ArtefactCategoryHandler(isTest).GetFiltered(filter);
             }
             catch (Exception ex)
             {
@@ -69,7 +81,7 @@ namespace Forge.Museum.API.Controllers
         {
             try
             {
-                return new ArtefactCategoryHandler().Delete(artefactCatergoryId);
+                return new ArtefactCategoryHandler(isTest).Delete(artefactCatergoryId);
             }
             catch (Exception ex)
             {

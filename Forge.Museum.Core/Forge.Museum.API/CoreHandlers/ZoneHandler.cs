@@ -11,6 +11,8 @@ namespace Forge.Museum.API.CoreHandlers
 {
     public class ZoneHandler : BaseApiHandler
     {
+		public ZoneHandler(bool test = false) : base(test) { }
+
         #region CRUD
         public ZoneDto Create(ZoneDto dto)
         {
