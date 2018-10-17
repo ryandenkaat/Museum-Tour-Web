@@ -3,6 +3,16 @@
 <link href="~/Content/Index.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Create";
+
+    string NameValidation;
+    if (ViewBag.ValidationName != null)
+    {
+        NameValidation = ViewBag.ValidationName;
+    }
+    else
+    {
+        NameValidation = "";
+    }
 }
 
 <h2>Create</h2>
@@ -19,7 +29,7 @@
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "Zone Name is Required", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Name, NameValidation, new { @class = "text-danger" })
             </div>
         </div>
 

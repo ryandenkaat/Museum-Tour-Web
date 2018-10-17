@@ -105,6 +105,12 @@ namespace Forge.Museum.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ArtefactCategoryDto category, HttpPostedFileBase imageFile)
         {
+            if (string.IsNullOrEmpty(category.Name))
+            {
+                ViewBag.ValidationName = "Name field is required.";
+                return View(category);
+            }
+            
             if (ModelState.IsValid)
             {
                 var request = new HTTPrequest();

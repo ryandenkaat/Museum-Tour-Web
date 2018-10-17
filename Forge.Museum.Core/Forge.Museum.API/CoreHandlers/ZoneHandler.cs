@@ -16,6 +16,8 @@ namespace Forge.Museum.API.CoreHandlers
         #region CRUD
         public ZoneDto Create(ZoneDto dto)
         {
+            if (string.IsNullOrEmpty(dto.Name)) throw new ArgumentNullException("Name");
+
             Zone zone = new Zone
             {
                 Name = dto.Name,
@@ -34,6 +36,8 @@ namespace Forge.Museum.API.CoreHandlers
 
         public ZoneDto Update(ZoneDto dto)
         {
+            if (string.IsNullOrEmpty(dto.Name)) throw new ArgumentNullException("Name");
+
             Zone zone = Db.Zones.FirstOrDefault(m => m.Id == dto.Id);
 
             if (zone == null) NotFoundException();

@@ -15,7 +15,9 @@ namespace Forge.Museum.API.CoreHandlers
         #region CRUD
         public TourDto Create(TourDto dto)
         {
-			Tour tour = new Tour()
+            if (string.IsNullOrEmpty(dto.Name)) throw new ArgumentNullException("Name");
+
+            Tour tour = new Tour()
 			{
 				Name = dto.Name,
 				Description = dto.Description,
@@ -46,7 +48,9 @@ namespace Forge.Museum.API.CoreHandlers
 
         public TourDto Update(TourDto dto)
         {
-			Tour tour = Db.Tours.FirstOrDefault(m => m.Id == dto.Id);
+            if (string.IsNullOrEmpty(dto.Name)) throw new ArgumentNullException("Name");
+
+            Tour tour = Db.Tours.FirstOrDefault(m => m.Id == dto.Id);
 
 			if (tour == null)
 				NotFoundException();
@@ -109,14 +113,16 @@ namespace Forge.Museum.API.CoreHandlers
 
         public bool Delete(int tourId)
         {
-			Tour tour = Db.Tours.FirstOrDefault(m => m.Id == tourId);
+            Tour tour = Db.Tours.FirstOrDefault(m => m.Id == tourId);
 
-			if (tour == null)
-				NotFoundException();
+            if (tour == null) NotFoundException();
 
-			tour.IsDeleted = true;
+            tour.IsDeleted = true;
+            tour.ModifiedDate = DateTime.UtcNow;
 
-			return true;
+            Db.SaveChanges();
+
+            return true;
         }
         #endregion
 

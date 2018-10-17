@@ -106,6 +106,12 @@ namespace Forge.Museum.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ZoneDto zone)
         {
+            // Checks Name is not Null or Empty
+            if (string.IsNullOrEmpty(zone.Name))
+            {
+                ViewBag.ValidationName = "Name field is required.";
+                return View(zone);
+            }
 
             if (ModelState.IsValid && (zone.Name != null))
             {
@@ -144,6 +150,13 @@ namespace Forge.Museum.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(ZoneDto zone)
         {
+            // Checks Name is not Null or Empty
+            if (string.IsNullOrEmpty(zone.Name))
+            {
+                ViewBag.ValidationName = "Name field is required.";
+                return View(zone);
+            }
+
             var request = new HTTPrequest();
             if (ModelState.IsValid)
             {

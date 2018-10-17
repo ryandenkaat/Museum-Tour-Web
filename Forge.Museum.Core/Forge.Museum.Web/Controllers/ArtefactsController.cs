@@ -166,7 +166,15 @@ namespace Forge.Museum.Web.Controllers {
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ArtefactDto artefact, HttpPostedFileBase imageFile) {
+        public async Task<ActionResult> Create(ArtefactDto artefact, HttpPostedFileBase imageFile)
+        {
+            // Checks Name is not Null or Empty
+            if (string.IsNullOrEmpty(artefact.Name))
+            {
+                ViewBag.ValidationName = "Name field is required.";
+                return View(artefact);
+            }
+
             ArtefactDto newArtefact = new ArtefactDto();
             newArtefact.Id = artefact.Id;
             newArtefact.Name = artefact.Name;
@@ -237,6 +245,13 @@ namespace Forge.Museum.Web.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(ArtefactDto artefact, HttpPostedFileBase imageFile) {
+            // Checks Name is not Null or Empty
+            if (string.IsNullOrEmpty(artefact.Name))
+            {
+                ViewBag.ValidationName = "Name field is required.";
+                return View(artefact);
+            }
+
             var request = new HTTPrequest();
             ArtefactDto artefact_editted = await request.Get<ArtefactDto>("api/artefact/" + artefact.Id);
             if (ModelState.IsValid) {

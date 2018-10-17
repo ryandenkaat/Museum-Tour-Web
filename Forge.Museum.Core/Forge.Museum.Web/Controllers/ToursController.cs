@@ -115,7 +115,12 @@ namespace Forge.Museum.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(TourDto tour, HttpPostedFileBase imageFile)
         {
-            
+            if (string.IsNullOrEmpty(tour.Name))
+            {
+                ViewBag.ValidationName = "Name field is required.";
+                return View(tour);
+            }
+
             if (ModelState.IsValid)
             {
                 tour.CreatedDate = DateTime.Now;
@@ -157,7 +162,7 @@ namespace Forge.Museum.Web.Controllers
                 }
             }
 
-        ViewBag.ArtefactList = artefactDropdown;
+            ViewBag.ArtefactList = artefactDropdown;
             return View(tour);
         }
 
@@ -168,6 +173,11 @@ namespace Forge.Museum.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(TourDto tour, HttpPostedFileBase imageFile)
         {
+            if (string.IsNullOrEmpty(tour.Name))
+            {
+                ViewBag.ValidationName = "Name field is required.";
+                return View(tour);
+            }
             var request = new HTTPrequest();
             TourDto tour_editted = await request.Get<TourDto>("api/tour/" + tour.Id);
             if (ModelState.IsValid) {

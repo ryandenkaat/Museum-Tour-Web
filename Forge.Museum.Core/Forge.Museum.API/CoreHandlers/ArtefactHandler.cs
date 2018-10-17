@@ -18,6 +18,8 @@ namespace Forge.Museum.API.CoreHandlers
 		#region CRUD
 		public ArtefactDto Create(ArtefactDto dto)
         {
+            if (string.IsNullOrEmpty(dto.Name)) throw new ArgumentNullException("Name");
+
             Artefact artefact = new Artefact
             {
                 Name = dto.Name,
@@ -56,6 +58,8 @@ namespace Forge.Museum.API.CoreHandlers
 
         public ArtefactDto Update(ArtefactDto dto)
         {
+            if (string.IsNullOrEmpty(dto.Name)) throw new ArgumentNullException("Name");
+
             Artefact artefact = Db.Artefacts.FirstOrDefault(m => m.Id == dto.Id);
 
             if (artefact == null) NotFoundException();
