@@ -202,7 +202,7 @@ namespace Forge.Museum.Web.Controllers {
                 zoneDropdown = await PopulateZoneDropdownList();
                 ViewBag.ZoneList = zoneDropdown;
 
-                return View();
+                return View(artefact);
             }
         }
 
