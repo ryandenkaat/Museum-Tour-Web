@@ -1,4 +1,5 @@
-﻿using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
+﻿using Forge.Museum.API.Controllers;
+using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
 using Forge.Museum.Interfaces.DataTransferObjects.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -296,7 +297,7 @@ namespace Forge.Museum.API.Tests.Controllers
 			//Create Category for getfiltered validation
 			ArtefactCategoryDto validCategory = CreateTestArtefactCategory();
 
-			var results = _controller.GetFiltered(new ApiFilter() { isDeleted = false, numPerPage = 100, pageNumber = 0 });
+			var results = _controller.GetFiltered(new ArtefactFilter() { isDeleted = false, numPerPage = 100, pageNumber = 0 });
 
 			Assert.IsNotNull(results);
 			Assert.IsTrue(!results.Any(m => m.IsDeleted));

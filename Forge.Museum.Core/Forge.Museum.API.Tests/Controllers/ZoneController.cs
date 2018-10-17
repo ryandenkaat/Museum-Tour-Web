@@ -285,7 +285,7 @@ namespace Forge.Museum.API.Tests.Controllers
             //Create Zone for getfiltered validation
             ZoneDto validZone = CreateTestZone();
 
-            var results = _controller.GetFiltered(new ApiFilter() { isDeleted = false, numPerPage = 100, pageNumber = 0 });
+            var results = _controller.GetFiltered(new ApiFilter () { isDeleted = false, numPerPage = 100, pageNumber = 0 });
 
             Assert.IsNotNull(results);
             Assert.IsTrue(!results.Any(m => m.IsDeleted));

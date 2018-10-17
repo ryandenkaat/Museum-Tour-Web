@@ -16,26 +16,32 @@ namespace Forge.Museum.API.Tests.Controllers
     public class TourArtefactController : BaseTestClass
     {
         private API.Controllers.TourArtefactController _controller;
+        private API.Controllers.TourController _tourController;
+        private API.Controllers.ArtefactController _artefactController;
+        private ArtefactSimpleDto artefactSimple;
 
         [TestInitialize]
         public void SetupTest()
         {
             _controller = new API.Controllers.TourArtefactController(true);
+            _tourController = new API.Controllers.TourController(true);
+            _artefactController = new API.Controllers.ArtefactController(true);
+            ArtefactDto artefact = CreateTestArtefact();
+            ArtefactSimpleDto artefactSimple = new ArtefactSimpleDto() { Id = artefact.Id };
         }
         #region Methods
         #region Create
         /// <summary>
         /// Create - Should Succeed
         /// </summary>
-        /// 
         [TestMethod]
         public void TestCreate_ShouldSucceed()
         {
             //Set up dto
             TourArtefactDto tourArtefact = new TourArtefactDto()
             {
-                Tour = CreateTestTour(),
-                Artefact = CreateTestArtefact(),
+                Tour = new TourSimpleDto { Id = CreateTestTour().Id, Name = CreateTestTour().Name },
+                Artefact = new ArtefactSimpleDto { Id = CreateTestArtefact().Id, Name = CreateTestArtefact().Name },
                 Order = 5
             };
 
@@ -46,8 +52,14 @@ namespace Forge.Museum.API.Tests.Controllers
             Assert.IsNotNull(tourArtefactResult);
             Assert.IsNotNull(tourArtefactResult.Id);
             Assert.IsTrue(tourArtefactResult.Id != 0);
-            Assert.AreEqual(tourArtefact.Tour, tourArtefactResult.Tour);
-            Assert.AreEqual(tourArtefact.Artefact, tourArtefactResult.Artefact);
+            Assert.IsNotNull(tourArtefactResult.Tour);
+            Assert.IsNotNull(tourArtefactResult.Artefact);
+
+            Assert.AreEqual(tourArtefact.Tour.Id, tourArtefactResult.Tour.Id);
+            Assert.AreEqual(tourArtefact.Tour.Name, tourArtefactResult.Tour.Name);
+            Assert.AreEqual(tourArtefact.Artefact.Id, tourArtefactResult.Artefact.Id);
+            Assert.AreEqual(tourArtefact.Artefact.Name, tourArtefactResult.Artefact.Name);
+
             Assert.AreEqual(tourArtefact.Order, tourArtefactResult.Order);
             Assert.IsNotNull(tourArtefactResult.CreatedDate);
             Assert.IsNotNull(tourArtefactResult.ModifiedDate);
@@ -57,86 +69,18 @@ namespace Forge.Museum.API.Tests.Controllers
         /// Create - No Name
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException), "Name is a required field.")]
-        public void TestCreate_NoName()
+        [ExpectedException(typeof(ArgumentNullException), "Order is a required field.")]
+        public void TestCreate_InvalidOrder()
         {
             //Set up dto
             TourArtefactDto tourArtefact = new TourArtefactDto()
             {
-                Tour = CreateTestTour(),
-                Artefact = CreateTestArtefact(),
-                Order = 5
-            };
+                Tour = new TourSimpleDto { Id = CreateTestTour().Id, Name = CreateTestTour().Name },
+                Artefact = new ArtefactSimpleDto { Id = CreateTestArtefact().Id, Name = CreateTestArtefact().Name },
+                Order = -16,
+                };
 
             _controller.Create(tourArtefact);
-        }
-
-        /// <summary>
-        /// Create - Empty Name
-        /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException), "Name is a required field.")]
-        public void TestCreate_EmptyName()
-        {
-            //Set up dto
-            TourArtefactDto tourArtefact = new TourArtefactDto()
-            {
-                Tour = CreateTestTour(),
-                Artefact = CreateTestArtefact(),
-                Order = 5
-            };
-
-            _controller.Create(tourArtefact);
-        }
-
-        /// <summary>
-        /// No Description - Should Succeed
-        /// </summary>
-        [TestMethod]
-        public void TestCreate_NoDescription()
-        {
-            //Set up dto
-            TourArtefactDto tourArtefact = new TourArtefactDto()
-            {
-                Tour = CreateTestTour(),
-                Artefact = CreateTestArtefact(),
-                Order = 5
-            };
-
-            //Make test request
-            TourArtefactDto tourArtefactResult = _controller.Create(tourArtefact);
-
-            //Assert Values
-            Assert.IsNotNull(tourArtefactResult);
-            Assert.IsNotNull(tourArtefactResult.Id);
-            Assert.IsTrue(tourArtefactResult.Id != 0);
-            Assert.AreEqual(tourArtefact.Order, tourArtefactResult.Order);
-            Assert.AreEqual(tourArtefact.Tour, tourArtefactResult.Tour);
-            Assert.AreEqual(tourArtefact.Artefact, tourArtefactResult.Artefact);
-
-        }
-
-        /// <summary>
-        /// No Image - Should Succeed
-        /// </summary>
-        [TestMethod]
-        public void TestCreate_NoImage()
-        {
-            //Set up dto
-            TourArtefactDto tourArtefact = new TourArtefactDto()
-            {
-                Tour = CreateTestTour(),
-                Artefact = CreateTestArtefact(),
-                Order = 5
-            };
-
-            //Make test request
-            TourArtefactDto tourArtefactResult = _controller.Create(tourArtefact);
-
-            //Assert Values
-            Assert.IsNotNull(tourArtefactResult);
-            Assert.IsNotNull(tourArtefactResult.Id);
-            Assert.IsTrue(tourArtefactResult.Id != 0);
         }
         #endregion
 
@@ -149,19 +93,21 @@ namespace Forge.Museum.API.Tests.Controllers
         {
             //Get valid tourArtefact
             TourArtefactDto tourArtefact = GetTourArtefact();
+            tourArtefact.Id = 1;
+            tourArtefact.Tour = new TourSimpleDto { Id = CreateTestTour().Id, Name = CreateTestTour().Name };
+            tourArtefact.Artefact = new ArtefactSimpleDto { Id = CreateTestArtefact().Id, Name = CreateTestArtefact().Name };
+            tourArtefact.Order = 7;
 
-            tourArtefact.Tour = CreateTestTour();
-            tourArtefact.Artefact = CreateTestArtefact();
-            tourArtefact.Order = 5;
-
-
+            _controller.Update(tourArtefact);
             TourArtefactDto updatedTourArtefact = _controller.Update(tourArtefact);
 
             Assert.IsNotNull(updatedTourArtefact);
             Assert.IsNotNull(updatedTourArtefact.Id);
-            Assert.AreEqual(tourArtefact.Id, updatedTourArtefact.Id);
-            Assert.AreEqual(tourArtefact.Tour, updatedTourArtefact.Tour);
-            Assert.AreEqual(tourArtefact.Artefact, updatedTourArtefact.Artefact);
+            Assert.IsNotNull(updatedTourArtefact.Tour.Id);
+            Assert.IsNotNull(updatedTourArtefact.Artefact.Id);
+
+
+            Assert.AreEqual(tourArtefact.Artefact.Name, updatedTourArtefact.Artefact.Name);
             Assert.AreEqual(tourArtefact.Order, updatedTourArtefact.Order);
         }
 
@@ -169,25 +115,24 @@ namespace Forge.Museum.API.Tests.Controllers
         /// No Name
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException), "Name is a required field.")]
-        public void TestUpdate_NoName()
+        [ExpectedException(typeof(ArgumentNullException), "Order is a required field.")]
+        public void TestUpdate_InvalidOrder()
         {
             //Get valid tourArtefact
             TourArtefactDto tourArtefact = GetTourArtefact();
 
             tourArtefact.Id = 1;
-            tourArtefact.Tour = null;
-            tourArtefact.Artefact = CreateTestArtefact();
-            tourArtefact.Order = 5;
-
+            tourArtefact.Tour = new TourSimpleDto { Id = CreateTestTour().Id, Name = CreateTestTour().Name };
+            tourArtefact.Artefact = new ArtefactSimpleDto { Id = CreateTestArtefact().Id, Name = CreateTestArtefact().Name };
+            tourArtefact.Order = -5;
             _controller.Update(tourArtefact);
         }
 
         /// <summary>
-        /// Empty Name
+        /// No Tour - should fail 
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException), "Name is a required field.")]
+        [ExpectedException(typeof(NullReferenceException), "Name is a required field.")]
         public void TestUpdate_NoTour()
         {
             //Get valid tourArtefact
@@ -195,58 +140,27 @@ namespace Forge.Museum.API.Tests.Controllers
 
             tourArtefact.Id = 1;
             tourArtefact.Tour = null;
-            tourArtefact.Artefact = CreateTestArtefact();
+            tourArtefact.Artefact = new ArtefactSimpleDto { Id = CreateTestArtefact().Id, Name = CreateTestArtefact().Name };
             tourArtefact.Order = 5;
 
             _controller.Update(tourArtefact);
         }
 
         /// <summary>
-        /// No Description - should succeed
+        /// No Artefact - should fail
         /// </summary>
         [TestMethod]
-        public void TestUpdate_NoDescription()
+        [ExpectedException(typeof(NullReferenceException), "Name is a required field.")]
+        public void TestUpdate_NoArtefact()
         {
             //Get valid tourArtefact
             TourArtefactDto tourArtefact = GetTourArtefact();
 
-            tourArtefact.Id = 1;
-            tourArtefact.Tour = CreateTestTour();
-            tourArtefact.Artefact = CreateTestArtefact();
+            tourArtefact.Tour = null;
+            tourArtefact.Artefact = new ArtefactSimpleDto { Id = CreateTestArtefact().Id, Name = CreateTestArtefact().Name };
             tourArtefact.Order = 5;
 
-            TourArtefactDto updatedTourArtefact = _controller.Update(tourArtefact);
-
-            Assert.IsNotNull(updatedTourArtefact);
-            Assert.IsNotNull(updatedTourArtefact.Id);
-            Assert.AreEqual(tourArtefact.Id, updatedTourArtefact.Id);
-            Assert.AreEqual(tourArtefact.Tour, updatedTourArtefact.Tour);
-            Assert.AreEqual(tourArtefact.Artefact, updatedTourArtefact.Artefact);
-            Assert.AreEqual(tourArtefact.Order, updatedTourArtefact.Order);
-        }
-
-        /// <summary>
-        /// No Image
-        /// </summary>
-        [TestMethod]
-        public void TestUpdate_NoImage()
-        {
-            //Get valid tourArtefact
-            TourArtefactDto tourArtefact = GetTourArtefact();
-
-            tourArtefact.Id = 1;
-            tourArtefact.Tour = CreateTestTour();
-            tourArtefact.Artefact = CreateTestArtefact();
-            tourArtefact.Order = 5;
-
-            TourArtefactDto updatedTourArtefact = _controller.Update(tourArtefact);
-
-            Assert.IsNotNull(updatedTourArtefact);
-            Assert.IsNotNull(updatedTourArtefact.Id);
-            Assert.AreEqual(tourArtefact.Id, updatedTourArtefact.Id);
-            Assert.AreEqual(tourArtefact.Tour, updatedTourArtefact.Tour);
-            Assert.AreEqual(tourArtefact.Artefact, updatedTourArtefact.Artefact);
-            Assert.AreEqual(tourArtefact.Order, updatedTourArtefact.Order);
+            _controller.Update(tourArtefact);
         }
 
         /// <summary>
@@ -262,8 +176,8 @@ namespace Forge.Museum.API.Tests.Controllers
             TourArtefactDto updatedTourArtefact = new TourArtefactDto()
             {
                 Id = 0,
-                Tour = CreateTestTour(),
-                Artefact = CreateTestArtefact(),
+                Tour = new TourSimpleDto { Id = CreateTestTour().Id, Name = CreateTestTour().Name },
+                Artefact = new ArtefactSimpleDto { Id = CreateTestArtefact().Id, Name = CreateTestArtefact().Name },
                 Order = 5
             };
 
@@ -395,12 +309,13 @@ namespace Forge.Museum.API.Tests.Controllers
 
         TourArtefactDto CreateTestTourArtefact()
         {
-            TourSimpleDto newTour = CreateTestTour();
-            ArtefactSimpleDto newArtefact = CreateTestArtefact();
+            TourSimpleDto newTour = new TourSimpleDto { Id = CreateTestTour().Id, Name = CreateTestTour().Name };
+            ArtefactSimpleDto newArtefact = new ArtefactSimpleDto { Id = CreateTestArtefact().Id, Name = CreateTestArtefact().Name };
+
 
             TourArtefactDto tourArtefact = new TourArtefactDto()
             {
-                Id = 7,
+                Id = 1,
                 Tour = newTour,
                 Artefact = newArtefact,
                 Order = 5
@@ -411,24 +326,34 @@ namespace Forge.Museum.API.Tests.Controllers
             return tourArtefact;
         }
 
-        TourSimpleDto CreateTestTour()
+        TourDto CreateTestTour()
         {
-            TourSimpleDto tour = new TourSimpleDto()
+            TourDto tour = new TourDto()
             {
-                Id = 0001,
+                Id = 1,
+                Description = "Test",
+                AgeGroup = AgeGroup.Adult,
                 Name = "Test"
             };
+            tour = _tourController.Create(tour);
+
             return tour;
         }
-
-        ArtefactSimpleDto CreateTestArtefact()
+      
+        ArtefactDto CreateTestArtefact()
         {
-            ArtefactSimpleDto artefact = new ArtefactSimpleDto()
+            ArtefactDto artefact = new ArtefactDto()
             {
-                Id = 0001,
                 Name = "Test",
-              
+                Description = "Test",
+                Measurement_Height = 1,
+                Measurement_Length = 2,
+                Measurement_Width = 3,
+                AcquisitionDate = DateTime.Now,
+                Image = testImage
             };
+            artefact = _artefactController.Create(artefact);
+
             return artefact;
         }
         #endregion

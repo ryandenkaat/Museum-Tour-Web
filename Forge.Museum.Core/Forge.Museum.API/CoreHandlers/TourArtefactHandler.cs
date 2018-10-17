@@ -17,7 +17,9 @@ namespace Forge.Museum.API.CoreHandlers
 
 		public TourArtefactDto Create(TourArtefactDto dto)
 		{
-			var tour = Db.Tours.Find(dto.Tour.Id);
+            if (dto.Order < 0) throw new ArgumentNullException("Order must be a position Number");
+
+            var tour = Db.Tours.Find(dto.Tour.Id);
 
 			if(tour == null || (tour.Artefacts != null && tour.Artefacts.Any(m => m.Order == dto.Order)))
 			{
@@ -43,14 +45,16 @@ namespace Forge.Museum.API.CoreHandlers
 
 		public TourArtefactDto Update(TourArtefactDto dto)
 		{
-			var tour = Db.Tours.Find(dto.Tour.Id);
+            if (dto.Order<0) throw new ArgumentNullException("Order must be a position Number");
+
+            var tour = Db.Tours.Find(dto.Tour.Id);
 
 			if (tour == null || (tour.Artefacts == null)) // && tour.Artefacts.Any(m => m.Id != dto.Id && m.Order == dto.Order)))
 			{
 				throw new HttpResponseException(HttpStatusCode.BadRequest);
 			}
 
-			TourArtefact tourArtefact = Db.TourArtefacts.Include("Artefact").Include("Tour").FirstOrDefault(m => m.Id == dto.Id);
+            TourArtefact tourArtefact = Db.TourArtefacts.Include("Artefact").Include("Tour").FirstOrDefault(m => m.Id == dto.Id);
 
 			if(tourArtefact == null)
 			{

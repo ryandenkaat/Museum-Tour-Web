@@ -19,7 +19,9 @@ namespace Forge.Museum.API.CoreHandlers
 		#region CRUD
 		public ExhibitionDto Create(ExhibitionDto dto)
 		{
-			Exhibition exhibition = new Exhibition()
+            if (string.IsNullOrEmpty(dto.Name)) throw new ArgumentNullException("Name");
+
+            Exhibition exhibition = new Exhibition()
 			{
 				Name = dto.Name,
 				Description = dto.Description,
@@ -48,7 +50,9 @@ namespace Forge.Museum.API.CoreHandlers
 
 		public ExhibitionDto Update(ExhibitionDto dto)
 		{
-			var exhibition = Db.Exhibitions.FirstOrDefault(m => m.Id == dto.Id);
+            if (string.IsNullOrEmpty(dto.Name)) throw new ArgumentNullException("Name");
+
+            var exhibition = Db.Exhibitions.FirstOrDefault(m => m.Id == dto.Id);
 
 			if (exhibition == null) NotFoundException();
 

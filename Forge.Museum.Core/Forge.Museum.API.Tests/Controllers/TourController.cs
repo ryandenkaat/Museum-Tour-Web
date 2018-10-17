@@ -297,7 +297,7 @@ namespace Forge.Museum.API.Tests.Controllers
             //Create Tour for getfiltered validation
             TourDto validTour = CreateTestTour();
 
-            var results = _controller.GetFiltered(new API.Controllers.TourFilter() { isDeleted = false, numPerPage = 100, pageNumber = 0 });
+            var results = _controller.GetFiltered(new TourFilter() { isDeleted = false, numPerPage = 100, pageNumber = 0 });
 
             Assert.IsNotNull(results);
             Assert.IsTrue(!results.Any(m => m.IsDeleted));

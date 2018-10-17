@@ -176,6 +176,12 @@ namespace Forge.Museum.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(TourArtefactDto tourArtefact, int? tourId)
         {
+            // Checks Order is not Negative or Empty
+            if (tourArtefact.Order < 0 || tourArtefact.Order == null)
+            {
+                ViewBag.OrderValidation = "Order must be a positive integer.";
+                return View(tourArtefact);
+            }
             bool tour_Selected = tourId.HasValue;
             //TOUR CATEGORY 
             List<SelectListItem> tourDropdown = new List<SelectListItem>();
@@ -273,6 +279,12 @@ namespace Forge.Museum.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(TourArtefactDto tourArtefact, int? tourId)
         {
+            // Checks Order is not Negative or Empty
+            if (tourArtefact.Order < 0 || tourArtefact.Order == null)
+            {
+                ViewBag.OrderValidation = "Order must be a positive integer.";
+                return View(tourArtefact);
+            }
             var request = new HTTPrequest();
 
             bool tour_Selected = tourId.HasValue;

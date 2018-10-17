@@ -100,6 +100,11 @@ namespace Forge.Museum.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ExhibitionDto exhibition, HttpPostedFileBase imageFile) {
+            if (string.IsNullOrEmpty(exhibition.Name))
+            {
+                ViewBag.ValidationName = "Name field is required.";
+                return View(exhibition);
+            }
             ExhibitionDto newExhibition = new ExhibitionDto();
             newExhibition.Id = exhibition.Id;
             newExhibition.Name = exhibition.Name;
@@ -148,6 +153,11 @@ namespace Forge.Museum.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(ExhibitionDto exhibition, HttpPostedFileBase imageFile) {
+            if (string.IsNullOrEmpty(exhibition.Name))
+            {
+                ViewBag.ValidationName = "Name field is required.";
+                return View(exhibition);
+            }
             var request = new HTTPrequest();
             ExhibitionDto exhibition_editted = await request.Get<ExhibitionDto>("api/exhibition/" + exhibition.Id);
             if (ModelState.IsValid) {
