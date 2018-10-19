@@ -18,7 +18,6 @@ namespace Forge.Museum.API.Tests.Controllers
         private API.Controllers.TourArtefactController _controller;
         private API.Controllers.TourController _tourController;
         private API.Controllers.ArtefactController _artefactController;
-        private ArtefactSimpleDto artefactSimple;
 
         [TestInitialize]
         public void SetupTest()
@@ -82,6 +81,42 @@ namespace Forge.Museum.API.Tests.Controllers
 
             _controller.Create(tourArtefact);
         }
+
+        /// <summary>
+        /// Create - No Tour
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException), "Tour is a required field.")]
+        public void TestCreate_NoTour()
+        {
+            //Set up dto
+            TourArtefactDto tourArtefact = new TourArtefactDto()
+            {
+                Tour = null,
+                Artefact = new ArtefactSimpleDto { Id = CreateTestArtefact().Id, Name = CreateTestArtefact().Name },
+                Order = 7,
+            };
+            _controller.Create(tourArtefact);
+        }
+
+        /// <summary>
+        /// Create - No Artefact
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "Artefact is a required field.")]
+        public void TestCreate_NoArtefact()
+        {
+            //Set up dto
+            TourArtefactDto tourArtefact = new TourArtefactDto()
+            {
+                Tour = new TourSimpleDto { Id = CreateTestTour().Id, Name = CreateTestTour().Name },
+                Artefact = null,
+                Order = -16,
+            };
+
+            _controller.Create(tourArtefact);
+        }
+
         #endregion
 
         #region Update
@@ -132,30 +167,13 @@ namespace Forge.Museum.API.Tests.Controllers
         /// No Tour - should fail 
         /// </summary>
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException), "Name is a required field.")]
+        [ExpectedException(typeof(NullReferenceException), "Tour is a required field.")]
         public void TestUpdate_NoTour()
         {
             //Get valid tourArtefact
             TourArtefactDto tourArtefact = GetTourArtefact();
 
             tourArtefact.Id = 1;
-            tourArtefact.Tour = null;
-            tourArtefact.Artefact = new ArtefactSimpleDto { Id = CreateTestArtefact().Id, Name = CreateTestArtefact().Name };
-            tourArtefact.Order = 5;
-
-            _controller.Update(tourArtefact);
-        }
-
-        /// <summary>
-        /// No Artefact - should fail
-        /// </summary>
-        [TestMethod]
-        [ExpectedException(typeof(NullReferenceException), "Name is a required field.")]
-        public void TestUpdate_NoArtefact()
-        {
-            //Get valid tourArtefact
-            TourArtefactDto tourArtefact = GetTourArtefact();
-
             tourArtefact.Tour = null;
             tourArtefact.Artefact = new ArtefactSimpleDto { Id = CreateTestArtefact().Id, Name = CreateTestArtefact().Name };
             tourArtefact.Order = 5;
