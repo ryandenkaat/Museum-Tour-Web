@@ -20,7 +20,7 @@
             <p>Total Artefacts: @ViewBag.TotalArtefacts</p>
             <p>Total Artefact Content Entires: @ViewBag.TotalArtefactContentEntries</p>
 
-            <p><a class="btn btn-default" href="~/Artefacts/">View all &raquo;</a></p>
+            <p><a title="View List of All Artefacts" class="btn btn-default" href="~/Artefacts/">View all &raquo;</a></p>
         </div>
     </div>
 </div>
@@ -36,7 +36,7 @@
             <p>Most Recently Editted Artefact: #@ViewBag.mostRecentArtefactId @ViewBag.mostRecentArtefactName</p>
             <p>Last Editted: @ViewBag.mostRecentArtefactModDate</p>
 
-            <p><a class="btn btn-default" href="~/Artefacts/Details/@ViewBag.mostRecentArtefactId">View Artefact &raquo;</a></p>
+            <p><a title="View Most Recently Editted Artefact" class="btn btn-default" href="~/Artefacts/Details/@ViewBag.mostRecentArtefactId">View Artefact &raquo;</a></p>
         </div>
     </div>
 </div>
@@ -53,13 +53,13 @@
                 <p>Total Future Artefacts: @ViewBag.FutureExhibitionCount</p>
                 <p>Next Upcoming Exhibition: #@ViewBag.NextExhibitionId @ViewBag.NextExhibitionName</p>
                 <p>Starting: @ViewBag.NextExhibitionStart</p>
-                <p><a class="btn btn-default" href="~/Exhibitions/Details/@ViewBag.NextExhibitionId">View Exhibition &raquo;</a></p>
+                <p><a title="View Next Upcoming Exhibition" class="btn btn-default" href="~/Exhibitions/Details/@ViewBag.NextExhibitionId">View Exhibition &raquo;</a></p>
             }
             else
             {
                 <p>No Future Exhibitions Planned.</p>
             }
-            <p><a class="btn btn-default" href="~/Exhibitions/">View all &raquo;</a></p>
+            <p><a title="View List of All Exhibitions" class="btn btn-default" href="~/Exhibitions/">View all &raquo;</a></p>
         </div>
     </div>
 </div>
@@ -81,7 +81,7 @@
                 <p>Average Item Cost: $@ViewBag.AverageItemCost</p>
             }
 
-            <p><a class="btn btn-default" href="~/StoreItems/">View all &raquo;</a></p>
+            <p><a title="View List of All Store Items" class="btn btn-default" href="~/StoreItems/">View all &raquo;</a></p>
         </div>
     </div>
 </div>

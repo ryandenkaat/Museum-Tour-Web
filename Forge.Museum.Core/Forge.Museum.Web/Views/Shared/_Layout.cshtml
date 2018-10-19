@@ -16,14 +16,13 @@
             <div id="sidebar-wrapper">
                 <div id="sidebar-title">
                     <a href="~/">
-                        <img id="logo" src="~/Content/images/redland-museum-logo-wide.png" alt="Simpla Admin logo" height="45" width="200">
+                        <img id="logo" src="~/Content/images/redland-museum-logo-wide.png" alt="Simpla Admin logo" height="45" width="200" title="Home">
                     </a>
                     <div>
-                        @Html.ActionLink("Redlands Museum  ", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Redlands Museum  ", "Index", "Home", new { area = "" }, new { @class = "navbar-brand", @title="Home"})
                     </div>
                 </div>
             </div>
-
 
             <div>
                 <ul id="main-nav">

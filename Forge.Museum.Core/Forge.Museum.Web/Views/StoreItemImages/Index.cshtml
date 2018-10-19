@@ -52,13 +52,13 @@
                 <tr>
                     <th></th>
                     <th>
-                        @Html.ActionLink("ID#", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
+                        @Html.ActionLink("ID#", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter }, new { @title = "Sort By ID#" })
                     </th>
                     <th>
-                        @Html.ActionLink("Product ID", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                        @Html.ActionLink("Product ID", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter }, new { @title = "Sort By Product ID#" })
                     </th>
                     <th>
-                        @Html.ActionLink("File Type", "Index", new { sortOrder = ViewBag.TypeSortParm, currentFilter = ViewBag.CurrentFilter })
+                        @Html.ActionLink("File Type", "Index", new { sortOrder = ViewBag.TypeSortParm, currentFilter = ViewBag.CurrentFilter }, new { @title = "Sort By File Type" })
                     </th>
                     <th></th>
                 </tr>
@@ -94,9 +94,6 @@
                             @Html.DisplayFor(modelItem => item.FileType)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                             <!-- Edit Button */ !-->
                             <a href="@Url.Action("Edit", "Tours",  new { id = item.Id })" class="btn btn-link" title="Edit Image">
                                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>

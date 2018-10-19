@@ -36,10 +36,10 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.ActionLink("ID#", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
+                        @Html.ActionLink("ID#", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter }, new { @title = "Sort By ID#" })
                     </th>
                     <th>
-                        @Html.ActionLink("Zone Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                        @Html.ActionLink("Zone Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter }, new { @title = "Sort By Name" })
                     </th>
                     <th></th>
                 </tr>

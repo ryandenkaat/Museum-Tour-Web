@@ -8,45 +8,64 @@
     string tourName = ViewBag.tourName;
     var list = Model.ToList();
 }
-<h2>Artefacts in Tour# @tourId - @tourName</h2>
+
+<h2>Tour Artefacts</h2>
+
 <p>
     @Html.ActionLink("Add Artefact to Tour: " + @tourName, "Create", new { tourId = tourId })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            Index Position
-        </th>
-        <th>
-            Artefact
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in list)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Order)
-            </td>
-            <td>
-                @Html.ActionLink(item.Artefact.Id.ToString() + ": " + item.Artefact.Name, "Details", "Artefacts", new { id = item.Artefact.Id }, null)
-            </td>
-            <td>
-                <!-- Edit Button */ !-->
-                <a href="@Url.Action("Edit", "ToursArtefacts",  new { id = item.Id, tourId = tourId })" class="btn btn-link" title="Edit Artefact in Tour">
-                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                </a>|
+<div class="content-box">
+    <div class="content-box-header">
+        <h3>Artefacts in Tour# @tourId - @tourName</h3>
+        <ul class="content-box-tabs" style="display: block;">
+            <li><a href="#tab1" class="default-tab current">Results</a></li> <!-- href must be unique and match the id of target div -->
+            <li>
+                @Html.ActionLink("Add Artefact to Tour: " + @tourName, "Create", new { tourId = tourId })
+            </li>
 
-                <!-- Delete Button */ !-->
-                <a href="@Url.Action("Delete", "ToursArtefacts",  new { id = item.Id, tourId = tourId })" class="btn btn-link" title="Delete Artefact from Tour">
-                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                </a>
-            </td>
-        </tr>
-    }
+        </ul>
+    </div>
+    <div class="content-box-content" style="display: block;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Index Position
+                    </th>
+                    <th>
+                        Artefact
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in list)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Order)
+                        </td>
+                        <td>
+                            @Html.ActionLink(item.Artefact.Id.ToString() + ": " + item.Artefact.Name, "Details", "Artefacts", new { id = item.Artefact.Id }, new { @title = "View Artefact Details" })
+                        </td>
+                        <td>
+                            <!-- Edit Button */ !-->
+                            <a href="@Url.Action("Edit", "ToursArtefacts",  new { id = item.Id, tourId = tourId })" class="btn btn-link" title="Edit Artefact in Tour">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            </a>|
 
-</table>
+                            <!-- Delete Button */ !-->
+                            <a href="@Url.Action("Delete", "ToursArtefacts",  new { id = item.Id, tourId = tourId })" class="btn btn-link" title="Delete Artefact from Tour">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 <div>
     <a href="@Url.Action("Index", "Tours")" class="btn btn-link">
         <span class="text-left" aria-hidden="true">Back to List of All Tours</span>

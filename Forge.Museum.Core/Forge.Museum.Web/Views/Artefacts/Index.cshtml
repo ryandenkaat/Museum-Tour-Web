@@ -42,19 +42,19 @@
                 <tr>
                     <th></th>
                     <th>
-                        @Html.ActionLink("ID#", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
+                        @Html.ActionLink("ID#", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter }, new { @title = "Sort By ID#" })
                     </th>
                     <th>
-                        @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+                        @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter }, new { @title = "Sort By Name" })
                     </th>
                     <th>
-                        @Html.ActionLink("Acquisiton Date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+                        @Html.ActionLink("Acquisiton Date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter }, new { @title = "Sort By Acquisition Date" })
                     </th>
                     <th>
-                        @Html.ActionLink("Category", "Index", new { sortOrder = ViewBag.CategorySortParm, currentFilter = ViewBag.CurrentFilter })
+                        @Html.ActionLink("Category", "Index", new { sortOrder = ViewBag.CategorySortParm, currentFilter = ViewBag.CurrentFilter }, new { @title = "Sort By Category" })
                     </th>
                     <th>
-                        @Html.ActionLink("Zone", "Index", new { sortOrder = ViewBag.CategorySortParm, currentFilter = ViewBag.CurrentFilter })
+                        @Html.ActionLink("Zone", "Index", new { sortOrder = ViewBag.CategorySortParm, currentFilter = ViewBag.CurrentFilter }, new { @title = "Sort By Zone" })
                     </th>
                     <th></th>
                 </tr>
@@ -92,13 +92,13 @@
                         <td>
                             @if (item.ArtefactCategory != null)
                             {
-                                @Html.ActionLink(item.ArtefactCategory.Id.ToString() + ": " + item.ArtefactCategory.Name, "Details", "ArtefactCategories", new { id = item.ArtefactCategory.Id }, null)
+                                @Html.ActionLink(item.ArtefactCategory.Id.ToString() + ": " + item.ArtefactCategory.Name, "Details", "ArtefactCategories", new { id = item.ArtefactCategory.Id }, new { @title = "View Category Details" })
                             }
                         </td>
                         <td>
                             @if (item.Zone != null)
                             {
-                                @Html.ActionLink(item.Zone.Id.ToString() + ": " + item.Zone.Name, "Details", "Zones", new { id = item.Zone.Id }, null)
+                                @Html.ActionLink(item.Zone.Id.ToString() + ": " + item.Zone.Name, "Details", "Zones", new { id = item.Zone.Id }, new { @title = "View Zone Details" })
                             }
                         </td>
                         <td>
