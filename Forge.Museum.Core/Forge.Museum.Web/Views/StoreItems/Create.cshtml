@@ -6,7 +6,15 @@
 
     var boolDropdown = new SelectList(new[] { new { Value = "true", Text = "Yes" }, new { Value = "false", Text = "No" } }, "Value", "Text", Model);
 
-
+    string NameValidation;
+    if (ViewBag.ValidationName != null)
+    {
+        NameValidation = ViewBag.ValidationName;
+    }
+    else
+    {
+        NameValidation = "";
+    }
 
 }
 
@@ -25,7 +33,7 @@
         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Name, "Name field is required", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.Name, NameValidation, new { @class = "text-danger" })
         </div>
     </div>
 

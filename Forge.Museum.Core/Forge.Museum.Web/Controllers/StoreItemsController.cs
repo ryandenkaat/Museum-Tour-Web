@@ -111,6 +111,12 @@ namespace Forge.Museum.Web.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(StoreItemDto storeItem, HttpPostedFileBase imageFile) {
+            // Checks Name is not Null or Empty
+            if (string.IsNullOrEmpty(storeItem.Name))
+            {
+                ViewBag.ValidationName = "Name field is required.";
+                return View(storeItem);
+            }
             StoreItemDto newStoreItem = new StoreItemDto();
             newStoreItem.Id = storeItem.Id;
             newStoreItem.Name = storeItem.Name;
@@ -150,6 +156,12 @@ namespace Forge.Museum.Web.Controllers {
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(StoreItemDto storeItem, HttpPostedFileBase imageFile) {
+            // Checks Name is not Null or Empty
+            if (string.IsNullOrEmpty(storeItem.Name))
+            {
+                ViewBag.ValidationName = "Name field is required.";
+                return View(storeItem);
+            }
             var request = new HTTPrequest();
             StoreItemDto storeItem_editted = await request.Get<StoreItemDto>("api/storeItem/" + storeItem.Id);
             if (ModelState.IsValid) {

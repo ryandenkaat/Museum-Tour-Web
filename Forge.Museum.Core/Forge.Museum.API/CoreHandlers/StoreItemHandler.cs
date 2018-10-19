@@ -16,7 +16,9 @@ namespace Forge.Museum.API.CoreHandlers
 		#region CRUD
 		public StoreItemDto Create(StoreItemDto dto)
 		{
-			StoreItem storeItem = new StoreItem()
+            if (string.IsNullOrEmpty(dto.Name)) throw new ArgumentNullException("Name");
+
+            StoreItem storeItem = new StoreItem()
 			{
 				Name = dto.Name,
 				Description = dto.Description,
@@ -36,7 +38,9 @@ namespace Forge.Museum.API.CoreHandlers
 
 		public StoreItemDto Update(StoreItemDto dto)
 		{
-			StoreItem storeItem = Db.StoreItems.FirstOrDefault(m => m.Id == dto.Id);
+            if (string.IsNullOrEmpty(dto.Name)) throw new ArgumentNullException("Name");
+
+            StoreItem storeItem = Db.StoreItems.FirstOrDefault(m => m.Id == dto.Id);
 
 			if (storeItem == null) NotFoundException();
 
