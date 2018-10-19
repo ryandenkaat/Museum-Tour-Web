@@ -21,8 +21,16 @@ namespace Forge.Museum.Web.Controllers {
 
 
         // GET: Artefacts
-        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page) {
+        public async Task<ActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page, string recentAction, string recentName, string recentId)
+        {
             var request = new HTTPrequest();
+            //Pass through most recent action details if redirected from an action
+            if (recentAction != null && recentAction.Count() > 0)
+            {
+                ViewBag.Action = recentAction;
+                ViewBag.RecentName = recentName;
+                ViewBag.RecentId = recentId;
+            }
             ViewBag.CurrentSort = sortOrder;
             ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
             ViewBag.NameSortParm = sortOrder == "Name" ? "name_desc" : "Name";
@@ -128,7 +136,7 @@ namespace Forge.Museum.Web.Controllers {
             if (ModelState.IsValid) {
                 var request = new HTTPrequest();
                 storeItem = await request.Post<StoreItemDto>("api/storeItem", storeItem);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { recentAction = "Created", recentName = storeItem.Name, recentId = storeItem.Id });
             } else {
                 var request = new HTTPrequest();
                 return View();
@@ -173,7 +181,7 @@ namespace Forge.Museum.Web.Controllers {
                 storeItem_editted.ModifiedDate = DateTime.Now;
 
                 await request.Put<StoreItemDto>("api/storeItem", storeItem_editted);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { recentAction = "Editted", recentName = storeItem.Name, recentId = storeItem.Id });
             }
             return View(storeItem);
         }
@@ -198,8 +206,10 @@ namespace Forge.Museum.Web.Controllers {
         public async Task<ActionResult> DeleteConfirmed(int id) {
             try {
                 var request = new HTTPrequest();
+                StoreItemDto storeItem = await request.Get<StoreItemDto>("api/storeItem/" + id);
+
                 await request.Delete("api/storeItem/" + id);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { recentAction = "Deleted", recentName = storeItem.Name, recentId = storeItem.Id });
             }
             catch (Exception) {
 

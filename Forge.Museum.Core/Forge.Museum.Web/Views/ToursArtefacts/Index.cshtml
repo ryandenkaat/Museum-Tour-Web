@@ -24,7 +24,7 @@
     </tr>
 
     @foreach (var item in list)
-     {
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Order)
@@ -37,20 +37,25 @@
                 <a href="@Url.Action("Edit", "ToursArtefacts",  new { id = item.Id, tourId = tourId })" class="btn btn-link" title="Edit Artefact in Tour">
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                 </a>|
-                     
+
                 <!-- Delete Button */ !-->
                 <a href="@Url.Action("Delete", "ToursArtefacts",  new { id = item.Id, tourId = tourId })" class="btn btn-link" title="Delete Artefact from Tour">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </a>
             </td>
         </tr>
-     }
+    }
 
 </table>
 <div>
     <a href="@Url.Action("Index", "Tours")" class="btn btn-link">
         <span class="text-left" aria-hidden="true">Back to List of All Tours</span>
     </a>
-
 </div>
+@if (ViewBag.Action != null)
+{
+    <div class="notification success png_bg">
+        <div>Success! Artefact <b>#@ViewBag.RecentIdA</b> <i>@ViewBag.RecentNameA</i> in Tour <b>#@ViewBag.RecentIdT</b> <i>@ViewBag.RecentNameT</i> has been @ViewBag.Action! </div>
+    </div>
+}
 

@@ -66,43 +66,50 @@
                 </tr>
             </tfoot>
             <tbody>
-            @foreach (var item in Model) {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        $@Html.DisplayFor(modelItem => item.Cost)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.InStock)
-                    </td>
-                    <td>
-                        <!-- Edit Button */ !-->
-                        <a href="@Url.Action("Edit", "StoreItems",  new { id = item.Id })" class="btn btn-link" title="Edit Item">
-                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                        </a>|
-                        <!-- Details Button */ !-->
-                        <a href="@Url.Action("Details", "StoreItems",  new { id = item.Id })" class="btn btn-link" title="Item Details">
-                            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                        </a>|
-                        <!-- Delete Button */ !-->
-                        <a href="@Url.Action("Delete", "StoreItems",  new { id = item.Id })" class="btn btn-link" title="Delete Item from Store">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        </a>|
-                        <a href="@Url.Action("Index", "StoreItemImages",  new { storeItemId = item.Id })" class="btn btn-link" title="View Item Images">
-                            <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-                        </a>
-                    </td>
-                </tr>
-}
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            $@Html.DisplayFor(modelItem => item.Cost)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.InStock)
+                        </td>
+                        <td>
+                            <!-- Edit Button */ !-->
+                            <a href="@Url.Action("Edit", "StoreItems",  new { id = item.Id })" class="btn btn-link" title="Edit Item">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            </a>|
+                            <!-- Details Button */ !-->
+                            <a href="@Url.Action("Details", "StoreItems",  new { id = item.Id })" class="btn btn-link" title="Item Details">
+                                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                            </a>|
+                            <!-- Delete Button */ !-->
+                            <a href="@Url.Action("Delete", "StoreItems",  new { id = item.Id })" class="btn btn-link" title="Delete Item from Store">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </a>|
+                            <a href="@Url.Action("Index", "StoreItemImages",  new { storeItemId = item.Id })" class="btn btn-link" title="View Item Images">
+                                <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
 </div>
+@if (ViewBag.Action != null)
+{
+    <div class="notification success png_bg">
+        <div>Success! Store Item <b>#@ViewBag.RecentId</b> <i>@ViewBag.RecentName</i> has been @ViewBag.Action! </div>
+    </div>
+}
 <div class="row">
     <div class="col-md-4">
         <h2>Store Item Images</h2>

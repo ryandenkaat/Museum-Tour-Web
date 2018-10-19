@@ -74,22 +74,30 @@ namespace Forge.Museum.Web.Controllers
     
 
         // GET: TourDtoes
-        public async Task<ActionResult> Index(int? tourId)
+        public async Task<ActionResult> Index(int? tId, string recentAction, string recentNameT, string recentIdT, string recentNameA, string recentIdA)
         {
-            if(tourId.HasValue == false)
+            if (tId.HasValue == false)
             {
                 return RedirectToAction("Index", "Tours");
-
+            }
+            //Pass through most recent action details if redirected from an action
+            if (recentAction != null && recentAction.Count() > 0)
+            {
+                ViewBag.Action = recentAction;
+                ViewBag.RecentNameT = recentNameT;
+                ViewBag.RecentIdT = recentIdT;
+                ViewBag.RecentNameA = recentNameA;
+                ViewBag.RecentIdA = recentIdA;
             }
             var request = new HTTPrequest();
-            ViewBag.tourId = tourId;
-            TourDto tour = await request.Get<TourDto>("api/tour/"+tourId);
+            ViewBag.tourId = tId;
+            TourDto tour = await request.Get<TourDto>("api/tour/"+tId);
             ViewBag.tourName = tour.Name;
             List<TourArtefactDto> toursArtefactsMasterlist = await request.Get<List<TourArtefactDto>>("api/tourArtefact?pageNumber=0&numPerPage=999999&isDeleted=false");
-            
+            List<TourArtefactDto> tourArtefactsFiltered = toursArtefactsMasterlist.Where(m => m.Tour.Id.ToString() == tour.Id.ToString()).ToList();
 
             //viewModel = await request.Get<List<TourDto>>("api/tour?tourId=" + tourId + "&pageNumber=0&numPerPage=500&isDeleted=false");
-            List<TourArtefactDto> tourArtefactList = toursArtefactsMasterlist.OrderBy(m => m.Order).ToList();
+            List<TourArtefactDto> tourArtefactList = tourArtefactsFiltered.OrderBy(m => m.Order).ToList();
             ViewBag.tourArtefactList = tourArtefactList;
 
             List<TourArtefactDto> viewModel = tourArtefactList;
@@ -217,20 +225,16 @@ namespace Forge.Museum.Web.Controllers
                 return View(newTourArtefact);
             }
 
-            newTourArtefact.Artefact = await tourRequest.Get<ArtefactSimpleDto>("api/artefact/" + tourArtefact.Artefact.Id);
-                    TourSimpleDto tour = await tourRequest.Get<TourSimpleDto>("api/tour/" + tourArtefact.Tour.Id);
-                    newTourArtefact.Tour = tour;        
-                    newTourArtefact.Order = tourArtefact.Order;
-                    newTourArtefact.CreatedDate = DateTime.Now;
-                    newTourArtefact.ModifiedDate = DateTime.Now;
+                newTourArtefact.Artefact = await tourRequest.Get<ArtefactSimpleDto>("api/artefact/" + tourArtefact.Artefact.Id);
 
-                    var request = new HTTPrequest();
-
-
-                     await request.Post<TourArtefactDto>("api/tourArtefact", newTourArtefact);
-
-            return RedirectToAction("Index", "ToursArtefacts", new { tourId = tour.Id });
-
+            TourSimpleDto tour = await tourRequest.Get<TourSimpleDto>("api/tour/" + tourArtefact.Tour.Id);
+            newTourArtefact.Tour = tour;
+            newTourArtefact.Order = tourArtefact.Order;
+            newTourArtefact.CreatedDate = DateTime.Now;
+            newTourArtefact.ModifiedDate = DateTime.Now;
+            var request = new HTTPrequest();
+            await request.Post<TourArtefactDto>("api/tourArtefact", newTourArtefact);
+            return RedirectToAction("Index", "ToursArtefacts", new { tId = newTourArtefact.Tour.Id, recentAction = "Created", recentNameT = newTourArtefact.Tour.Name, recentIdT = newTourArtefact.Tour.Id, recentNameA = newTourArtefact.Artefact.Name, recentIdA = newTourArtefact.Artefact.Id });
         }
 
         // GET: TourDtoes/Edit/5
@@ -338,7 +342,7 @@ namespace Forge.Museum.Web.Controllers
                 newTourArtefact.Artefact = await tourRequest.Get<ArtefactSimpleDto>("api/artefact/" + tourArtefact.Artefact.Id);
                 newTourArtefact.ModifiedDate = DateTime.Now;
                 newTourArtefact = await request.Put<TourArtefactDto>("api/tourArtefact", newTourArtefact);
-                return RedirectToAction("Index", "ToursArtefacts", new { tourId = tour.Id });
+                return RedirectToAction("Index", "ToursArtefacts", new { tId = tourArtefact.Tour.Id, recentAction = "Editted", recentNameT = newTourArtefact.Tour.Name, recentIdT = newTourArtefact.Tour.Id, recentNameA = newTourArtefact.Artefact.Name, recentIdA = newTourArtefact.Artefact.Id });
             }
             return View(newTourArtefact);
         }
@@ -378,8 +382,10 @@ namespace Forge.Museum.Web.Controllers
                     tourArtefact.IsDeleted = true;
                     int tourId = tourArtefact.Tour.Id;
                 //    await request.Put<TourArtefactDto>("api/tourArtefact", tourArtefact);
-                await request.Delete("api/tourArtefact/" + id.ToString());
-                    return RedirectToAction("Index", "ToursArtefacts", new { tourId = tourId });
+
+                    await request.Delete("api/tourArtefact/" + id.ToString());
+                return RedirectToAction("Index", "ToursArtefacts", new { tId = tourId, recentAction = "Deleted", recentNameT = tourArtefact.Tour.Name, recentIdT = tourArtefact.Tour.Id, recentNameA = tourArtefact.Artefact.Name, recentIdA = tourArtefact.Artefact.Id });
+
             }
             catch (Exception)
                 {
