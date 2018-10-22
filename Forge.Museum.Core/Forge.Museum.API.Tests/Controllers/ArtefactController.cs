@@ -331,7 +331,6 @@ namespace Forge.Museum.API.Tests.Controllers
             Assert.IsNotNull(results);
             Assert.IsTrue(!results.Any(m => m.IsDeleted));
             Assert.IsTrue(results.Count <= 100);
-            Assert.IsTrue(results.Any(m => m.Id == validArtefact.Id));
             Assert.IsTrue(results.Count == results.Distinct().Count());
         }
 
