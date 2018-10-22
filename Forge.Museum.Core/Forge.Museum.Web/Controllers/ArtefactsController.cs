@@ -168,6 +168,16 @@ namespace Forge.Museum.Web.Controllers {
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ArtefactDto artefact, HttpPostedFileBase imageFile)
         {
+            // ARTEFACT CATEGORY DROPDOWN
+            List<SelectListItem> categoryDropdown = new List<SelectListItem>();
+            categoryDropdown = await PopulateCategoryDropdown();
+            ViewBag.CategoryList = categoryDropdown;
+
+            // ARTEFACT ZONE DROPDOWN
+            List<SelectListItem> zoneDropdown = new List<SelectListItem>();
+            zoneDropdown = await PopulateZoneDropdownList();
+            ViewBag.ZoneList = zoneDropdown;
+
             // Checks Name is not Null or Empty
             if (string.IsNullOrEmpty(artefact.Name))
             {
@@ -199,17 +209,6 @@ namespace Forge.Museum.Web.Controllers {
                 return RedirectToAction("Index", new { recentAction = "Created", recentName = artefact.Name, recentId = artefact.Id });
             }
             else {
-                var request = new HTTPrequest();
-                // ARTEFACT CATEGORY DROPDOWN
-                List<SelectListItem> categoryDropdown = new List<SelectListItem>();
-                categoryDropdown = await PopulateCategoryDropdown();
-                ViewBag.CategoryList = categoryDropdown;
-
-                // ARTEFACT ZONE DROPDOWN
-                List<SelectListItem> zoneDropdown = new List<SelectListItem>();
-                zoneDropdown = await PopulateZoneDropdownList();
-                ViewBag.ZoneList = zoneDropdown;
-
                 return View(artefact);
             }
         }

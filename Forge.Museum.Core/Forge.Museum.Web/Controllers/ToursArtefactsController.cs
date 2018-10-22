@@ -212,14 +212,8 @@ namespace Forge.Museum.Web.Controllers
            TourDto tourCheck = await tourRequest.Get<TourDto>("api/tour/" + tourArtefact.Tour.Id);
 
             TourArtefactDto newTourArtefact = new TourArtefactDto();
-            if (tourCheck.Artefacts.Any(m => m.Artefact.Id != tourArtefact.Artefact.Id && m.Order != tourArtefact.Order))
-            {
-                ViewBag.IndexAvail = false;
-                return View(newTourArtefact);
 
-            }
-
-            if (tourCheck.Artefacts.Any(m => m.Order == tourArtefact.Order))
+            if (tourCheck.Artefacts.Any(m => m.Order == tourArtefact.Order) && tourCheck.Artefacts.Any(m => m.Id == tourArtefact.Artefact.Id))
             {
                 ViewBag.IndexAvail = false;
                 return View(newTourArtefact);

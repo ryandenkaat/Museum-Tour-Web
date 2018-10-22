@@ -66,15 +66,14 @@
         </table>
     </div>
 </div>
-<div>
-    <a href="@Url.Action("Index", "Tours")" class="btn btn-link">
-        <span class="text-left" aria-hidden="true">Back to List of All Tours</span>
-    </a>
-</div>
 @if (ViewBag.Action != null)
 {
     <div class="notification success png_bg">
         <div>Success! Artefact <b>#@ViewBag.RecentIdA</b> <i>@ViewBag.RecentNameA</i> in Tour <b>#@ViewBag.RecentIdT</b> <i>@ViewBag.RecentNameT</i> has been @ViewBag.Action! </div>
     </div>
 }
-
+    <div>
+        <a href="@Url.Action("Index", "Tours")" class="btn btn-link">
+            <span class="text-left" aria-hidden="true">Back to List of All Tours</span>
+        </a>
+    </div>

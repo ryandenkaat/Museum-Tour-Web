@@ -215,7 +215,6 @@ namespace Forge.Museum.Web.Controllers
                 var request = new HTTPrequest();
                 TourDto tour = await request.Get<TourDto>("api/tour/" + id);
                 tour.IsDeleted = true;
-                await request.Put<ArtefactInfoDto>("api/tour", tour);
                 await request.Delete("api/tour/" + id.ToString());
                 return RedirectToAction("Index", new { recentAction = "Deleted", recentName = tour.Name, recentId = tour.Id });
         }
