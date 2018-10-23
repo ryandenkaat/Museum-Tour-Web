@@ -34,7 +34,8 @@ namespace Forge.Museum.API.CoreHandlers
                 ArtefactStatus = (int)dto.ArtefactStatus,
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = DateTime.UtcNow,
-                IsDeleted = false
+                IsDeleted = false,
+				UniqueCode = CalculateUniqueCode()
             };
 
             //Add Zone 
@@ -140,7 +141,42 @@ namespace Forge.Museum.API.CoreHandlers
 
             return true;
         }
-        #endregion
+		#endregion
 
-    }
+		#region Helpers
+		private string CalculateUniqueCode()
+		{
+			string uniqueCode;
+			int nextCode = 1;
+
+			try
+			{ 
+				var artefacts = Db.Artefacts;
+
+				if (artefacts != null && artefacts.Any())
+				{
+					int currentMaxNum = Convert.ToInt32(Db.Artefacts.Select(m => m.UniqueCode).Max());
+
+					nextCode = currentMaxNum + 1;
+				}
+			}
+			catch(Exception ex)
+			{
+				nextCode = Db.Artefacts.Count() + 1;
+			}
+
+			var numZero = 4 - nextCode.ToString().Length;
+			uniqueCode = string.Empty;
+			for(var i = 1; i <= numZero; i++)
+			{
+				uniqueCode = uniqueCode + "0";
+			}
+
+			uniqueCode += nextCode.ToString();
+
+			return uniqueCode;
+		}
+		#endregion
+
+	}
 }

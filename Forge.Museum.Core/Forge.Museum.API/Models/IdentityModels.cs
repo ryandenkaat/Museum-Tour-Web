@@ -13,6 +13,11 @@ namespace Forge.Museum.API.Models
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Migrations.Configuration>(true));
         }
 
+		public ApplicationDbContext() : base("DefaultConnection")
+		{
+			Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Migrations.Configuration>(true));
+		}
+
         #region Tables
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }

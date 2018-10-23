@@ -202,6 +202,7 @@
     <Compile Include="Controllers\ArtefactController.cs" />
     <Compile Include="Controllers\ArtefactInfoController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
+    <Compile Include="Controllers\DatabaseController.cs" />
     <Compile Include="Controllers\ExampleController.cs" />
     <Compile Include="Controllers\ExhibitionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -251,6 +252,10 @@
     <Compile Include="Migrations\201810080802226_UpdatedRolesTableName.cs" />
     <Compile Include="Migrations\201810080802226_UpdatedRolesTableName.Designer.cs">
       <DependentUpon>201810080802226_UpdatedRolesTableName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810230953160_AddedUniqueArtefactCode.cs" />
+    <Compile Include="Migrations\201810230953160_AddedUniqueArtefactCode.Designer.cs">
+      <DependentUpon>201810230953160_AddedUniqueArtefactCode.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Artefact.cs" />
@@ -411,6 +416,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810080802226_UpdatedRolesTableName.resx">
       <DependentUpon>201810080802226_UpdatedRolesTableName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810230953160_AddedUniqueArtefactCode.resx">
+      <DependentUpon>201810230953160_AddedUniqueArtefactCode.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
