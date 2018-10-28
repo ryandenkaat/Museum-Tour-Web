@@ -56,6 +56,9 @@
                     <th>
                         @Html.ActionLink("Zone", "Index", new { sortOrder = ViewBag.CategorySortParm, currentFilter = ViewBag.CurrentFilter }, new { @title = "Sort By Zone" })
                     </th>
+					<th>
+						<a href="#">Unique Code</a>
+					</th>
                     <th></th>
                 </tr>
             </thead>
@@ -101,6 +104,12 @@
                                 @Html.ActionLink(item.Zone.Id.ToString() + ": " + item.Zone.Name, "Details", "Zones", new { id = item.Zone.Id }, new { @title = "View Zone Details" })
                             }
                         </td>
+						<td>
+							@if(!string.IsNullOrEmpty(item.UniqueCode))
+							{
+								@item.UniqueCode
+							}
+						</td>
                         <td>
                             <!-- Edit Button */ !-->
                             <a href="@Url.Action("Edit", "Artefacts",  new { id = item.Id })" class="btn btn-link" title="Edit Artefact">
