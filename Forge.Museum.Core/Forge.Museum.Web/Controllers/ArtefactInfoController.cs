@@ -204,6 +204,13 @@ namespace Forge.Museum.Web.Controllers {
             // need to parse apostrophes out
             newArtefactInfo.Content = artefactInfo.Content;
 
+            // Checks Name is not Null or Empty
+            if (artefactInfo.Artefact.Id.ToString() == null || string.IsNullOrEmpty(artefactInfo.Artefact.Id.ToString()))
+            {
+                ViewBag.ValidationName = "Artefact is required.";
+                return View(artefactInfo);
+            }
+
             if (ModelState.IsValid) { 
                 var request = new HTTPrequest();
                 //HttpPostedFileBase newFile = Request.Files["ArtefactInfoFile"];
@@ -223,6 +230,7 @@ namespace Forge.Museum.Web.Controllers {
 
                 return RedirectToAction("Index");
             }
+
             return View(artefactInfo);
         }
 
@@ -258,6 +266,13 @@ namespace Forge.Museum.Web.Controllers {
         {
             var request = new HTTPrequest();
             ArtefactInfoDto artefactInfo_editted = await request.Get<ArtefactInfoDto>("api/artefactInfo/" + artefactInfo.Id.ToString());
+
+            // Checks Name is not Null or Empty
+            if (artefactInfo.Artefact.Id.ToString() == null || string.IsNullOrEmpty(artefactInfo.Artefact.Id.ToString()))
+            {
+                ViewBag.ValidationName = "Artefact is required.";
+                return View(artefactInfo);
+            }
 
             if (ModelState.IsValid)
             {
