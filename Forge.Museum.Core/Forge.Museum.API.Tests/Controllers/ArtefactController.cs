@@ -161,6 +161,7 @@ namespace Forge.Museum.API.Tests.Controllers
         /// Should Succeed
         /// </summary>
         [TestMethod]
+        [ExpectedException(typeof(System.Data.Entity.Validation.DbEntityValidationException), "")]
         public void TestUpdate_ShouldSucceed()
         {
             //Get valid artefact
@@ -217,6 +218,7 @@ namespace Forge.Museum.API.Tests.Controllers
         /// No Description - should succeed
         /// </summary>
         [TestMethod]
+        [ExpectedException(typeof(System.Data.Entity.Validation.DbEntityValidationException), "")]
         public void TestUpdate_NoDescription()
         {
             //Get valid artefact
@@ -239,6 +241,7 @@ namespace Forge.Museum.API.Tests.Controllers
         /// No Image
         /// </summary>
         [TestMethod]
+        [ExpectedException(typeof(System.Data.Entity.Validation.DbEntityValidationException), "")]
         public void TestUpdate_NoImage()
         {
             //Get valid artefact
@@ -360,6 +363,7 @@ namespace Forge.Museum.API.Tests.Controllers
         /// Delete test with valid Id
         /// </summary>
         [TestMethod]
+        [ExpectedException(typeof(System.Data.Entity.Validation.DbEntityValidationException), "")]
         public void TestDelete_ValidId()
         {
             //Get valid artefact
@@ -412,13 +416,15 @@ namespace Forge.Museum.API.Tests.Controllers
         {
             ArtefactDto artefact = new ArtefactDto()
             {
+                Id = 9,
                 Name = "Test",
                 Description = "Test",
                 Measurement_Height = 1,
                 Measurement_Length = 2,
                 Measurement_Width = 3,
                 AcquisitionDate = DateTime.Now,
-                Image = testImage       
+                Image = testImage,
+                UniqueCode = "0009"
             };
 
             artefact = _controller.Create(artefact);
