@@ -15,8 +15,8 @@
         <dt>@Html.LabelFor(model => model.Id, "Artefact ID#:")</dt>
         <dd>@Html.DisplayFor(model => model.Id)</dd>
 
-		<dt>@Html.LabelFor(model => model.UniqueCode, "UniqueCode:")</dt>
-		<dd>@Html.DisplayFor(model => model.UniqueCode)</dd>
+        <dt>@Html.LabelFor(model => model.UniqueCode, "UniqueCode:")</dt>
+        <dd>@Html.DisplayFor(model => model.UniqueCode)</dd>
 
         <dt>@Html.LabelFor(model => model.Name, "Artefact Name:")</dt>
         <dd>@Html.DisplayFor(model => model.Name)</dd>
@@ -44,6 +44,12 @@
 
         <dt>@Html.LabelFor(model => model.Zone, "Zone:")</dt>
         <dd>@Html.DisplayFor(model => model.Zone.Name)</dd>
+
+        <dt>@Html.LabelFor(model => model.XBound, "X Position:")</dt>
+        <dd>@Html.DisplayFor(model => model.XBound)</dd>
+
+        <dt>@Html.LabelFor(model => model.YBound, "Y Position:")</dt>
+        <dd>@Html.DisplayFor(model => model.YBound)</dd>
 
         <dt>@Html.LabelFor(model => model.Image, "Main Image:")</dt>
 

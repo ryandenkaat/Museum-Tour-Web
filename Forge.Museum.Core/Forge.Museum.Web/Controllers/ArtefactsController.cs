@@ -194,6 +194,8 @@ namespace Forge.Museum.Web.Controllers {
             newArtefact.Measurement_Length = artefact.Measurement_Length;
             newArtefact.Measurement_Width = artefact.Measurement_Width;
             newArtefact.ArtefactCategory = artefact.ArtefactCategory;
+            newArtefact.XBound = artefact.XBound;
+            newArtefact.YBound = artefact.YBound;
 
             if (ModelState.IsValid) {
                 var request = new HTTPrequest();
@@ -263,6 +265,8 @@ namespace Forge.Museum.Web.Controllers {
                 artefact_editted.ArtefactCategory = artefact.ArtefactCategory;
                 artefact_editted.Zone = artefact.Zone;
                 artefact_editted.ModifiedDate = DateTime.Now;
+                artefact_editted.XBound = artefact.XBound;
+                artefact_editted.YBound = artefact.YBound;
 
               //  HttpPostedFileBase imgFile = Request.Files["ImageFile"];
                 if (imageFile != null) {
