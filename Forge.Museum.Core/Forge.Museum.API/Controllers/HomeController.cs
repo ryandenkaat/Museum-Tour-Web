@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Forge.Museum.Interfaces.DataTransferObjects.Artefact;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;

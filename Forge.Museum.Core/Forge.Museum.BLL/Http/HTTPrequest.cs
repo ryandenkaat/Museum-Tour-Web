@@ -53,6 +53,22 @@ namespace Forge.Museum.BLL.Http
             }
         }
 
+        public async Task<HttpResponseMessage> GetResponseMessage(string endPoint)
+        {
+            try
+            {
+                HttpClient client = GetClient();
+
+                HttpResponseMessage response = await client.GetAsync(endPoint);
+
+                return response;
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
+
         public async Task<T> Post<T>(string endPoint, object body)
         {
             try

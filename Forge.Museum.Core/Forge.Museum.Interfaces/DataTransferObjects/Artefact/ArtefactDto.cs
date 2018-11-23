@@ -20,6 +20,8 @@ namespace Forge.Museum.Interfaces.DataTransferObjects.Artefact
         public int Measurement_Width { get; set; }
         public int Measurement_Height { get; set; }
 		public string UniqueCode { get; set; }
+        public double XBound { get; set; }
+        public double YBound { get; set; }
         public ArtefactStatus ArtefactStatus { get; set; }
         public ZoneSimpleDto Zone { get; set; }
         public ArtefactCategorySimpleDto ArtefactCategory { get; set; }

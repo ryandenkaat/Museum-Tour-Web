@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using AutoMapper;
+using System.Net.Http;
 
 namespace Forge.Museum.API.CoreHandlers
 {
@@ -66,6 +67,33 @@ namespace Forge.Museum.API.CoreHandlers
             if (artefactInfo == null) NotFoundException();
 
             return Mapper.Map<ArtefactInfoDto>(artefactInfo);
+        }
+
+        public HttpResponseMessage GetBytes(int artefactInfoId)
+        {
+            HttpResponseMessage result = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+
+            ArtefactInfo artefactInfo = Db.ArtefactInfos.Find(artefactInfoId);
+
+            if(artefactInfo == null) NotFoundException();
+
+            result.Content = new ByteArrayContent(artefactInfo.File);
+            result.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream"); 
+
+            return result;
+        }
+
+        public List<ArtefactInfoSimpleDto> GetFilteredSimple(ApiFilter filter, int? artefactId)
+        {
+            IQueryable<ArtefactInfo> infos = Db.ArtefactInfos;
+
+            if (artefactId.HasValue)
+                infos = infos.Where(m => m.Artefact.Id == artefactId.Value);
+
+            if (filter.isDeleted.HasValue)
+                infos = infos.Where(m => m.IsDeleted == filter.isDeleted.Value);
+
+            return Mapper.Map<List<ArtefactInfoSimpleDto>>(infos.OrderBy(m => m.ModifiedDate).Skip(filter.pageSize * filter.page).Take(filter.pageSize));
         }
 
         public List<ArtefactInfoDto> GetFiltered(ApiFilter filter, int? artefactId)

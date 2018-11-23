@@ -41,6 +41,10 @@ namespace Forge.Museum.API.Models
 		[Required, StringLength(10)]
 		public string UniqueCode { get; set; }
 
+        public double XBound { get; set; }
+        
+        public double YBound { get; set; }
+
         public virtual Zone Zone { get; set; }
 
         public virtual ArtefactCategory ArtefactCategory { get; set; }

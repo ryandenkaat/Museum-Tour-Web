@@ -35,7 +35,9 @@ namespace Forge.Museum.API.CoreHandlers
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = DateTime.UtcNow,
                 IsDeleted = false,
-				UniqueCode = CalculateUniqueCode()
+				UniqueCode = CalculateUniqueCode(),
+                XBound = dto.XBound,
+                YBound = dto.YBound
             };
 
             //Add Zone 
@@ -77,6 +79,8 @@ namespace Forge.Museum.API.CoreHandlers
             artefact.ArtefactStatus = (int)dto.ArtefactStatus;
             artefact.IsDeleted = dto.IsDeleted;
             artefact.ModifiedDate = DateTime.UtcNow;
+            artefact.XBound = dto.XBound;
+            artefact.YBound = dto.YBound;
 
             //Process zone
             if(dto.Zone != null && dto.Zone.Id > 0)

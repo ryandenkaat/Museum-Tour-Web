@@ -14,6 +14,7 @@ using Forge.Museum.BLL.Http;
 using System.IO;
 using System.Net.Http;
 using PagedList;
+using System.Net.Http.Formatting;
 
 namespace Forge.Museum.Web.Controllers { 
 [Authorize]
@@ -135,7 +136,33 @@ namespace Forge.Museum.Web.Controllers {
             {
                 return HttpNotFound();
             }
+
+            //TODO review this works
+            HttpResponseMessage bytesResponse = await request.GetResponseMessage("api/artefactInfo/" + id + "/bytes");
+
+            byte[] response = await bytesResponse.Content.ReadAsByteArrayAsync();
+
+            //sets bytes to actual byte response
+            artefactInfo.File = response;
+
             return View(artefactInfo);
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> GetVideo()
+        {
+            var request = new HTTPrequest();
+            ArtefactInfoDto artefactInfo = await request.Get<ArtefactInfoDto>("api/artefactInfo/1");
+            if (artefactInfo == null)
+            {
+                return HttpNotFound();
+            }
+
+            HttpResponseMessage bytesResponse = await request.GetResponseMessage("api/artefactInfo/1/bytes");
+
+            byte[] response = await bytesResponse.Content.ReadAsByteArrayAsync();
+
+            return File(response, "video/mp4");
         }
 
         // GET: ArtefactInfo/Create

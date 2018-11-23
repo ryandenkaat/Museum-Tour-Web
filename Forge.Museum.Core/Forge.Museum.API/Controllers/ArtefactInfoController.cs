@@ -4,6 +4,7 @@ using Forge.Museum.Interfaces.DataTransferObjects.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 
@@ -56,6 +57,32 @@ namespace Forge.Museum.API.Controllers
             try
             {
                 return new ArtefactInfoHandler(isTest).GetById(artefactInfoId);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        [HttpGet, Route("api/artefactInfo/{artefactInfoId}/bytes")]
+        public HttpResponseMessage GetBytes(int artefactInfoId)
+        {
+            try
+            {
+                return new ArtefactInfoHandler(isTest).GetBytes(artefactInfoId);
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
+
+        [HttpGet, Route("api/artefactInfoSimple")]
+        public List<ArtefactInfoSimpleDto> GetFilteredSimple([FromUri]ApiFilter filter, [FromUri]int? artefactId = null)
+        {
+            try
+            {
+                return new ArtefactInfoHandler(isTest).GetFilteredSimple(filter, artefactId);
             }
             catch (Exception ex)
             {

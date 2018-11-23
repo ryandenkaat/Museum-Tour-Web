@@ -210,6 +210,7 @@
     <Compile Include="Controllers\StoreItemImageController.cs" />
     <Compile Include="Controllers\TourArtefactController.cs" />
     <Compile Include="Controllers\TourController.cs" />
+    <Compile Include="Controllers\ViewerController.cs" />
     <Compile Include="Controllers\ZoneController.cs" />
     <Compile Include="CoreHandlers\ArtefactCategoryHandler.cs" />
     <Compile Include="CoreHandlers\ArtefactHandler.cs" />
@@ -256,6 +257,10 @@
     <Compile Include="Migrations\201810230953160_AddedUniqueArtefactCode.cs" />
     <Compile Include="Migrations\201810230953160_AddedUniqueArtefactCode.Designer.cs">
       <DependentUpon>201810230953160_AddedUniqueArtefactCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811222309176_AddedBounds.cs" />
+    <Compile Include="Migrations\201811222309176_AddedBounds.Designer.cs">
+      <DependentUpon>201811222309176_AddedBounds.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Artefact.cs" />
@@ -419,6 +424,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810230953160_AddedUniqueArtefactCode.resx">
       <DependentUpon>201810230953160_AddedUniqueArtefactCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811222309176_AddedBounds.resx">
+      <DependentUpon>201811222309176_AddedBounds.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
