@@ -13,7 +13,7 @@ namespace Forge.Museum.API.Controllers
         {
             ArtefactInfoDto artefactInfo = new ArtefactInfoController().GetById(id);
 
-            return File(artefactInfo.File, "video/mp4");
+            return File(artefactInfo.File, System.Net.Mime.MediaTypeNames.Application.Octet, "artefact-info-" + id + ".mp4");
         }
     }
 }
